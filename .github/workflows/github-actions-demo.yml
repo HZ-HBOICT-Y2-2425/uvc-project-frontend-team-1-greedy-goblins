@@ -38,12 +38,12 @@ jobs:
           echo "Running production build..."
           npm run build
 
-      # # Test-stap
-      # - name: Run Tests
-      #   run: |
-      #     echo "Running tests..."
-      #     npm run test
-      #     echo "All tests passed!"
+      # Test-stap
+      - name: Run Tests
+        run: |
+          echo "Running tests..."
+          npm test
+          echo "All tests passed!"
 
   Notify-Failure:
     needs: Build-and-Test

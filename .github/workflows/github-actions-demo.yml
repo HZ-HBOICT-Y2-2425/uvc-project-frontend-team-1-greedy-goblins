@@ -32,12 +32,6 @@ jobs:
           npm install
           echo "Dependencies installed."
 
-      # Run development build
-      - name: Run Development Build (optional)
-        run: |
-          echo "Running development build..."
-          npm run dev
-
       # Run production build
       - name: Run Production Build
         run: |

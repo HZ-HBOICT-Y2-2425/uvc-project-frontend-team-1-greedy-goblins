@@ -10,6 +10,10 @@ jobs:
       # Toon dat de job is getriggerd door een push
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
 
+        # Check out the repository
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
       - name: List repository files
         run: ls -R
 

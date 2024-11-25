@@ -42,7 +42,7 @@ jobs:
       - name: Run Tests
         run: |
           echo "Running tests..."
-          npm test
+          npm run test
           echo "All tests passed!"
 
   Notify-Failure:

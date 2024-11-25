@@ -22,14 +22,14 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18.x" # Zorg ervoor dat versie 18 of hoger wordt geïnstalleerd.
+          node-version: "18.x"
           cache: "npm"
 
       # Install dependencies
       - name: Install Dependencies
         run: |
           echo "Installing dependencies..."
-          npm install
+          npm ci
           echo "Dependencies installed."
 
       # Run production build
@@ -46,7 +46,6 @@ jobs:
       #     echo "All tests passed!"
 
   Notify-Failure:
-    # Verstuur een notificatie als de build faalt
     needs: Build-and-Test
     if: failure()
     runs-on: ubuntu-latest

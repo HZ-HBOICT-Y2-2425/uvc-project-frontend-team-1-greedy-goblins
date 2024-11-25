@@ -7,23 +7,21 @@ jobs:
   Build-and-Test:
     runs-on: ubuntu-latest
     steps:
-      # Check out the repository
+      # Toon dat de job is getriggerd door een push
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+
+        # Check out the repository
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      # Set up Node.js (minimaal versie 18.13)
+      - name: List repository files
+        run: ls -R
+
+      # Installeer Node.js en npm
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18.13"
-          cache: "npm"
-
-      # Debug repository content (optioneel)
-      - name: Debug repository content
-        run: |
-          echo "Current working directory: $(pwd)"
-          echo "Listing files:"
-          ls -R
+          node-version: "16"
 
       # Install dependencies
       - name: Install Dependencies
@@ -44,7 +42,7 @@ jobs:
           echo "Running production build..."
           npm run build
 
-      # Run tests
+      # Test-stap
       - name: Run Tests
         run: |
           echo "Running tests..."

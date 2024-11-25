@@ -21,7 +21,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: "18.x" # Zorg ervoor dat versie 18 of hoger wordt geïnstalleerd.
+          cache: "npm"
 
       # Install dependencies
       - name: Install Dependencies

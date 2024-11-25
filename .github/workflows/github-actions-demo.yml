@@ -10,10 +10,11 @@ jobs:
       # Toon dat de job is getriggerd door een push
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
 
-        # Check out the repository
+      # Check out the repository
       - name: Check out repository code
         uses: actions/checkout@v4
 
+      # Lijst de repository-bestanden op voor inspectie
       - name: List repository files
         run: ls -R
 
@@ -32,7 +33,7 @@ jobs:
           echo "Dependencies installed."
 
       # Run development build
-      - name: Run Development Build
+      - name: Run Development Build (optional)
         run: |
           echo "Running development build..."
           npm run dev

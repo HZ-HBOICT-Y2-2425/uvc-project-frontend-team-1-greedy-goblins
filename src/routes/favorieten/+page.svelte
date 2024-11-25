@@ -1,5 +1,8 @@
 <script>
-    import "../../app.css";
+  export let title = "Favorieten";
 </script>
 
-<h1>Favorieten</h1>
+<div class="p-6">
+  <h1 class="text-2xl font-bold">Favorieten</h1>
+  <p>Hier komen je opgeslagen favorieten.</p>
+</div>

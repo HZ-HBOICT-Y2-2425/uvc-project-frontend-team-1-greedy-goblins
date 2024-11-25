@@ -10,6 +10,9 @@ jobs:
       # Toon dat de job is getriggerd door een push
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
 
+      - name: List repository files
+        run: ls -R
+
       # Installeer Node.js en npm
       - name: Set up Node.js
         uses: actions/setup-node@v3

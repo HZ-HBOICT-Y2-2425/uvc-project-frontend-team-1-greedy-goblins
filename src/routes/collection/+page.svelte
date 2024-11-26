@@ -1,13 +1,13 @@
 <script>
   //import {i} from "vite/dist/node/types.d-aGj9QkWt.js";
 
-  export let title = "Collection";
+  export const title = "Collection";
 
   let collecties = ["groente", "zuivel", "fruit"];
   let kaarten = [
-          [{name: "wortels", collected: false}, {name: "aardappel", collected: false}, {name: "radijs", collected: false}, {name: "rode biet", collected: false}],
-          [{name: "verse melk", collected: false}, {name: "kaas", collected: false}, {name: "yogurt", collected: false}, {name: "boter", collected: false}],
-          [{name: "aardbijen", collected: false}, {name: "appels", collected: false}, {name: "peren", collected: false}, {name: "perzikken", collected: false}]];
+    [{name: "wortels", collected: false}, {name: "aardappel", collected: false}, {name: "radijs", collected: false}, {name: "rode biet", collected: false}],
+    [{name: "verse melk", collected: false}, {name: "kaas", collected: false}, {name: "yogurt", collected: false}, {name: "boter", collected: false}],
+    [{name: "aardbijen", collected: false}, {name: "appels", collected: false}, {name: "peren", collected: false}, {name: "perzikken", collected: false}]];
   //let objecten = [{name: "wortels", collected: false}];
 
   function krijgKaart(groep, number) {
@@ -43,11 +43,7 @@
   <h2>{collecties[i]}</h2>
   <div class="qwartet">
     {#each {length: kaarten[i].length} as kaart, j}
-      {#if kaarten[i][j].collected === false}
-        <p class="kaart">|{kaarten[i][j].name}|</p>
-      {:else }
-        <p class="kaart collected">|{kaarten[i][j].name}|</p>
-      {/if}
+      <p class={kaarten[i][j].collected ? 'collected' : 'kaart'}>|{kaarten[i][j].name}|</p>
     {/each}
     <button on:click={() => kwartet(i)} class="kaart" style="background-color: yellow">kwartet</button>
   </div>
@@ -72,5 +68,6 @@
 
   .collected {
     color: red;
+    margin-left: 5px;
   }
 </style>

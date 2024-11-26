@@ -7,32 +7,45 @@
     <title>Dashboard</title>
     <meta name="description" content="LGHub Dashboard" />
   </svelte:head>
-  
+
+  <div class="bg-yellow-500 text-center py-2 font-bold text-lg">
+    Uw favoriete plaatsen
+  </div>  
+
   <main class="grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 py-6">
     <button
-      on:click={() => goto('/kaart')}
       class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-green-600"
-      aria-label="Ga naar Kaart"
+      aria-label="Coop"
     >
-      <img src="kaart.png" alt="Kaart" class="h-500 w-500 mb-4" />
-      <h2 class="text-lg font-bold">Kaart</h2>
+      <img src="coop.png" alt="Coop" class="h-500 w-500 mb-4" />
+      <h2 class="text-lg font-bold">Coop Ruben Langestraat 2, 4542 AE Hoek</h2>
     </button>
   
     <button
-      on:click={() => goto('/favorieten')}
       class="bg-yellow-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-yellow-600"
-      aria-label="Ga naar Favorieten"
+      aria-label="tollenaar"
     >
-      <img src="Logo_LGHub.png" alt="Favorieten" class="h-500 w-500 mb-4" />
-      <h2 class="text-lg font-bold">Favorieten</h2>
+      <img src="tollenaar.png" alt="Tollenaar" class="h-500 w-500 mb-4" />
+      <h2 class="text-lg font-bold">Boerderijwinkel Tollenaar, Hoekseweg 1, 4542 PT Hoek</h2>
     </button>
   
     <button
-      on:click={() => goto('/collection')}
       class="bg-gray-800 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-gray-900"
-      aria-label="Ga naar Collection"
+      aria-label="pitteperk"
     >
-      <img src="collection.png" alt="Collection" class="h-200 w-200 mb-4" />
-      <h2 class="text-lg font-bold">Collection</h2>
+      <img src="pitteperk.png" alt="pitteperk" class="h-200 w-200 mb-4" />
+      <h2 class="text-lg font-bold">Zorg- en Kaasboerderij Pitteperk, Breeweg 21, 4371 SB Koudekerke</h2>
+    </button>
+
+    <div class="bg-yellow-500 text-center py-2 font-bold text-lg">
+      Locaties in de buurt
+    </div>  
+
+    <button
+      class="bg-gray-800 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-gray-900"
+      aria-label="pitteperk"
+    >
+      <img src="klepperhoeve.png" alt="pitteperk" class="h-200 w-200 mb-4" />
+      <h2 class="text-lg font-bold">kinderboerderij klepperhoeve, Meiveldpad 55, 4336 XW Middelburg</h2>
     </button>
   </main>

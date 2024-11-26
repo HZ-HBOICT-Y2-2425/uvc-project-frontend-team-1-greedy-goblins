@@ -1,26 +1,34 @@
 <script>
+  //import {i} from "vite/dist/node/types.d-aGj9QkWt.js";
+
   export let title = "Collection";
 
-  let kaart2 = false;
-  let kaart3 = false;
-  let kaart4 = false;
-  let kaarten = [[false, false, false, false], [false]];
+  let collecties = ["groente", "zuivel", "fruit"];
+  let kaarten = [
+          [{name: "wortels", collected: false}, {name: "aardappel", collected: false}, {name: "radijs", collected: false}, {name: "rode biet", collected: false}],
+          [{name: "verse melk", collected: false}, {name: "kaas", collected: false}, {name: "yogurt", collected: false}, {name: "boter", collected: false}],
+          [{name: "aardbijen", collected: false}, {name: "appels", collected: false}, {name: "peren", collected: false}, {name: "perzikken", collected: false}]];
+  //let objecten = [{name: "wortels", collected: false}];
 
   function krijgKaart(groep, number) {
-    kaarten[groep][number] = true
+    kaarten[groep][number].collected = true
     console.log({number});
     console.log(kaarten[groep[number]]);
   }
 
   function kwartet(groep) {
+    let kwartet = true;
     for (let i = 0; i < kaarten[groep].length; i++) {
-      kaarten[groep][i] = false;
+      if (kaarten[groep][i].collected === false) {
+        kwartet = false
+      }
+    }
+    if (kwartet === true) {
+      for (let i = 0; i < kaarten[groep].length; i++) {
+        kaarten[groep][i].collected = false;
+      }
     }
     console.log(kaarten);
-  }
-
-  function zieCollectie() {
-    console.log({kaarten});
   }
 </script>
 
@@ -30,44 +38,28 @@
 </div>
 
 <h1>Mijn collectie</h1>
-<h2>Groente</h2>
-<div class="qwartet">
-  {#if kaarten[0][0] === false}
-    <p class="kaart">kaart 1</p>
-  {:else }
-    <p class="kaart collected">kaart 1</p>
-  {/if}
-  {#if kaarten[0][1] === false}
-    <p class="kaart">kaart 2</p>
-  {:else }
-    <p class="kaart collected">kaart 2</p>
-  {/if}
-  {#if kaart3 === false}
-    <p class="kaart">kaart 3</p>
-  {:else }
-    <p class="kaart collected">kaart 3</p>
-  {/if}
-  {#if kaart4 === false}
-    <p class="kaart">kaart 4</p>
-  {:else }
-    <p class="kaart collected">kaart 4</p>
-  {/if}
-</div>
-<h2>Fruit</h2>
-<div class="qwartet">
-  {#if kaarten[1][0] === false}
-    <p class="kaart">kaart 5</p>
-  {:else}
-    <p class="kaart collected">kaart 5</p>
-  {/if}
-</div>
+
+{#each {length: collecties.length} as collectie, i}
+  <h2>{collecties[i]}</h2>
+  <div class="qwartet">
+    {#each {length: kaarten[i].length} as kaart, j}
+      {#if kaarten[i][j].collected === false}
+        <p class="kaart">|{kaarten[i][j].name}|</p>
+      {:else }
+        <p class="kaart collected">|{kaarten[i][j].name}|</p>
+      {/if}
+    {/each}
+    <button on:click={() => kwartet(i)} class="kaart" style="background-color: yellow">kwartet</button>
+  </div>
+{/each}
 
 <br>
-<p><button on:click={() =>krijgKaart(0, 1)}>kaart 1</button></p>
+<p><button on:click={() =>krijgKaart(0, 0)}>kaart 1</button></p>
+<p><button on:click={() =>krijgKaart(0, 1)}>kaart 2</button></p>
+<p><button on:click={() =>krijgKaart(0, 2)}>kaart 3</button></p>
+<p><button on:click={() =>krijgKaart(0, 3)}>kaart 4</button></p>
 <br>
 <p><button on:click={() =>krijgKaart(1, 0)}>kaart 5</button></p>
-<p><button on:click={() =>kwartet(0)}>reset</button></p>
-<p><button on:click={() => zieCollectie()}>collectie</button></p>
 
 <style>
   .qwartet {

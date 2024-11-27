@@ -45,6 +45,13 @@ jobs:
           npm run test
           echo "All tests passed!"
 
+      # Lint-stap
+      - name: Run Linter (ESLint)
+        run: |
+          echo "Running ESLint..."
+          npm run lint --ext || exit 1
+          echo "ESLint finished!"
+
   Notify-Failure:
     needs: Build-and-Test
     if: failure()

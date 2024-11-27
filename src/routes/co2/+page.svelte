@@ -5,7 +5,7 @@
   let distance = 0;
   let transportType = "vrachtwagen";
 
-  // CO2 calculation function
+  // CO2 calculation function met CO2-uitstoot (kg)=Transportfactor (kg CO2 per ton-km)×Massa van het product (ton)×Afstand (km)
   /**
    * @param {string} product
    * @param {number} distance

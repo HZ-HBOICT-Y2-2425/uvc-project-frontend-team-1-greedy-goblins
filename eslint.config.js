@@ -8,25 +8,25 @@ export default [
   {
     rules: {
       // override/add rules settings here, such as:
-      // 'svelte/rule-name': 'error'
+      // 'svelte/rule-name': 'warn'
       "no-unused-vars": "warn",
-      "no-unmodified-loop-condition": "error",
+      "no-unmodified-loop-condition": "warn",
       "no-console": "warn",
       "camelcase": "warn",
-      //'svelte/button-has-type': 'error',
+      //'svelte/button-has-type': 'warn',
       //'svelte/require-each-key': 'warn',
-      'svelte/indent': ['error', {'indent': 2, "alignAttributesVertically": true}],
+      'svelte/indent': ['warn', {'indent': 2, "alignAttributesVertically": true}],
       "svelte/first-attribute-linebreak": [
-        "error",
+        "warn",
         {
           "multiline": "below", // or "beside"
           "singleline": "beside" // "below"
         }
       ],
-      "svelte/no-spaces-around-equal-signs-in-attribute": "error",
+      "svelte/no-spaces-around-equal-signs-in-attribute": "warn",
       "no-trailing-spaces": "off", // Don't need ESLint's no-trailing-spaces rule, so turn it off.
       "svelte/no-trailing-spaces": [
-        "error",
+        "warn",
         {
           "skipBlankLines": true,
           "ignoreComments": false

@@ -9,7 +9,7 @@ export default [
     rules: {
       // override/add rules settings here, such as:
       // 'svelte/rule-name': 'warn'
-      "no-unused-vars": "warn",
+      "no-unused-vars": "error",
       "no-unmodified-loop-condition": "warn",
       "no-console": "warn",
       "camelcase": "warn",

@@ -1,5 +1,5 @@
 <script>
-  export let title = "Favorieten";
+  export const title = "Favorieten";
 </script>
 
 <div class="p-6">

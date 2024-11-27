@@ -1,5 +1,5 @@
 <script>
-  export let title = "Kaart";
+  export const title = "Kaart";
 </script>
 
 <div class="p-6">

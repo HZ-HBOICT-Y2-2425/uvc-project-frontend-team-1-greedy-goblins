@@ -10,7 +10,7 @@
   let showSearch = false; // deze boolean checkt of de zoekbalk is uitgeklapt
 
   onMount(async () => {
-    const response = await fetch("http://localhost:3010/locations");
+    const response = await fetch("http://localhost:3010/microserviceMarket/locations");
     location = await response.json();
   });
 

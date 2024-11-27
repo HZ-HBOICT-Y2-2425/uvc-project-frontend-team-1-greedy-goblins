@@ -1,6 +1,15 @@
 <script>
     import "../app.css";
     import { goto } from '$app/navigation';
+  import { onMount, setContext } from "svelte";
+
+  let location = [];
+
+    onMount(async () => {
+        const response = await fetch("http://localhost:3010/locations");
+        const location = await response.json();
+        console.log(location);
+    });
   </script>
   
   <svelte:head>
@@ -13,7 +22,7 @@
   </div>  
 
   <main class="grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 py-6">
-    <button
+    <!-- <button
       class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-green-600"
       aria-label="Coop"
     >
@@ -47,5 +56,5 @@
     >
       <img src="klepperhoeve.png" alt="pitteperk" class="h-200 w-200 mb-4" />
       <h2 class="text-lg font-bold">kinderboerderij klepperhoeve, Meiveldpad 55, 4336 XW Middelburg</h2>
-    </button>
+    </button> -->
   </main>

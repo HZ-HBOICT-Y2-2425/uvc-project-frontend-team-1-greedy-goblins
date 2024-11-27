@@ -5,15 +5,16 @@
   /**
    * @type {any[]}
    */
-  let location = [];
-  let searchQuery = "";
-  let showSearch = false;
+  let location = []; // ik heb de code hierboven toegevoegd om warnings te vermijden
+  let searchQuery = ""; // de standaard search query is leeg
+  let showSearch = false; // deze boolean checkt of de zoekbalk is uitgeklapt
 
   onMount(async () => {
     const response = await fetch("http://localhost:3010/locations");
     location = await response.json();
   });
 
+  // dit stukje zorgt ervoor dat de zoekbalk filter werkt
   $: filteredLocations = location.filter(locatie =>
     locatie.Name.toLowerCase().includes(searchQuery.toLowerCase())
   );

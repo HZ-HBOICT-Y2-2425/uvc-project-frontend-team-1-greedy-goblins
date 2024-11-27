@@ -49,7 +49,7 @@ jobs:
 - name: Run Linter (ESLint)
   run: |
     echo "Running ESLint..."
-    npx eslint . || echo "ESLint found issues, but the workflow continues."
+    npm run lint 
     echo "ESLint finished!"
 
 

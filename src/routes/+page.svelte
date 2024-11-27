@@ -1,39 +1,74 @@
 <script>
   import "../app.css";
-  import { goto } from '$app/navigation';
-  let five;
+  import { onMount } from "svelte";
+
+  /**
+   * @type {any[]}
+   */
+  let location = []; // ik heb de code hierboven toegevoegd om warnings te vermijden
+  let searchQuery = ""; // de standaard search query is leeg
+  let showSearch = false; // deze boolean checkt of de zoekbalk is uitgeklapt
+
+  onMount(async () => {
+    const response = await fetch("http://localhost:3010/microserviceMarket/locations");
+    location = await response.json();
+  });
+
+  // dit stukje zorgt ervoor dat de zoekbalk filter werkt
+  $: filteredLocations = location.filter(locatie =>
+    locatie.Name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 </script>
 
 <svelte:head>
   <title>Dashboard</title>
   <meta name="description" content="LGHub Dashboard" />
 </svelte:head>
-  
-<main class="grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 py-6">
-  <button
-    on:click={() => goto('/kaart')}
-    class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-green-600"
-    aria-label="Ga naar Kaart"
+
+<div class="flex items-center justify-start space-x-4 px-4 mt-3 mb-3  ">
+  <button 
+    aria-label="Zoeken" 
+    class="text-white flex flex-col items-center p-2 bg-green-500 hover:bg-green-600 rounded-lg shadow-md focus:outline-none"
+    on:click={() => showSearch = !showSearch}
   >
-    <img src="kaart.png" alt="Kaart" class="h-500 w-500 mb-4" />
-    <h2 class="text-lg font-bold">Kaart</h2>
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="text-xs">Zoeken</span>
   </button>
-  
-  <button
-    on:click={() => goto('/favorieten')}
-    class="bg-yellow-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-yellow-600"
-    aria-label="Ga naar Favorieten"
+
+  <button 
+    aria-label="Filter" 
+    class="text-white flex flex-col items-center p-2 bg-green-500 hover:bg-green-600 rounded-lg shadow-md focus:outline-none"
   >
-    <img src="Logo_LGHub.png" alt="Favorieten" class="h-500 w-500 mb-4" />
-    <h2 class="text-lg font-bold">Favorieten</h2>
+    <i class="fa-solid fa-sliders"></i>
+    <span class="text-xs">Filter</span>
   </button>
-  
-  <button
-    on:click={() => goto('/collection')}
-    class="bg-gray-800 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-gray-900"
-    aria-label="Ga naar Collection"
-  >
-    <img src="collection.png" alt="Collection" class="h-200 w-200 mb-4" />
-    <h2 class="text-lg font-bold">Collection</h2>
-  </button>
+
+  {#if showSearch}
+    <input 
+      type="text" 
+      placeholder="Zoek boerderij" 
+      class="p-2 w-64 rounded-lg border border-green-500 bg-green-50 text-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
+      bind:value={searchQuery}
+    />
+  {/if}
+</div>
+
+<div class="bg-yellow-500 text-center py-2 font-bold text-lg">
+  Uw favoriete plaatsen
+</div>  
+
+<main class="grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 py-4 mb-24">
+  {#each filteredLocations as locatie}
+    <button
+      class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-green-600"
+      aria-label={locatie.Name}
+    >
+      <img
+        src="farmer.png"
+        alt={locatie.Name}
+        class="h-48 w-48 mb-4 object-cover"
+      />
+      <h2 class="text-lg font-bold">{locatie.Name}</h2>
+    </button>
+  {/each}
 </main>

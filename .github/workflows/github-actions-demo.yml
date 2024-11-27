@@ -49,7 +49,7 @@ jobs:
       - name: Run Linter (ESLint)
         run: |
           echo "Running ESLint..."
-          npx eslint . --ext .js,.jsx,.ts,.tsx
+          npx eslint . --c .js,.jsx,.ts,.tsx
           echo "ESLint finished!"
 
   Notify-Failure:

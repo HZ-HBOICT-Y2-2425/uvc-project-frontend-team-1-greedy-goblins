@@ -1,60 +1,73 @@
 <script>
-    import "../app.css";
-    import { goto } from '$app/navigation';
-  import { onMount, setContext } from "svelte";
+  import "../app.css";
+  import { onMount } from "svelte";
 
+  /**
+   * @type {any[]}
+   */
   let location = [];
+  let searchQuery = "";
+  let showSearch = false;
 
-    onMount(async () => {
-        const response = await fetch("http://localhost:3010/locations");
-        const location = await response.json();
-        console.log(location);
-    });
-  </script>
-  
-  <svelte:head>
-    <title>Dashboard</title>
-    <meta name="description" content="LGHub Dashboard" />
-  </svelte:head>
+  onMount(async () => {
+    const response = await fetch("http://localhost:3010/locations");
+    location = await response.json();
+  });
 
-  <div class="bg-yellow-500 text-center py-2 font-bold text-lg">
-    Uw favoriete plaatsen
-  </div>  
+  $: filteredLocations = location.filter(locatie =>
+    locatie.Name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+</script>
 
-  <main class="grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 py-6">
-    <!-- <button
+<svelte:head>
+  <title>Dashboard</title>
+  <meta name="description" content="LGHub Dashboard" />
+</svelte:head>
+
+<div class="flex items-center justify-start space-x-4 px-4 mt-3 mb-3  ">
+  <button 
+    aria-label="Zoeken" 
+    class="text-white flex flex-col items-center p-2 bg-green-500 hover:bg-green-600 rounded-lg shadow-md focus:outline-none"
+    on:click={() => showSearch = !showSearch}
+  >
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="text-xs">Zoeken</span>
+  </button>
+
+  <button 
+    aria-label="Filter" 
+    class="text-white flex flex-col items-center p-2 bg-green-500 hover:bg-green-600 rounded-lg shadow-md focus:outline-none"
+  >
+    <i class="fa-solid fa-sliders"></i>
+    <span class="text-xs">Filter</span>
+  </button>
+
+  {#if showSearch}
+    <input 
+      type="text" 
+      placeholder="Zoek boerderij" 
+      class="p-2 w-64 rounded-lg border border-green-500 bg-green-50 text-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
+      bind:value={searchQuery}
+    />
+  {/if}
+</div>
+
+<div class="bg-yellow-500 text-center py-2 font-bold text-lg">
+  Uw favoriete plaatsen
+</div>  
+
+<main class="grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 py-4 mb-24">
+  {#each filteredLocations as locatie}
+    <button
       class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-green-600"
-      aria-label="Coop"
+      aria-label={locatie.Name}
     >
-      <img src="coop.png" alt="Coop" class="h-500 w-500 mb-4" />
-      <h2 class="text-lg font-bold">Coop Ruben Langestraat 2, 4542 AE Hoek</h2>
+      <img
+        src="farmer.png"
+        alt={locatie.Name}
+        class="h-48 w-48 mb-4 object-cover"
+      />
+      <h2 class="text-lg font-bold">{locatie.Name}</h2>
     </button>
-  
-    <button
-      class="bg-yellow-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-yellow-600"
-      aria-label="tollenaar"
-    >
-      <img src="tollenaar.png" alt="Tollenaar" class="h-500 w-500 mb-4" />
-      <h2 class="text-lg font-bold">Boerderijwinkel Tollenaar, Hoekseweg 1, 4542 PT Hoek</h2>
-    </button>
-  
-    <button
-      class="bg-gray-800 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-gray-900"
-      aria-label="pitteperk"
-    >
-      <img src="pitteperk.png" alt="pitteperk" class="h-200 w-200 mb-4" />
-      <h2 class="text-lg font-bold">Zorg- en Kaasboerderij Pitteperk, Breeweg 21, 4371 SB Koudekerke</h2>
-    </button>
-
-    <div class="bg-yellow-500 text-center py-2 font-bold text-lg">
-      Locaties in de buurt
-    </div>  
-
-    <button
-      class="bg-gray-800 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-gray-900"
-      aria-label="pitteperk"
-    >
-      <img src="klepperhoeve.png" alt="pitteperk" class="h-200 w-200 mb-4" />
-      <h2 class="text-lg font-bold">kinderboerderij klepperhoeve, Meiveldpad 55, 4336 XW Middelburg</h2>
-    </button> -->
-  </main>
+  {/each}
+</main>

@@ -10,10 +10,10 @@
       <i class="fa-solid fa-user fa-2x"></i>
     </button>
 
-    <button aria-label="Filter" class="text-white flex flex-col items-center">
+    <!-- <button aria-label="Filter" class="text-white flex flex-col items-center">
       <i class="fa-solid fa-sliders fa-2x"></i>
       <span class="text-xs">Filter</span>
-    </button>
+    </button> -->
   </div>
 
   <div class="flex flex-col items-center">
@@ -31,10 +31,10 @@
       <i class="fa-solid fa-cart-shopping fa-2x"></i>
       <span class="text-xs">Winkelwagen</span>
     </button>
-    <button aria-label="Zoeken" class="text-white flex flex-col items-center">
+    <!-- <button aria-label="Zoeken" class="text-white flex flex-col items-center">
       <i class="fa-solid fa-magnifying-glass fa-2x"></i>
       <span class="text-xs">Zoeken</span>
-    </button>
+    </button> -->
   </div>
 </header>
 

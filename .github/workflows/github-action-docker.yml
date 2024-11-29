@@ -26,4 +26,8 @@ jobs:
 
       - name: Run Docker Container
         run: |
-          docker run -d --name my-container -p 8080:80 my-docker-image
+          docker run -d --name my-container -p 5173:5173 my-docker-image
+
+      - name: Check Running Containers
+        run: |
+          docker ps

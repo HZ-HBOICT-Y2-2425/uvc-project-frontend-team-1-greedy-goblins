@@ -26,8 +26,8 @@
 </svelte:head>
 
 <div class="flex items-center justify-start space-x-4 px-4 mt-3 mb-3  ">
-  <button 
-    aria-label="Zoeken" 
+  <button
+    aria-label="Zoeken"
     class="text-white flex flex-col items-center p-2 bg-green-500 hover:bg-green-600 rounded-lg shadow-md focus:outline-none"
     on:click={() => showSearch = !showSearch}
   >
@@ -35,18 +35,20 @@
     <span class="text-xs">Zoeken</span>
   </button>
 
-  <button 
-    aria-label="Filter" 
+  <!--
+  <button
+    aria-label="Filter"
     class="text-white flex flex-col items-center p-2 bg-green-500 hover:bg-green-600 rounded-lg shadow-md focus:outline-none"
   >
     <i class="fa-solid fa-sliders"></i>
     <span class="text-xs">Filter</span>
   </button>
+  -->
 
   {#if showSearch}
-    <input 
-      type="text" 
-      placeholder="Zoek boerderij" 
+    <input
+      type="text"
+      placeholder="Zoek..."
       class="p-2 w-64 rounded-lg border border-green-500 bg-green-50 text-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
       bind:value={searchQuery}
     />
@@ -55,7 +57,7 @@
 
 <div class="bg-yellow-500 text-center py-2 font-bold text-lg">
   Uw favoriete plaatsen
-</div>  
+</div>
 
 <main class="grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 py-4 mb-24">
   {#each filteredLocations as locatie}

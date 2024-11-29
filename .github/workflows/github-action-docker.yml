@@ -14,12 +14,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Docker Compose setup
+      - name: Install Docker
         run: |
           sudo apt-get update
-          sudo apt-get install -y docker-compose
+          sudo apt-get install -y docker.io
+          sudo service docker start
 
-      - name: Build and run Docker Compose
+      - name: Build Docker Image
         run: |
-          docker-compose -f docker-compose.yml build
-          docker-compose -f docker-compose.yml up -d
+          docker build -t my-docker-image .
+
+      - name: Run Docker Container
+        run: |
+          docker run -d --name my-container -p 8080:80 my-docker-image

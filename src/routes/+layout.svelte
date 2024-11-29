@@ -4,8 +4,7 @@
   import { goto } from "$app/navigation";
 </script>
 
-<header
-  class="bg-green-600 text-white flex items-center justify-between px-4 py-3"
+<header class="bg-green-600 text-white flex items-center justify-between px-4 py-3"
 >
   <div class="flex flex-col items-center gap-2">
     <button
@@ -52,8 +51,7 @@
   <slot />
 </main>
 
-<footer
-  class="fixed bottom-0 left-0 right-0 bg-green-600 text-white flex justify-around items-center py-3"
+<footer class="fixed bottom-0 left-0 right-0 bg-green-600 text-white flex justify-around items-center py-3"
 >
   <button
     on:click={() => goto("/vrienden")}

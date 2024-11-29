@@ -83,6 +83,7 @@
       type="number"
       id="distance"
       placeholder="Voer de afstand in"
+      style="border: 1px solid black"
       bind:value={distance}
       required
     />
@@ -96,7 +97,7 @@
     </select>
     <br /><br />
 
-    <button type="submit">Bereken</button>
+    <button style="padding: 2px 10px 2px 10px" class="bg-green-500 hover:bg-green-600 rounded-lg" type="submit">Bereken</button>
   </form>
 
   <section id="result">

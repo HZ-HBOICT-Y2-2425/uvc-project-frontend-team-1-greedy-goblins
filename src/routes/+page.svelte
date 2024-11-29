@@ -35,13 +35,15 @@
     <span class="text-xs">Zoeken</span>
   </button>
 
-  <button 
-    aria-label="Filter" 
+  <!--
+  <button
+    aria-label="Filter"
     class="text-white flex flex-col items-center p-2 bg-green-500 hover:bg-green-600 rounded-lg shadow-md focus:outline-none"
   >
     <i class="fa-solid fa-sliders"></i>
     <span class="text-xs">Filter</span>
   </button>
+  -->
 
   {#if showSearch}
     <input 

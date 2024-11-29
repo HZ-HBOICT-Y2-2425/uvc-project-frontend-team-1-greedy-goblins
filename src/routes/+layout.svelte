@@ -36,6 +36,7 @@
     <button
       aria-label="Winkelwagen"
       class="text-white flex flex-col items-center"
+      on:click={() => goto("/winkelwagen")}
     >
       <i class="fa-solid fa-cart-shopping fa-2x"></i>
       <span class="text-xs">Winkelwagen</span>

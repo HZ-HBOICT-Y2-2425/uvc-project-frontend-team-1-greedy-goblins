@@ -2,32 +2,26 @@ name: Docker Image
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    
+uses: actions/checkout@v4
 
-      - name: Install Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
-          sudo service docker start
+    
+name: Docker Compose setup
+    run: |
+      sudo apt-get update
+      sudo apt-get install -y docker-compose
 
-      - name: Build Docker Image
-        run: |
-          docker build -t my-docker-image .
-
-      - name: Run Docker Container
-        run: |
-          docker run -d --name my-container -p 5173:5173 my-docker-image
-
-      - name: Check Running Containers
-        run: |
-          docker ps
+    
+name: Build and run Docker Compose
+    run: |
+      docker-compose -f docker-compose.yml build
+      docker-compose -f docker-compose.yml up -d

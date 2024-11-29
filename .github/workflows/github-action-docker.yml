@@ -1,27 +1,28 @@
-name: Docker Image
+name: Docker Compose Workflow
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-  build:
+  build-and-run:
     runs-on: ubuntu-latest
 
     steps:
-    
-uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    
-name: Docker Compose setup
-    run: |
-      sudo apt-get update
-      sudo apt-get install -y docker-compose
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
 
-    
-name: Build and run Docker Compose
-    run: |
-      docker-compose -f docker-compose.yml build
-      docker-compose -f docker-compose.yml up -d
+      - name: Start Application with Docker Compose
+        run: |
+          docker-compose up --build -d
+
+      - name: Verify Running Services
+        run: |
+          docker-compose ps

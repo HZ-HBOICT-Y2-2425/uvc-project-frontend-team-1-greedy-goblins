@@ -97,7 +97,7 @@
     </select>
     <br /><br />
 
-    <button style="padding: 2px 10px 2px 10px" class="bg-green-500 hover:bg-green-600 rounded-lg" type="submit">Bereken</button>
+    <button style="padding: 2px 10px 2px 10px; color: white" class="bg-green-500 hover:bg-green-600 rounded-lg" type="submit">Bereken</button>
   </form>
 
   <section id="result">

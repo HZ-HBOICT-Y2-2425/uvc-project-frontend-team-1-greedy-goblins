@@ -10,9 +10,10 @@
     <button
       on:click={() => goto("profile ")}
       aria-label="Gebruiker"
-      class="text-white"
+      class="text-white flex flex-col items-center"
     >
       <i class="fa-solid fa-user fa-2x"></i>
+      <span class="text-xs">Profiel</span>
     </button>
 
     <!-- <button aria-label="Filter" class="text-white flex flex-col items-center">
@@ -53,7 +54,8 @@
 
 <footer class="fixed bottom-0 left-0 right-0 bg-green-600 text-white flex justify-around items-center py-3"
 >
-  <button
+  <!-- 
+<button
     on:click={() => goto("/vrienden")}
     class="flex flex-col items-center"
     aria-label="Ga naar Vrienden"
@@ -77,6 +79,7 @@
     <i class="fa-solid fa-id-card-clip fa-2x"></i>
     <span class="text-xs">Collectie</span>
   </button>
+   -->
   <button
     on:click={() => window.scrollTo({ top: 0, behavior: "smooth" })}
     class="flex flex-col items-center"

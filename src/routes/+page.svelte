@@ -48,7 +48,7 @@
   {#if showSearch}
     <input
       type="text"
-      placeholder="Zoek boerderij"
+      placeholder="Zoek..."
       class="p-2 w-64 rounded-lg border border-green-500 bg-green-50 text-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
       bind:value={searchQuery}
     />

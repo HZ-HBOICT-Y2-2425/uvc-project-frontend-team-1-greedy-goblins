@@ -102,7 +102,7 @@
 
   <section id="result">
     <p>
-      De geschatte CO2-uitstoot voor {product} over {distance} km via {transportType}is
+      De geschatte CO2-uitstoot voor {product} over {distance} km via {transportType} is
       {result.toFixed(2)} kg.
     </p>
   </section>

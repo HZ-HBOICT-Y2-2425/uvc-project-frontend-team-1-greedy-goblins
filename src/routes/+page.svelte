@@ -61,7 +61,7 @@
 
 <main class="grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 py-4 mb-24">
   {#each filteredLocations as locatie}
-    <button on:click={() => window.location.href=`/locatie/${locatie.locationID}`}
+    <button on:click={() => window.location.href=`/location/${locatie.locationID}`}
       class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-green-600"
       aria-label={locatie.Name}
     >

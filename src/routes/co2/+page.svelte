@@ -1,73 +1,42 @@
 <script>
-  // Data and initial state
+  import { userLocation } from "./userLocation.js";
+  import { calculateCo2Emissions, handleFormSubmit } from "./co2Calculator.js";
+
+  let latitude = 0;
+  let longitude = 0;
   let result = 0;
   let product = "kaas";
   let distance = 0;
   let transportType = "vrachtwagen";
 
-  // CO2 calculation function met CO2-uitstoot (kg)=Transportfactor (kg CO2 per ton-km)×Massa van het product (ton)×Afstand (km)
-  /**
-   * @param {string} product
-   * @param {number} distance
-   * @param {string} transportType
-   */
-  function calculateCo2Emissions(product, distance, transportType) {
-    const productEmissions = {
-      kaas: 0.5,
-      melk: 0.2,
-      aardappelen: 0.1,
-      vlees: 1.0,
-      groenten: 0.05,
-    };
+  userLocation()
+    .then((coords) => {
+      latitude = coords.latitude;
+      longitude = coords.longitude;
+      console.log(
+        `Huidige locatie: Latitude: ${latitude}, Longitude: ${longitude}`
+      );
+    })
+    .catch((error) => {
+      console.error(error.message);
+    });
 
-    const transportEmissions = {
-      vrachtwagen: 0.25,
-      schip: 0.05,
-      vliegtuig: 2.0,
-    };
-
-    // Validate product and transportType to ensure they exist in the corresponding objects
-    if (!productEmissions.hasOwnProperty(product)) {
-      alert(`Product ${product} is niet bekend.`);
-      return;
-    }
-    if (!transportEmissions.hasOwnProperty(transportType)) {
-      alert(`Transporttype ${transportType} is niet bekend.`);
-      return;
-    }
-
-    // @ts-ignore
-    const productFactor = productEmissions[product];
-    // @ts-ignore
-    const transportFactor = transportEmissions[transportType];
-    const co2Emissions = distance * productFactor * transportFactor;
-
-    return co2Emissions;
-  }
-
-  // Handle form submission
+  // Formulierverwerking
   /**
    * @param {{ preventDefault: () => void; }} event
    */
-  function handleFormSubmit(event) {
+  function processForm(event) {
     event.preventDefault();
-    if (isNaN(distance) || distance <= 0) {
-      alert("Voer een geldige afstand in.");
-      return;
-    }
-
-    result = calculateCo2Emissions(product, distance, transportType) ?? 0;
-    if (result !== undefined) {
-      console.log(
-        `De geschatte CO2-uitstoot voor ${product} over ${distance} km via ${transportType} is ${result.toFixed(2)} kg.`
-      );
-    }
+    result = handleFormSubmit(product, distance, transportType);
+    console.log(
+      `De geschatte CO2-uitstoot voor ${product} over ${distance} km via ${transportType} is ${result.toFixed(2)} kg.`
+    );
   }
 </script>
 
 <section class="container">
   <h1>CO2 Calculator</h1>
-  <form id="co2Form" on:submit|preventDefault={handleFormSubmit}>
+  <form id="co2Form" on:submit|preventDefault={processForm}>
     <label for="product">Product:</label>
     <select id="product" bind:value={product}>
       <option value="kaas">Kaas</option>
@@ -97,12 +66,17 @@
     </select>
     <br /><br />
 
-    <button style="padding: 2px 10px 2px 10px; color: white" class="bg-green-500 hover:bg-green-600 rounded-lg" type="submit">Bereken</button>
+    <button
+      style="padding: 2px 10px 2px 10px; color: white"
+      class="bg-green-500 hover:bg-green-600 rounded-lg"
+      type="submit">Bereken</button
+    >
   </form>
 
   <section id="result">
     <p>
-      De geschatte CO2-uitstoot voor {product} over {distance} km via {transportType} is
+      De geschatte CO2-uitstoot voor {product} over {distance} km via {transportType}
+      is
       {result.toFixed(2)} kg.
     </p>
   </section>

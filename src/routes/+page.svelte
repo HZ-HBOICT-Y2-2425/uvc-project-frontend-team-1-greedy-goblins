@@ -2,6 +2,7 @@
   import "../app.css";
   import { onMount } from "svelte";
   import MarketBox from "../lib/components/MarketBox.svelte";
+  import GoldenBar from "../lib/components/GoldenBar.svelte";
 
   /**
    * @type {any[]}
@@ -56,9 +57,9 @@
   {/if}
 </div>
 
-<div class="bg-yellow-500 text-center py-2 font-bold text-lg">
-  Uw favoriete plaatsen
-</div>
+<GoldenBar>
+<!-- Vul hier je custom tekst in -->
+</GoldenBar>
 
 <main>
     <MarketBox {filteredLocations} />

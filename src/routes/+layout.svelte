@@ -8,7 +8,7 @@
 >
   <div class="flex flex-col items-center gap-2">
     <button
-      on:click={() => goto("profile ")}
+      on:click={() => goto("/profile")}
       aria-label="Gebruiker"
       class="text-white flex flex-col items-center"
     >

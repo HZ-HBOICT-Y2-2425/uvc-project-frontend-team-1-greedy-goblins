@@ -5,18 +5,18 @@
   /**
    * @type {any[]}
    */
-  let location = []; // ik heb de code hierboven toegevoegd om warnings te vermijden
+  let marketInfo = []; // ik heb de code hierboven toegevoegd om warnings te vermijden
   let searchQuery = ""; // de standaard search query is leeg
   let showSearch = false; // deze boolean checkt of de zoekbalk is uitgeklapt
 
   onMount(async () => {
-    const response = await fetch("http://localhost:3010/microserviceMarket/locations");
-    location = await response.json();
+    const response = await fetch("http://localhost:3010/microserviceMarket/MarketInfo");
+    marketInfo = await response.json();
   });
 
   // dit stukje zorgt ervoor dat de zoekbalk filter werkt
-  $: filteredLocations = location.filter(locatie =>
-    locatie.Name.toLowerCase().includes(searchQuery.toLowerCase())
+  $: filteredLocations = marketInfo.filter(info =>
+  info.marketName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 </script>
 
@@ -60,17 +60,17 @@
 </div>
 
 <main class="grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 py-4 mb-24">
-  {#each filteredLocations as locatie}
-    <button
+  {#each filteredLocations as marketInfo}
+    <button on:click={() => window.location.href=`/location/${marketInfo.marketID}`}
       class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-green-600"
-      aria-label={locatie.Name}
+      aria-label={marketInfo.marketName}
     >
       <img
         src="farmer.png"
-        alt={locatie.Name}
+        alt={marketInfo.marketName}
         class="h-48 w-48 mb-4 object-cover"
       />
-      <h2 class="text-lg font-bold">{locatie.Name}</h2>
+      <h2 class="text-lg font-bold">{marketInfo.marketName}</h2>
     </button>
   {/each}
 </main>

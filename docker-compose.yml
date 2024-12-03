@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173" # Map poort 5173 van de host naar de container
+    volumes:
+      - .:/usr/src/app # Zorgt ervoor dat wijzigingen in je lokale bestanden direct worden doorgegeven aan de container
+      - /usr/src/app/node_modules # Zorgt ervoor dat `node_modules` niet wordt overschreven
+    command: ["npm", "run", "dev", "--", "--host"] # Start de Vite server met host-binding

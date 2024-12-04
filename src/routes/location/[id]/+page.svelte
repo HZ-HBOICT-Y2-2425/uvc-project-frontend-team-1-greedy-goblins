@@ -21,27 +21,27 @@
     {locationData.marketAdress}
   </div>
 
-  <main class="grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 py-4 mb-24">
-    <div
-      class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-green-600"
+  <main class="grid grid-cols-1 gap-4 px-4 py-4 mb-24">
+    <section
+      class="bg-green-500 text-white rounded-lg shadow-lg p-3 flex flex-col justify-center items-center"
     >
       <p class="font-bold">Naam:</p>
       <p>{locationData.marketName}</p>
-    </div>
+    </section>
 
-    <div
-      class="bg-cyan-500 text-black rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-green-600"
-    >
-      <p class="font-bold">Omschrijving:</p>
-      <p>{locationData.marketDesc}</p>
-    </div>
-
-    <div
-      class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-green-600"
+    <section
+      class="bg-green-700 text-white rounded-lg shadow-lg p-3 flex flex-col justify-center items-center"
     >
       <p class="font-bold">Categoriën:</p>
       <p>{locationData.categories}</p>
-    </div>
+    </section>
+
+    <section
+      class="bg-green-500 text-black rounded-lg shadow-lg p-12 mx-8 flex flex-col justify-center items-center"
+    >
+      <p class="font-bold">Omschrijving:</p>
+      <p>{locationData.marketDesc}</p>
+    </section>
   </main>
 
   <div class="bg-yellow-500 text-center py-2 font-bold text-lg">

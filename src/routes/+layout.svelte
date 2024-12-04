@@ -4,7 +4,8 @@
   import { goto } from "$app/navigation";
 </script>
 
-<header class="bg-green-600 text-white flex items-center justify-between px-4 py-3"
+<header
+  class="bg-green-600 text-white flex items-center justify-between px-4 py-3"
 >
   <div class="flex flex-col items-center gap-2">
     <button
@@ -28,7 +29,7 @@
       on:click={() => goto("/")}
     >
       <img src="/Logo_LGHub.png" alt="Logo" class="h-20 mb-1" />
-      <h1 class="text-lg font-bold">Welkom (naam!)</h1>
+      <h1 class="text-lg font-bold">Welkom (naaaaaaaaaaam!)</h1>
     </button>
   </div>
 
@@ -52,7 +53,8 @@
   <slot />
 </main>
 
-<footer class="fixed bottom-0 left-0 right-0 bg-green-600 text-white flex justify-around items-center py-3"
+<footer
+  class="fixed bottom-0 left-0 right-0 bg-green-600 text-white flex justify-around items-center py-3"
 >
   <!-- 
 <button

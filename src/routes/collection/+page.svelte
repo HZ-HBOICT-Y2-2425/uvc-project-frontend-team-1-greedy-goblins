@@ -3,11 +3,13 @@
 
   export const title = "Collection";
 
-  let collecties = [{name: "groente", qwartet: false}, {name: "zuivel", qwartet:  false}, {name: "fruit", qwartet: false}];
+  let collecties = [{name: "groente", qwartet: false}, {name: "zuivel", qwartet:  false}, {name: "fruit", qwartet: false}, {name: "vlees", qwartet: false}, {name: "placeholder", qwartet: false}];
   let kaarten = [
     [{name: "wortels", collected: false}, {name: "aardappel", collected: false}, {name: "radijs", collected: false}, {name: "rode biet", collected: false}],
     [{name: "verse melk", collected: false}, {name: "kaas", collected: false}, {name: "yogurt", collected: false}, {name: "boter", collected: false}],
-    [{name: "aardbijen", collected: false}, {name: "appels", collected: false}, {name: "peren", collected: false}, {name: "perzikken", collected: false}]];
+    [{name: "aardbijen", collected: false}, {name: "appels", collected: false}, {name: "peren", collected: false}, {name: "perzikken", collected: false}],
+    [{name: "kip", collected: false}, {name: "koe", collected: false}, {name: "varken", collected: false}, {name: "schaap", collected: false}],
+    [{name: "", collected: false}, {name: "", collected: false}, {name: "", collected: false}, {name: "", collected: false}]];
   //let objecten = [{name: "wortels", collected: false}];
 
   let packOpeningKaart1 = "";
@@ -42,19 +44,58 @@
     collecties[groep].qwartet = false;
   }
 
-  function packOpening() {
-    let randomKaart1 = Math.floor(Math.random() * 4);
-    let randomKaart2 = Math.floor(Math.random() * 4);
-    let randomKaart3 = Math.floor(Math.random() * 4);
-    packOpeningKaart1 ="kaart 1 = " + kaarten[0][randomKaart1].name;
-    packOpeningKaart2 = "kaart 2 = " + kaarten[1][randomKaart2].name;
-    packOpeningKaart3 = "kaart 3 = " + kaarten[2][randomKaart3].name;
+  function randomNumberGenerator(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  function packOpening(aantalKaarten) {
+    let collectieNummers = [];
+    for (let i = 0; i < aantalKaarten; i++) {
+      let randomCollectie = randomNumberGenerator(collecties.length);
+      for (let j = 0; j <= collectieNummers.length; j++) {
+        for (let k = 0; k < collectieNummers.length; k ++) {
+          if (randomCollectie === collectieNummers[k]) {
+            if (randomCollectie === collecties.length - 1) {
+              randomCollectie = 0
+            }
+            randomCollectie++;
+          }
+        }
+      }
+      /*
+      if (collectieNummers.length === 0) {
+        collectieNummers[i] = randomCollectie;
+      } else {
+        for (let j = 0; j < collectieNummers.length; j += 0) {
+          for (let k = 0; k < collectieNummers.length; k ++) {
+            if (randomCollectie === collectieNummers[k]) {
+              randomCollectie = randomNumberGenerator(collecties.length);
+              duplicate = true;
+            } else {
+              collectieNummers[i] = randomCollectie;
+              j++;
+              duplicate = false;
+            }
+          }
+        }
+      }
+       */
+      console.log(randomCollectie);
+      collectieNummers[i] = randomCollectie;
+    //console.log(collectieNummers);
+    }
+    let randomKaart1 = randomNumberGenerator(kaarten[collectieNummers[0]].length);
+    let randomKaart2 = randomNumberGenerator(kaarten[collectieNummers[1]].length);
+    let randomKaart3 = randomNumberGenerator(kaarten[collectieNummers[2]].length);
+    packOpeningKaart1 ="kaart 1 = " + kaarten[collectieNummers[0]][randomKaart1].name + ", " + collectieNummers[0];
+    packOpeningKaart2 = "kaart 2 = " + kaarten[collectieNummers[1]][randomKaart2].name + ", " + collectieNummers[1];
+    packOpeningKaart3 = "kaart 3 = " + kaarten[collectieNummers[2]][randomKaart3].name + ", " + collectieNummers[2];
 
 
 
-    krijgKaart(0, randomKaart1);
-    krijgKaart(1, randomKaart2);
-    krijgKaart(2, randomKaart3);
+    krijgKaart(collectieNummers[0], randomKaart1);
+    krijgKaart(collectieNummers[1], randomKaart2);
+    krijgKaart(collectieNummers[2], randomKaart3);
   }
 </script>
 
@@ -72,12 +113,12 @@
       <p class={kaarten[i][j].collected ? 'collected' : 'kaart'}>|{kaarten[i][j].name}|</p>
     {/each}
     {#if collecties[i].qwartet}
-    <button on:click={() => kwartet(i)} class="kaart" style="background-color: yellow">kwartet</button>
+      <button on:click={() => kwartet(i)} class="kaart" style="background-color: yellow">kwartet</button>
     {/if}
   </div>
 {/each}
 
-<p><button style="padding: 2px 10px 2px 10px; color: white" class="bg-green-500 hover:bg-green-600 rounded-lg" on:click={() =>packOpening()}>Pack Openen</button></p>
+<p><button style="padding: 2px 10px 2px 10px; color: white" class="bg-green-500 hover:bg-green-600 rounded-lg" on:click={() =>packOpening(3)}>Pack Openen</button></p>
 <p>{packOpeningKaart1}</p>
 <p>{packOpeningKaart2}</p>
 <p>{packOpeningKaart3}</p>

@@ -1,7 +1,9 @@
 <script>
   import { userLocation } from "./userLocation.js";
   import { calculateCo2Emissions, handleFormSubmit } from "./co2Calculator.js";
+  import { productEmissionCalculator } from "./productEmissionCalculator.js";
   import { calculateORSRoute } from "./distanceCalculator.js";
+  import { orderStore } from "$lib/stores/orderDataStore.js";
 
   let userLatitude = 0;
   let userLongitude = 0;
@@ -9,7 +11,8 @@
   let product = "kaas";
   let transportType = "vrachtwagen";
   let distance = 0;
-  let loadingDistance = true; // Voor laadindicator
+  let loadingDistance = true;
+  let ordersWithEmissions = [];
 
   // Huidige locatie ophalen en schoolafstand berekenen
   userLocation()
@@ -62,48 +65,30 @@
       `De geschatte CO2-uitstoot voor ${product} over ${distance} km via ${transportType} is ${result.toFixed(2)} kg.`
     );
   }
+
+  $: {
+    ordersWithEmissions = $orderStore.orderStore.map((order) => {
+      const totalProductEmission = productEmissionCalculator(
+        order.productsOrdered
+      );
+      return {
+        ...order,
+        totalProductEmission,
+      };
+    });
+  }
 </script>
 
-<section class="container">
-  <h1>CO2 Calculator</h1>
-
-  {#if loadingDistance}
-    <p>Afstand wordt berekend... Even geduld aub.</p>
-  {:else}
-    <form id="co2Form" on:submit|preventDefault={processForm}>
-      <label for="product">Product:</label>
-      <select id="product" bind:value={product}>
-        <option value="kaas">Kaas</option>
-        <option value="melk">Melk</option>
-        <option value="aardappelen">Aardappelen</option>
-        <option value="vlees">Vlees</option>
-        <option value="groenten">Groenten</option>
-      </select>
-      <br /><br />
-
-      <label for="transportType">Transporttype:</label>
-      <select id="transportType" bind:value={transportType}>
-        <option value="vrachtwagen">Vrachtwagen</option>
-        <option value="schip">Schip</option>
-        <option value="vliegtuig">Vliegtuig</option>
-      </select>
-      <br /><br />
-
-      <button
-        style="padding: 2px 10px 2px 10px; color: white"
-        class="bg-green-500 hover:bg-green-600 rounded-lg"
-        type="submit"
-      >
-        Bereken
-      </button>
-    </form>
-
-    <section id="result">
-      <p>
-        De geschatte CO2-uitstoot voor {product} over {distance} km via {transportType}
-        is
-        {result.toFixed(2)} kg.
-      </p>
-    </section>
-  {/if}
+<section>
+  {#each $orderStore.orderStore as order}
+    <p>
+      {order.id} - {order.nameStore} - {order.storeAddress} -
+      {order.productsOrdered.length} producten
+    </p>
+    <ul>
+      {#each order.productsOrdered as product}
+        <li>{product.amountProduct}x {product.nameProduct}</li>
+      {/each}
+    </ul>
+  {/each}
 </section>

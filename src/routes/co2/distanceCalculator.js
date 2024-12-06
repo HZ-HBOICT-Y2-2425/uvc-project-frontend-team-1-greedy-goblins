@@ -7,12 +7,12 @@
  * @param {string} profile
  */
 export async function calculateORSRoute(lat1, lon1, lat2, lon2, profile = "driving-car") {
-    const apiKey = "5b3ce3597851110001cf62488cf0118fe70b42f283bee6f702bc22de"; 
+    const apiKey = "5b3ce3597851110001cf62488cf0118fe70b42f283bee6f702bc22de";
     const url = `https://api.openrouteservice.org/v2/directions/${profile}`;
-  
+
     const body = {
       coordinates: [
-        [lon1, lat1], 
+        [lon1, lat1],
         [lon2, lat2],
       ],
       instructions: false,

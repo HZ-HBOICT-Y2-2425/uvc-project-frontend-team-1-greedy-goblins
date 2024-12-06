@@ -9,7 +9,7 @@
    */
   let marketInfo = []; // ik heb de code hierboven toegevoegd om warnings te vermijden
   let searchQuery = ""; // de standaard search query is leeg
-  let showSearch = false; // deze boolean checkt of de zoekbalk is uitgeklapt
+  let showSearch = true; // deze boolean checkt of de zoekbalk is uitgeklapt
 
   onMount(async () => {
     const response = await fetch("http://localhost:3010/microserviceMarket/MarketInfo");
@@ -28,16 +28,25 @@
 </svelte:head>
 
 <div class="flex items-center justify-start space-x-4 px-4 mt-3 mb-3  ">
-  <button
+  <!-- <button
     aria-label="Zoeken"
     class="text-white flex flex-col items-center p-2 bg-green-500 hover:bg-green-600 rounded-lg shadow-md focus:outline-none"
     on:click={() => showSearch = !showSearch}
   >
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="text-xs">Zoeken</span>
-  </button>
+  </button> -->
 
-  <!--
+  {#if showSearch}
+  <input
+    type="text"
+    placeholder="Zoek..."
+    class="p-2 w-64 rounded-lg border border-green-500 bg-green-50 text-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
+    bind:value={searchQuery}
+  />
+{/if}
+
+
   <button
     aria-label="Filter"
     class="text-white flex flex-col items-center p-2 bg-green-500 hover:bg-green-600 rounded-lg shadow-md focus:outline-none"
@@ -45,20 +54,12 @@
     <i class="fa-solid fa-sliders"></i>
     <span class="text-xs">Filter</span>
   </button>
-  -->
-
-  {#if showSearch}
-    <input
-      type="text"
-      placeholder="Zoek..."
-      class="p-2 w-64 rounded-lg border border-green-500 bg-green-50 text-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
-      bind:value={searchQuery}
-    />
-  {/if}
+ 
 </div>
+ 
 
 <GoldenBar>
-<!-- Vul hier je custom tekst in -->
+  <h2 class="text-xl font-bold">Favorieten</h2>
 </GoldenBar>
 
 <main>

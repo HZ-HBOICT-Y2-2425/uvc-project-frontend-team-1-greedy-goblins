@@ -58,7 +58,7 @@
 </div>
 
 <GoldenBar>
-<!-- Vul hier je custom tekst in -->
+  <h2 class="text-xl font-bold">Favorieten</h2>
 </GoldenBar>
 
 <main>

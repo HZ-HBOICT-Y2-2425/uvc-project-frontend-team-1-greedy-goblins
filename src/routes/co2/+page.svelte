@@ -7,12 +7,9 @@
 
   let userLatitude = 0;
   let userLongitude = 0;
-  let result = 0;
-  let product = "kaas";
-  let transportType = "vrachtwagen";
   let distance = 0;
+  let productEmission = 0;
   let loadingDistance = true;
-  let ordersWithEmissions = [];
 
   // Huidige locatie ophalen en schoolafstand berekenen
   userLocation()
@@ -23,60 +20,28 @@
         `Huidige locatie: Latitude: ${userLatitude}, Longitude: ${userLongitude}`
       );
 
-      try {
+      for (const order of $orderStore.orderStore) {
         // Bereken afstand naar de school
         const routeInfo = await calculateORSRoute(
           userLatitude,
           userLongitude,
-          51.49540710449219,
-          3.609536647796631
+          order.storeLatitude,
+          order.storeLongitude
         );
 
         distance = routeInfo.distanceKm;
-        console.log(`Afstand tussen huidige locatie en school: ${distance} km`);
-      } catch (error) {
-        console.error("Fout tijdens het berekenen van de afstand: ", error);
-        distance = 0;
-      } finally {
-        loadingDistance = false;
+        console.log(`Afstand tussen huidige locatie en boer: ${distance} km`);
+
+        productEmission = productEmissionCalculator(order.productsOrdered);
       }
     })
     .catch((error) => {
-      console.error("Fout bij het ophalen van de locatie: ", error.message);
+      console.error(
+        "Fout bij het berekenen van de Co2 verspilling",
+        error.message
+      );
       loadingDistance = false;
     });
-
-  // Formulierverwerking
-  /**
-   * @param {{ preventDefault: () => void; }} event
-   */
-  function processForm(event) {
-    event.preventDefault();
-    if (loadingDistance) {
-      alert("Wacht totdat de afstand is berekend.");
-      return;
-    }
-    if (distance === 0) {
-      alert("Afstand niet beschikbaar. Controleer uw locatie.");
-      return;
-    }
-    result = handleFormSubmit(product, distance, transportType);
-    console.log(
-      `De geschatte CO2-uitstoot voor ${product} over ${distance} km via ${transportType} is ${result.toFixed(2)} kg.`
-    );
-  }
-
-  $: {
-    ordersWithEmissions = $orderStore.orderStore.map((order) => {
-      const totalProductEmission = productEmissionCalculator(
-        order.productsOrdered
-      );
-      return {
-        ...order,
-        totalProductEmission,
-      };
-    });
-  }
 </script>
 
 <section>

@@ -8,6 +8,7 @@ orderStore: [
         storeAddress: "Kerkstraat 1",
         storeLatitude: 51.5000009,
         storeLongitude: 3.6762457,
+        totalEmission: 0,
         productsOrdered: [
             {
                 id: 1,
@@ -31,6 +32,7 @@ orderStore: [
         storeAddress: "Kerkstraat 1",
         storeLatitude: 51.000009,
         storeLongitude: 3.6762457,
+        totalEmission: 0,
         productsOrdered: [
             {
                 id: 1,
@@ -46,6 +48,26 @@ orderStore: [
                 id: 3,
                 nameProduct: "Eieren (6 stuks)",
                 amountProduct: 3,
+            },
+        ],
+    },
+    {
+        id: 3,
+        nameStore: "Pitteperk",
+        storeAddress: "Kerkstraat 1",
+        storeLatitude: 51.300009,
+        storeLongitude: 3.6762457,
+        totalEmission: 0,
+        productsOrdered: [
+            {
+                id: 1,
+                nameProduct: "Yoghurt (1L)",
+                amountProduct: 2,
+            },
+            {
+                id: 3,
+                nameProduct: "Eieren (6 stuks)Peren (1 kg)",
+                amountProduct: 10,
             },
         ],
     },

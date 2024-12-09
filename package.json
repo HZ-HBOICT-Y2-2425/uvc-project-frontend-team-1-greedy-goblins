@@ -1,6 +1,6 @@
 {
-	"name": "svelte5-example",
-	"version": "0.0.1",
+	"name": "local-grocery-hub",
+	"version": "V1.1",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",

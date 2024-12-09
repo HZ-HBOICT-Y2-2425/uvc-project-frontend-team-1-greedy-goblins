@@ -18,6 +18,5 @@ export function productEmissionCalculator(productsOrdered) {
         }
     });
 
-    console.log(totalEmissions);
     return totalEmissions;
 }

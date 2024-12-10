@@ -4,6 +4,8 @@
   import { productEmissionCalculator } from "./productEmissionCalculator.js";
   import { calculateORSRoute } from "./distanceCalculator.js";
   import { orderStore } from "$lib/stores/orderDataStore.js";
+  import { goto } from "$app/navigation";
+  import { graphDataStore } from "$lib/stores/graphDataStore.js";
 
   let userLatitude = 0;
   let userLongitude = 0;
@@ -12,7 +14,6 @@
   let userEmission = 0;
   let storeEmission = 0;
   let totalEmissionSaved = 0;
-  let loadingDistance = true;
 
   // Huidige locatie ophalen en schoolafstand berekenen
   userLocation()
@@ -20,9 +21,9 @@
       userLatitude = coords.latitude;
       userLongitude = coords.longitude;
 
-      // Loop door de orders in de store
+      let graphData = []; // Tijdelijke opslag voor grafiekdata
+
       for (const order of $orderStore.orderStore) {
-        // Bereken afstand naar de school
         const routeInfo = await calculateORSRoute(
           userLatitude,
           userLongitude,
@@ -31,18 +32,22 @@
         );
 
         distance = routeInfo.distanceKm;
-
         productFactor = productEmissionCalculator(order.productsOrdered);
-
-        storeEmission = productFactor * 165;
-
+        storeEmission = productFactor * 165 * 0.2;
+        console.log;
+        console.log(distance, productFactor);
         userEmission =
-          calculateCo2Emissions(productFactor, distance, 0.08) ?? 0;
-
+          calculateCo2Emissions(productFactor, distance, 0.18) ?? 0;
         totalEmissionSaved = Math.floor(storeEmission - userEmission);
-        console.log("Total Emission Saved: ", totalEmissionSaved);
 
-        // Update de store met de nieuwe totalEmission voor dit order
+        graphData.push({
+          storeName: order.nameStore,
+          storeEmission,
+          userEmission,
+          totalEmissionSaved,
+        });
+
+        // Update de store
         orderStore.update((store) => {
           const updatedOrderStore = store.orderStore.map((o) => {
             if (o.id === order.id) {
@@ -53,15 +58,24 @@
           return { ...store, orderStore: updatedOrderStore };
         });
       }
+
+      // Voeg de grafiekdata toe aan de grafiekstore
+      graphDataStore.set(graphData);
     })
     .catch((error) => {
       console.error(
         "Fout bij het berekenen van de Co2 verspilling",
         error.message
       );
-      loadingDistance = false;
     });
 </script>
+
+<button
+  class="w-full py-2 bg-red-500 text-white"
+  on:click={() => goto("co2Graph")}
+>
+  Grafiek
+</button>
 
 <section class="space-y-6">
   {#each $orderStore.orderStore as order}

@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { page } from "$app/stores";
+  import Products from "$lib/components/Products.svelte";
 
   /**
    * @type * {any}
@@ -47,6 +48,10 @@
   <div class="bg-yellow-500 text-center py-2 font-bold text-lg">
     Producten bij deze vestiging
   </div>
+
+  <section>
+    <Products {locationData} />
+  </section>
 {:else}
   <p>Loading...</p>
 {/if}

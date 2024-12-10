@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import { cart, addToCart, removeFromCart } from "../stores/cartStore";
 
   /**
    * @type {{ categories: any[] }}
@@ -51,6 +52,11 @@
           {#each products as product}
             <div class="border p-4 rounded shadow">
               <h3 class="font-bold">{product.Name}</h3>
+              <div class="flex justify-end w-full items-center">
+                <button class="fa-solid fa-plus rounded p-2 mt-2" aria-label="Add product" on:click={() => addToCart(product)}></button>
+                <span class="mx-2">{$cart[product.Name]?.quantity || 0}</span>
+                <button class="fa-solid fa-minus rounded p-2 mt-2" aria-label="Remove product" on:click={() => removeFromCart(product)}></button>
+              </div>
             </div>
           {/each}
         </div>

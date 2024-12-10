@@ -15,6 +15,7 @@
     );
     locationData = await response.json();
   });
+
 </script>
 
 {#if locationData}

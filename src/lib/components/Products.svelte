@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   /**
-   * @type {{ categories: any; }}
+   * @type {{ categories: any[] }}
    */
   export let locationData;
 
@@ -11,15 +11,13 @@
    */
   let allCategories = [];
   /**
-   * @type {string | any[]}
+   * @type {Object}
    */
-  let productsToShow = [];
+  let productsByCategory = {};
 
   // Haal de categorieën op bij onMount
   onMount(async () => {
-    const response = await fetch(
-      `http://localhost:3010/microserviceMarket/categorys`
-    );
+    const response = await fetch(`http://localhost:3010/microserviceMarket/categorys`);
     allCategories = await response.json();
     updateProducts();
   });
@@ -34,20 +32,28 @@
       locationCategoryNames.includes(category.Name)
     );
 
-    // Verzamel de producten uit de relevante categorieën
-    productsToShow = relevantCategories.flatMap(
-      (category) => category.Products
-    );
+    // Groepeer de producten per categorie
+    productsByCategory = relevantCategories.reduce((acc, category) => {
+      acc[category.Name] = category.Products;
+      return acc;
+    }, {});
   }
 
   $: updateProducts();
 </script>
 
-{#if productsToShow.length > 0}
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-    {#each productsToShow as product}
-      <div class="border p-4 rounded shadow">
-        <h3 class="font-bold">{product.Name}</h3>
+{#if Object.keys(productsByCategory).length > 0}
+  <div class="p-4">
+    {#each Object.entries(productsByCategory) as [categoryName, products]}
+      <div class="mb-8">
+        <h2 class="text-xl font-bold mb-4">{categoryName}</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {#each products as product}
+            <div class="border p-4 rounded shadow">
+              <h3 class="font-bold">{product.Name}</h3>
+            </div>
+          {/each}
+        </div>
       </div>
     {/each}
   </div>

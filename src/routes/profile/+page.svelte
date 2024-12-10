@@ -28,15 +28,15 @@
     <button
       class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
       type="button"
-      on:click={() => goto("/co2")}
+      on:click={() => goto("/oudeBestellingen")}
     >
-      CO2 Bespaart
+      Oude bestellingen
     </button>
     <button
       class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
       type="button"
     >
-      Oude bestellingen
+      C02 besparing
     </button>
     <button
       class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"

@@ -115,10 +115,10 @@
         <img class="kaart" alt="kaart nog niet gekregen" src="{collecties[i].uncollected}">
       {/if}
     {/each}
-    {#if collecties[i].qwartet}
-      <button on:click={() => kwartet(i)} class="kaart" style="background-color: yellow">kwartet</button>
-    {/if}
   </div>
+  {#if collecties[i].qwartet}
+    <p style="text-align: center"><button  on:click={() => kwartet(i)} style="background-color: yellow; padding: 2px 10px 2px 10px" class="rounded-lg">kwartet</button></p>
+  {/if}
 {/each}
 
 <p style="text-align: center"><button style="padding: 2px 10px 2px 10px; color: white" class="bg-green-500 hover:bg-green-600 rounded-lg" on:click={() =>packOpening(3)}>Pack Openen</button></p>
@@ -137,16 +137,27 @@
   }
 
   .collectie {
+    text-align: center;
     font-size: 30px;
   }
 
   .qwartet {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .kaart {
     margin-left: 5px;
     width: 250px;
+  }
+
+  @media only screen and (max-width: 413px) {
+    .kaart {
+      margin-left: 3px;
+      margin-bottom: 3px;
+      width: 180px;
+    }
   }
 
   .collected {

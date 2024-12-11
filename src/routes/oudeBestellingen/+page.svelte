@@ -14,6 +14,7 @@
   let userEmission = 0;
   let storeEmission = 0;
   let totalEmissionSaved = 0;
+  let dataLoading = true;
 
   // Huidige locatie ophalen en schoolafstand berekenen
   userLocation()
@@ -61,6 +62,8 @@
 
       // Voeg de grafiekdata toe aan de grafiekstore
       graphDataStore.set(graphData);
+
+      dataLoading = false;
     })
     .catch((error) => {
       console.error(
@@ -71,8 +74,9 @@
 </script>
 
 <button
-  class="w-full py-2 bg-red-500 text-white"
+  class="w-full py-2 text-white rounded disabled:cursor-not-allowed disabled:bg-gray-300 bg-red-600 hover:bg-red-500"
   on:click={() => goto("co2Graph")}
+  disabled={dataLoading}
 >
   Grafiek
 </button>

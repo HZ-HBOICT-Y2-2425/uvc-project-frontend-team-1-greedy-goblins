@@ -17,7 +17,6 @@
     });
   });
 
-  // Functie om de grafiek te maken
   function createChart() {
     const canvas = document.getElementById("co2Graph");
     if (canvas) {
@@ -85,7 +84,7 @@
 </script>
 
 <button
-  class="w-full py-2 bg-red-500 text-white"
+  class="w-full py-2 bg-red-600 hover:bg-red-500 text-white"
   on:click={() => goto("oudeBestellingen")}
 >
   Oude Bestellingen

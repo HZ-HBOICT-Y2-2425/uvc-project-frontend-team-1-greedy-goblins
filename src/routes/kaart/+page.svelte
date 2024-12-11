@@ -44,7 +44,7 @@
 
   // fetch locations (evt anders doen)
   async function fetchLocations() {
-    const response = await fetch("http://localhost:3010/microserviceMarket/locations");
+    const response = await fetch("http://localhost:3010/microserviceMarket/MarketInfo");
     if (!response.ok) {
       throw new Error("Failed to fetch locations");
     }
@@ -82,14 +82,27 @@
       // dit maakt een info window voor de marker, css is wel inline nu, evt nog anders maken
       const infoWindow = new googleMaps.InfoWindow({
         content: `
-          <div>
-            <h2 style="margin: 0; font-size: 1.5em; font-weight: bold;">${location.Name}</h2>
-            <br>
-            <p>${location.Description}</p>
-            <br>
-            <p><b>Adres:</b> ${location.adress}</p>
-          </div>
-        `,
+        <div>
+          <h2 style="margin: 0; font-size: 1.5em; font-weight: bold;">${location.marketName}</h2>
+          <br>
+          <p>${location.description}</p>
+          <br>
+          <p><b>Adres:</b> ${location.marketAdress}</p>
+          <br>
+          <button onclick="window.location.href='/location/${location.marketID}'"
+            style="
+              background-color: #28a745;
+              color: white;
+              border: none;
+              padding: 8px 12px;
+              font-size: 1em;
+              border-radius: 4px;
+              cursor: pointer;
+            ">
+            Bekijk Locatie
+          </button>
+        </div>
+      `,
       });
 
       // wat er gebeurd als je op de marker klikt

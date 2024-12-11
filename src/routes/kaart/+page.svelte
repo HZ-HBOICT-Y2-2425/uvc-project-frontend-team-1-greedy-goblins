@@ -73,7 +73,7 @@
     // dit voegt markers toe voor elke locatie
     locations.forEach((location) => {
       const marker = new googleMaps.Marker({
-        position: { lat: getRandomLat(), lng: getRandomLng() },
+        position: { lat: location.marketLatitude, lng: location.marketLongitude },
         map: map,
         title: location.Name,
         icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
@@ -99,7 +99,7 @@
               border-radius: 4px;
               cursor: pointer;
             ">
-            Bekijk Locatie
+            Bekijk Markt
           </button>
         </div>
       `,
@@ -112,16 +112,6 @@
 
       markers.push(marker);
     });
-  }
-
-  // Dit pakt random locatie in zeeland (alleen om te test later vervangen door coordinaten)
-  function getRandomLat() {
-    return 51.4 + Math.random() * 0.2;
-  }
-
-  // zelfde als hierboven
-  function getRandomLng() {
-    return 3.5 + Math.random() * 0.2;
   }
 </script>
 

@@ -1,109 +1,88 @@
 <script>
-  // Data and initial state
-  let result = 0;
-  let product = "kaas";
+  import { userLocation } from "./userLocation.js";
+  import { calculateCo2Emissions } from "./co2Calculator.js";
+  import { productEmissionCalculator } from "./productEmissionCalculator.js";
+  import { calculateORSRoute } from "./distanceCalculator.js";
+  import { orderStore } from "$lib/stores/orderDataStore.js";
+
+  let userLatitude = 0;
+  let userLongitude = 0;
   let distance = 0;
-  let transportType = "vrachtwagen";
+  let productEmission = 0;
+  let transportEmission = 0.25;
+  let totalEmission = 0;
+  let loadingDistance = true;
 
-  // CO2 calculation function met CO2-uitstoot (kg)=Transportfactor (kg CO2 per ton-km)×Massa van het product (ton)×Afstand (km)
-  /**
-   * @param {string} product
-   * @param {number} distance
-   * @param {string} transportType
-   */
-  function calculateCo2Emissions(product, distance, transportType) {
-    const productEmissions = {
-      kaas: 0.5,
-      melk: 0.2,
-      aardappelen: 0.1,
-      vlees: 1.0,
-      groenten: 0.05,
-    };
-
-    const transportEmissions = {
-      vrachtwagen: 0.25,
-      schip: 0.05,
-      vliegtuig: 2.0,
-    };
-
-    // Validate product and transportType to ensure they exist in the corresponding objects
-    if (!productEmissions.hasOwnProperty(product)) {
-      alert(`Product ${product} is niet bekend.`);
-      return;
-    }
-    if (!transportEmissions.hasOwnProperty(transportType)) {
-      alert(`Transporttype ${transportType} is niet bekend.`);
-      return;
-    }
-
-    // @ts-ignore
-    const productFactor = productEmissions[product];
-    // @ts-ignore
-    const transportFactor = transportEmissions[transportType];
-    const co2Emissions = distance * productFactor * transportFactor;
-
-    return co2Emissions;
-  }
-
-  // Handle form submission
-  /**
-   * @param {{ preventDefault: () => void; }} event
-   */
-  function handleFormSubmit(event) {
-    event.preventDefault();
-    if (isNaN(distance) || distance <= 0) {
-      alert("Voer een geldige afstand in.");
-      return;
-    }
-
-    result = calculateCo2Emissions(product, distance, transportType) ?? 0;
-    if (result !== undefined) {
+  // Huidige locatie ophalen en schoolafstand berekenen
+  userLocation()
+    .then(async (coords) => {
+      userLatitude = coords.latitude;
+      userLongitude = coords.longitude;
       console.log(
-        `De geschatte CO2-uitstoot voor ${product} over ${distance} km via ${transportType} is ${result.toFixed(2)} kg.`
+        `Huidige locatie: Latitude: ${userLatitude}, Longitude: ${userLongitude}`
       );
-    }
-  }
+
+      // Loop door de orders in de store
+      for (const order of $orderStore.orderStore) {
+        // Bereken afstand naar de school
+        const routeInfo = await calculateORSRoute(
+          userLatitude,
+          userLongitude,
+          order.storeLatitude,
+          order.storeLongitude
+        );
+
+        distance = routeInfo.distanceKm;
+        console.log(`Afstand tussen huidige locatie en boer: ${distance} km`);
+
+        // Bereken de emissie voor de producten in het order
+        productEmission = productEmissionCalculator(order.productsOrdered);
+
+        // Bereken de totale CO2 uitstoot
+        totalEmission =
+          calculateCo2Emissions(productEmission, distance, transportEmission) ??
+          0;
+
+        console.log(`Totale Co2 verspilling: ${totalEmission} kg`);
+
+        // Update de store met de nieuwe totalEmission voor dit order
+        orderStore.update((store) => {
+          const updatedOrderStore = store.orderStore.map((o) => {
+            if (o.id === order.id) {
+              return { ...o, totalEmission }; // Werk de emissie bij
+            }
+            return o;
+          });
+          return { ...store, orderStore: updatedOrderStore };
+        });
+      }
+    })
+    .catch((error) => {
+      console.error(
+        "Fout bij het berekenen van de Co2 verspilling",
+        error.message
+      );
+      loadingDistance = false;
+    });
 </script>
 
-<section class="container">
-  <h1>CO2 Calculator</h1>
-  <form id="co2Form" on:submit|preventDefault={handleFormSubmit}>
-    <label for="product">Product:</label>
-    <select id="product" bind:value={product}>
-      <option value="kaas">Kaas</option>
-      <option value="melk">Melk</option>
-      <option value="aardappelen">Aardappelen</option>
-      <option value="vlees">Vlees</option>
-      <option value="groenten">Groenten</option>
-    </select>
-    <br /><br />
-
-    <label for="distance">Afstand (km):</label>
-    <input
-      type="number"
-      id="distance"
-      placeholder="Voer de afstand in"
-      style="border: 1px solid black"
-      bind:value={distance}
-      required
-    />
-    <br /><br />
-
-    <label for="transportType">Transporttype:</label>
-    <select id="transportType" bind:value={transportType}>
-      <option value="vrachtwagen">Vrachtwagen</option>
-      <option value="schip">Schip</option>
-      <option value="vliegtuig">Vliegtuig</option>
-    </select>
-    <br /><br />
-
-    <button style="padding: 2px 10px 2px 10px; color: white" class="bg-green-500 hover:bg-green-600 rounded-lg" type="submit">Bereken</button>
-  </form>
-
-  <section id="result">
-    <p>
-      De geschatte CO2-uitstoot voor {product} over {distance} km via {transportType} is
-      {result.toFixed(2)} kg.
-    </p>
-  </section>
+<section class="space-y-6">
+  {#each $orderStore.orderStore as order}
+    <div class="bg-white rounded-lg shadow-lg p-6 space-y-4">
+      <p class="text-xl font-semibold text-gray-800">
+        {order.id} - {order.nameStore} - {order.storeAddress}
+      </p>
+      <p class="text-gray-600">
+        {order.productsOrdered.length} producten - Total Emission:
+        <span class="font-bold text-red-500">{order.totalEmission} kg</span>
+      </p>
+      <ul class="space-y-2">
+        {#each order.productsOrdered as product}
+          <li class="flex justify-between text-gray-700">
+            <span>{product.amountProduct}x {product.nameProduct}</span>
+          </li>
+        {/each}
+      </ul>
+    </div>
+  {/each}
 </section>

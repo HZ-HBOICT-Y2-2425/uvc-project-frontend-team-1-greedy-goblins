@@ -35,8 +35,6 @@
         distance = routeInfo.distanceKm;
         productFactor = productEmissionCalculator(order.productsOrdered);
         storeEmission = productFactor * 165 * 0.2;
-        console.log;
-        console.log(distance, productFactor);
         userEmission =
           calculateCo2Emissions(productFactor, distance, 0.18) ?? 0;
         totalEmissionSaved = Math.floor(storeEmission - userEmission);

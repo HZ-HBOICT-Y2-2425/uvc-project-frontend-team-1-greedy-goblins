@@ -4,27 +4,27 @@
   import { productEmissionCalculator } from "./productEmissionCalculator.js";
   import { calculateORSRoute } from "./distanceCalculator.js";
   import { orderStore } from "$lib/stores/orderDataStore.js";
+  import { goto } from "$app/navigation";
+  import { graphDataStore } from "$lib/stores/graphDataStore.js";
 
   let userLatitude = 0;
   let userLongitude = 0;
   let distance = 0;
-  let productEmission = 0;
-  let transportEmission = 0.25;
-  let totalEmission = 0;
-  let loadingDistance = true;
+  let productFactor = 0;
+  let userEmission = 0;
+  let storeEmission = 0;
+  let totalEmissionSaved = 0;
+  let dataLoading = true;
 
   // Huidige locatie ophalen en schoolafstand berekenen
   userLocation()
     .then(async (coords) => {
       userLatitude = coords.latitude;
       userLongitude = coords.longitude;
-      console.log(
-        `Huidige locatie: Latitude: ${userLatitude}, Longitude: ${userLongitude}`
-      );
 
-      // Loop door de orders in de store
+      let graphData = []; // Tijdelijke opslag voor grafiekdata
+
       for (const order of $orderStore.orderStore) {
-        // Bereken afstand naar de school
         const routeInfo = await calculateORSRoute(
           userLatitude,
           userLongitude,
@@ -33,38 +33,53 @@
         );
 
         distance = routeInfo.distanceKm;
-        console.log(`Afstand tussen huidige locatie en boer: ${distance} km`);
+        productFactor = productEmissionCalculator(order.productsOrdered);
+        storeEmission = productFactor * 165 * 0.2;
+        console.log;
+        console.log(distance, productFactor);
+        userEmission =
+          calculateCo2Emissions(productFactor, distance, 0.18) ?? 0;
+        totalEmissionSaved = Math.floor(storeEmission - userEmission);
 
-        // Bereken de emissie voor de producten in het order
-        productEmission = productEmissionCalculator(order.productsOrdered);
+        graphData.push({
+          storeName: order.nameStore,
+          storeEmission,
+          userEmission,
+          totalEmissionSaved,
+        });
 
-        // Bereken de totale CO2 uitstoot
-        totalEmission =
-          calculateCo2Emissions(productEmission, distance, transportEmission) ??
-          0;
-
-        console.log(`Totale Co2 verspilling: ${totalEmission} kg`);
-
-        // Update de store met de nieuwe totalEmission voor dit order
+        // Update de store
         orderStore.update((store) => {
           const updatedOrderStore = store.orderStore.map((o) => {
             if (o.id === order.id) {
-              return { ...o, totalEmission }; // Werk de emissie bij
+              return { ...o, totalEmissionSaved };
             }
             return o;
           });
           return { ...store, orderStore: updatedOrderStore };
         });
       }
+
+      // Voeg de grafiekdata toe aan de grafiekstore
+      graphDataStore.set(graphData);
+
+      dataLoading = false;
     })
     .catch((error) => {
       console.error(
         "Fout bij het berekenen van de Co2 verspilling",
         error.message
       );
-      loadingDistance = false;
     });
 </script>
+
+<button
+  class="w-full py-2 text-white rounded disabled:cursor-not-allowed disabled:bg-gray-300 bg-red-600 hover:bg-red-500"
+  on:click={() => goto("co2Graph")}
+  disabled={dataLoading}
+>
+  Grafiek
+</button>
 
 <section class="space-y-6">
   {#each $orderStore.orderStore as order}
@@ -74,7 +89,8 @@
       </p>
       <p class="text-gray-600">
         {order.productsOrdered.length} producten - Total Emission:
-        <span class="font-bold text-red-500">{order.totalEmission} kg</span>
+        <span class="font-bold text-red-500">{order.totalEmissionSaved} kg</span
+        >
       </p>
       <ul class="space-y-2">
         {#each order.productsOrdered as product}

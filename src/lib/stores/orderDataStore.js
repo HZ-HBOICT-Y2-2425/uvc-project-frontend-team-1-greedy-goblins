@@ -8,7 +8,7 @@ orderStore: [
         storeAddress: "Kerkstraat 1",
         storeLatitude: 51.5000009,
         storeLongitude: 3.6762457,
-        totalEmission: 0,
+        totalEmissionSaved: 0,
         productsOrdered: [
             {
                 id: 1,
@@ -32,7 +32,7 @@ orderStore: [
         storeAddress: "Kerkstraat 1",
         storeLatitude: 51.000009,
         storeLongitude: 3.6762457,
-        totalEmission: 0,
+        totalEmissionSaved: 0,
         productsOrdered: [
             {
                 id: 1,
@@ -57,7 +57,7 @@ orderStore: [
         storeAddress: "Kerkstraat 1",
         storeLatitude: 51.300009,
         storeLongitude: 3.6762457,
-        totalEmission: 0,
+        totalEmissionSaved: 0,
         productsOrdered: [
             {
                 id: 1,

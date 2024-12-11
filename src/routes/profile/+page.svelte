@@ -36,12 +36,6 @@
       class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
       type="button"
     >
-      C02 besparing
-    </button>
-    <button
-      class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
-      type="button"
-    >
       BedrijfsOverzicht
     </button>
   </div>

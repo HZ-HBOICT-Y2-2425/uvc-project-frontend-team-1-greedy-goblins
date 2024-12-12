@@ -50,6 +50,10 @@ export function removeFromCart(product) {
 }
 
 export function getItemsFromCart() {
-  const newItems = get(cart); // Haal de huidige waarde van de cart store op
+  const newItems = get(cart);
  return newItems;
+}
+
+export function resetCart() {
+  cart.set({});
 }

@@ -6,6 +6,7 @@
     addToCart,
     removeFromCart,
     getItemsFromCart,
+    resetCart,
   } from "../stores/cartStore";
 
   /**
@@ -91,9 +92,12 @@
 
     <button
       class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded mb-20"
-      on:click={() => callOrder(locationData)}
+      on:click={() => {
+        callOrder(locationData);
+        resetCart();
+      }}
     >
-      Button
+      Place Order
     </button>
   </div>
 {:else}

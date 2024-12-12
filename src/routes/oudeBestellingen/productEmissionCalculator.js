@@ -12,8 +12,10 @@ export function productEmissionCalculator(productsOrdered) {
     let totalEmissions = 0;
 
     productsOrdered.forEach((product) => {
+        // @ts-ignore
         const productEmission = productEmissions.find((item) => item.productID === product.id);
         if (productEmission) {
+            // @ts-ignore
             totalEmissions += productEmission.productEmission * product.amountProduct;
         }
     });

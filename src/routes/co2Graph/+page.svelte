@@ -29,28 +29,45 @@
         chart.destroy();
       }
 
+      // Bereken de totalen
+      const totalStoreEmission = graphData.reduce(
+        (sum, entry) => sum + entry.storeEmission,
+        0
+      );
+      const totalUserEmission = graphData.reduce(
+        (sum, entry) => sum + entry.userEmission,
+        0
+      );
+      const totalEmissionSaved = graphData.reduce(
+        (sum, entry) => sum + entry.totalEmissionSaved,
+        0
+      );
+
       chart = new Chart(ctx, {
-        type: "line",
+        type: "bar",
         data: {
-          labels: graphData.map((entry) => entry.storeName),
+          labels: ["Totaal"],
           datasets: [
             {
               label: "Winkel CO2-uitstoot (kg)",
-              data: graphData.map((entry) => entry.storeEmission),
+              data: [totalStoreEmission],
+              backgroundColor: "rgba(255, 99, 132, 0.5)",
               borderColor: "rgba(255, 99, 132, 1)",
-              tension: 0.4,
+              borderWidth: 1,
             },
             {
               label: "Jouw CO2-uitstoot (kg)",
-              data: graphData.map((entry) => entry.userEmission),
+              data: [totalUserEmission],
+              backgroundColor: "rgba(75, 192, 192, 0.5)",
               borderColor: "rgba(75, 192, 192, 1)",
-              tension: 0.4,
+              borderWidth: 1,
             },
             {
               label: "Bespaarde CO2 (kg)",
-              data: graphData.map((entry) => entry.totalEmissionSaved),
+              data: [totalEmissionSaved],
+              backgroundColor: "rgba(54, 162, 235, 0.5)",
               borderColor: "rgba(54, 162, 235, 1)",
-              tension: 0.4,
+              borderWidth: 1,
             },
           ],
         },
@@ -61,7 +78,7 @@
             x: {
               title: {
                 display: true,
-                text: "Winkels",
+                text: "Categorieën",
               },
             },
             y: {
@@ -84,12 +101,14 @@
 </script>
 
 <button
-  class="w-full py-2 bg-red-600 hover:bg-red-500 text-white"
+  class="w-full py-2 text-white rounded disabled:cursor-not-allowed disabled:bg-gray-300 bg-red-600 hover:bg-red-500"
   on:click={() => goto("oudeBestellingen")}
 >
   Oude Bestellingen
 </button>
 
-<div class="w-full h-96">
-  <canvas id="co2Graph" class="w-full h-full"></canvas>
+<div class="flex flex-col items-center p-4 space-y-4">
+  <div class="w-full h-96">
+    <canvas id="co2Graph" class="w-full h-full"></canvas>
+  </div>
 </div>

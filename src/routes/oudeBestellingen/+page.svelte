@@ -3,11 +3,13 @@
   import { calculateCo2Emissions } from "./co2Calculator.js";
   import { productEmissionCalculator } from "./productEmissionCalculator.js";
   import { calculateORSRoute } from "./distanceCalculator.js";
-  import { orderStore } from "$lib/stores/orderDataStore.js";
+  import { orderStore, resetOrderStore } from "$lib/stores/orderDataStore.js";
   import { goto } from "$app/navigation";
   import { graphDataStore } from "$lib/stores/graphDataStore.js";
 
   let userLatitude = 0;
+  let currentPage = 1;
+  const itemsPerPage = 5;
   let userLongitude = 0;
   let distance = 0;
   let productFactor = 0;
@@ -16,13 +18,26 @@
   let totalEmissionSaved = 0;
   let dataLoading = true;
 
-  // Huidige locatie ophalen en schoolafstand berekenen
+  $: paginatedOrders = [...$orderStore.orderStore]
+    .reverse()
+    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  $: totalPages = Math.ceil($orderStore.orderStore.length / itemsPerPage);
+
+  function nextPage() {
+    if (currentPage < totalPages) currentPage++;
+  }
+
+  function previousPage() {
+    if (currentPage > 1) currentPage--;
+  }
+
   userLocation()
     .then(async (coords) => {
       userLatitude = coords.latitude;
       userLongitude = coords.longitude;
 
-      let graphData = []; // Tijdelijke opslag voor grafiekdata
+      let graphData = [];
 
       for (const order of $orderStore.orderStore) {
         const routeInfo = await calculateORSRoute(
@@ -35,8 +50,6 @@
         distance = routeInfo.distanceKm;
         productFactor = productEmissionCalculator(order.productsOrdered);
         storeEmission = productFactor * 165 * 0.2;
-        console.log;
-        console.log(distance, productFactor);
         userEmission =
           calculateCo2Emissions(productFactor, distance, 0.18) ?? 0;
         totalEmissionSaved = Math.floor(storeEmission - userEmission);
@@ -48,19 +61,19 @@
           totalEmissionSaved,
         });
 
-        // Update de store
         orderStore.update((store) => {
-          const updatedOrderStore = store.orderStore.map((o) => {
-            if (o.id === order.id) {
-              return { ...o, totalEmissionSaved };
+          const updatedOrderStore = store.orderStore.map(
+            (/** @type {{ id: any; }} */ o) => {
+              if (o.id === order.id) {
+                return { ...o, totalEmissionSaved };
+              }
+              return o;
             }
-            return o;
-          });
+          );
           return { ...store, orderStore: updatedOrderStore };
         });
       }
 
-      // Voeg de grafiekdata toe aan de grafiekstore
       graphDataStore.set(graphData);
 
       dataLoading = false;
@@ -78,19 +91,24 @@
   on:click={() => goto("co2Graph")}
   disabled={dataLoading}
 >
-  Grafiek
+  CO2 Grafiek
 </button>
 
 <section class="space-y-6">
-  {#each $orderStore.orderStore as order}
+  {#each paginatedOrders as order}
     <div class="bg-white rounded-lg shadow-lg p-6 space-y-4">
       <p class="text-xl font-semibold text-gray-800">
-        {order.id} - {order.nameStore} - {order.storeAddress}
+        {order.nameStore} - {order.storeAddress}
       </p>
       <p class="text-gray-600">
         {order.productsOrdered.length} producten - Total Emission:
-        <span class="font-bold text-red-500">{order.totalEmissionSaved} kg</span
-        >
+        <span class="font-bold text-red-500">
+          {#if dataLoading}
+            loading....
+          {:else}
+            {order.totalEmissionSaved} kg
+          {/if}
+        </span>
       </p>
       <ul class="space-y-2">
         {#each order.productsOrdered as product}
@@ -101,4 +119,24 @@
       </ul>
     </div>
   {/each}
+
+  <div class="flex justify-between items-center">
+    <button
+      class="px-4 py-2 bg-gray-200 text-gray-600 rounded disabled:opacity-50"
+      on:click={previousPage}
+      disabled={currentPage === 1}
+    >
+      Vorige
+    </button>
+    <span class="text-gray-600 mb-40">
+      Pagina {currentPage} van {totalPages}
+    </span>
+    <button
+      class="px-4 py-2 bg-gray-200 text-gray-600 rounded disabled:opacity-50"
+      on:click={nextPage}
+      disabled={currentPage === totalPages}
+    >
+      Volgende
+    </button>
+  </div>
 </section>

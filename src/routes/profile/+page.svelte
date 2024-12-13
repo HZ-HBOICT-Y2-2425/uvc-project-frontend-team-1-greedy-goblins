@@ -9,11 +9,11 @@
   >
     <i class="fa-regular fa-user fa-xl text-gray-600"></i>
   </div>
-
-  <h2 class="mt-4 text-xl font-semibold text-gray-800">Naam</h2>
+  <!--Dummy name-->
+  <h2 class="mt-4 text-xl font-semibold text-gray-800">Dirk</h2>
 
   <div class="w-full mt-6 space-y-4 px-6">
-    <button
+    <!-- <button
       class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
       type="button"
     >
@@ -24,7 +24,7 @@
       type="button"
     >
       Wijzig bestelgegevens
-    </button>
+    </button> -->
     <button
       class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
       type="button"
@@ -32,11 +32,11 @@
     >
       Oude bestellingen
     </button>
-    <button
+    <!-- <button
       class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
       type="button"
     >
       BedrijfsOverzicht
-    </button>
+    </button> -->
   </div>
 </section>

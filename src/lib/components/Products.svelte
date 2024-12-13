@@ -61,28 +61,45 @@
 </script>
 
 {#if Object.keys(productsByCategory).length > 0}
-  <div class="p-4">
+  <div class="p-4 space-y-6">
+    <!-- Category Section -->
     {#each Object.entries(productsByCategory) as [categoryName, products]}
-      <div class="mb-8">
-        <h2 class="text-xl font-bold mb-4">{categoryName}</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="border-b pb-4 mb-8">
+        <h2
+          class="text-2xl font-bold text-green-700 mb-6 border-b-2 border-green-500 pb-2 text-center"
+        >
+          {categoryName}
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Product Card -->
           {#each products as product}
-            <div class="border p-4 rounded shadow">
-              <h3 class="font-bold">{product.Name}</h3>
-              <div class="flex justify-end w-full items-center">
+            <div
+              class="bg-white border border-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+            >
+              <h3 class="font-bold text-lg mb-2 text-gray-700">
+                {product.Name}
+              </h3>
+              <div class="flex justify-between items-center mt-4">
+                <!-- Remove Button (Left) -->
                 <button
-                  class="fa-solid fa-plus rounded p-2 mt-2"
-                  aria-label="Add product"
-                  on:click={() => addToCart(product)}
-                ></button>
-                <span class="mx-2"
-                  >{$cart[product.Name]?.amountProduct || 0}</span
-                >
-                <button
-                  class="fa-solid fa-minus rounded p-2 mt-2"
+                  class="bg-red-500 text-white p-3 rounded-full shadow hover:bg-red-600 transition text-lg"
                   aria-label="Remove product"
                   on:click={() => removeFromCart(product)}
-                ></button>
+                >
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <!-- Quantity Display -->
+                <span class="text-gray-700 font-semibold text-lg">
+                  {$cart[product.Name]?.amountProduct || 0}
+                </span>
+                <!-- Add Button (Right) -->
+                <button
+                  class="bg-green-500 text-white p-3 rounded-full shadow hover:bg-green-600 transition text-lg"
+                  aria-label="Add product"
+                  on:click={() => addToCart(product)}
+                >
+                  <i class="fa-solid fa-plus"></i>
+                </button>
               </div>
             </div>
           {/each}
@@ -90,8 +107,9 @@
       </div>
     {/each}
 
+    <!-- Place Order Button -->
     <button
-      class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+      class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all hover:shadow-lg"
       on:click={() => {
         callOrder(locationData);
         resetCart();
@@ -101,5 +119,5 @@
     </button>
   </div>
 {:else}
-  <p>Loading products...</p>
+  <p class="text-center text-gray-600 text-lg">Loading products...</p>
 {/if}

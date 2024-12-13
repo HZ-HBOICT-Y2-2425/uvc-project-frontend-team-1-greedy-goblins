@@ -24,7 +24,8 @@
       on:click={() => goto("/")}
     >
       <img src="/Logo_LGHub.png" alt="Logo" class="h-20 mb-2 object-contain" />
-      <h1 class="text-lg font-bold">Welkom (naam!)</h1>
+      //dummy naam
+      <h1 class="text-lg font-bold">Welkom Dirk</h1>
     </button>
   </div>
 

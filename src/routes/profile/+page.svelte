@@ -10,7 +10,7 @@
     <i class="fa-regular fa-user fa-xl text-gray-600"></i>
   </div>
 
-  <h2 class="mt-4 text-xl font-semibold text-gray-800">Naam</h2>
+  <h2 class="mt-4 text-xl font-semibold text-gray-800">Dirk</h2>
 
   <div class="w-full mt-6 space-y-4 px-6">
     <button

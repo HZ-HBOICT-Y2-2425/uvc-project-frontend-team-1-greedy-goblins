@@ -100,6 +100,7 @@
                 >
                   <i class="fa-solid fa-plus"></i>
                 </button>
+
               </div>
             </div>
           {/each}

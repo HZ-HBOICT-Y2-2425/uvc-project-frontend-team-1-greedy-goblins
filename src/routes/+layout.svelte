@@ -5,9 +5,9 @@
 </script>
 
 <header
-  class="bg-green-600 text-white flex items-center justify-between px-4 py-3"
+  class="bg-green-600 text-white flex items-center justify-between h-32 px-6 py-3"
 >
-  <div class="flex flex-col items-center gap-2">
+  <div class="flex flex-col items-center gap-2 flex-shrink-0">
     <button
       on:click={() => goto("/profile")}
       aria-label="Gebruiker"
@@ -16,24 +16,19 @@
       <i class="fa-solid fa-user fa-2x"></i>
       <span class="text-xs">Profiel</span>
     </button>
-
-    <!-- <button aria-label="Filter" class="text-white flex flex-col items-center">
-      <i class="fa-solid fa-sliders fa-2x"></i>
-      <span class="text-xs">Filter</span>
-    </button> -->
   </div>
 
-  <div class="flex flex-col items-center">
+  <div class="absolute left-1/2 transform -translate-x-1/2 flex flex-col items-center">
     <button
       class="bg-transparent border-none p-0 m-0 flex flex-col items-center justify-center"
       on:click={() => goto("/")}
     >
-      <img src="/Logo_LGHub.png" alt="Logo" class="h-20 mb-1" />
+      <img src="/Logo_LGHub.png" alt="Logo" class="h-20 mb-2 object-contain" />
       <h1 class="text-lg font-bold">Welkom (naam!)</h1>
     </button>
   </div>
 
-  <div class="flex flex-col items-center gap-2">
+  <div class="flex flex-col items-center gap-2 flex-shrink-0">
     <button
       aria-label="Winkelwagen"
       class="text-white flex flex-col items-center"
@@ -42,12 +37,9 @@
       <i class="fa-solid fa-cart-shopping fa-2x"></i>
       <span class="text-xs">Winkelwagen</span>
     </button>
-    <!-- <button aria-label="Zoeken" class="text-white flex flex-col items-center">
-      <i class="fa-solid fa-magnifying-glass fa-2x"></i>
-      <span class="text-xs">Zoeken</span>
-    </button> -->
   </div>
 </header>
+
 
 <main>
   <slot />

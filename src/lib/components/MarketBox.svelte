@@ -13,7 +13,7 @@
       aria-label={marketInfo.marketName}
     >
       <img
-        src="farmer.png"
+        src="{marketInfo.marketImage}"
         alt={marketInfo.marketName}
         class="h-48 w-48 mb-4 object-cover"
       />

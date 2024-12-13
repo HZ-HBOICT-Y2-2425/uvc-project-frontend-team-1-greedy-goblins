@@ -72,16 +72,16 @@
               <div class="flex justify-end w-full items-center">
                 <button
                   class="fa-solid fa-minus rounded p-2 mt-2"
-                  aria-label="Add product"
-                  on:click={() => addToCart(product)}
+                  aria-label="Remove product"
+                  on:click={() => removeFromCart(product)}
                 ></button>
                 <span class="mx-2"
                   >{$cart[product.Name]?.amountProduct || 0}</span
                 >
                 <button
                   class="fa-solid fa-plus rounded p-2 mt-2"
-                  aria-label="Remove product"
-                  on:click={() => removeFromCart(product)}
+                  aria-label="Add product"
+                  on:click={() => addToCart(product)}
                 ></button>
               </div>
             </div>

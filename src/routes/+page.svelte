@@ -89,9 +89,9 @@
   {/if}
 </div>
 
-<GoldenBar>
+<!-- <GoldenBar>
   <h2 class="text-xl font-bold">Favorieten</h2>
-</GoldenBar>
+</GoldenBar> -->
 
 <main>
     <MarketBox {filteredLocations} />

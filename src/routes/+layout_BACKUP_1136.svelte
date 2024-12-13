@@ -31,8 +31,13 @@
     </button>
   </div>
 
+<<<<<<< HEAD
+   <div class="flex flex-col items-center gap-2">
+    <!--<button
+=======
   <div class="flex flex-col items-center gap-2 flex-shrink-0">
     <button
+>>>>>>> development
       aria-label="Winkelwagen"
       class="text-white flex flex-col items-center"
       on:click={() => goto("/winkelwagen")}
@@ -40,7 +45,15 @@
       <i class="fa-solid fa-cart-shopping fa-2x"></i>
       <span class="text-xs">Winkelwagen</span>
     </button>
+<<<<<<< HEAD
+     <button aria-label="Zoeken" class="text-white flex flex-col items-center">
+      <i class="fa-solid fa-magnifying-glass fa-2x"></i>
+      <span class="text-xs">Zoeken</span>
+    </button> -->
+  </div> 
+=======
   </div>
+>>>>>>> development
 </header>
 
 <main class="pb-20">

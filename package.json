@@ -1,6 +1,6 @@
 {
 	"name": "local-grocery-hub",
-	"version": "V1.1",
+	"version": "V2",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",

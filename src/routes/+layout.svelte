@@ -31,7 +31,7 @@
     </button>
   </div>
 
-  <div class="flex flex-col items-center gap-2 flex-shrink-0">
+  <!-- <div class="flex flex-col items-center gap-2 flex-shrink-0">
     <button
       aria-label="Winkelwagen"
       class="text-white flex flex-col items-center"
@@ -40,7 +40,7 @@
       <i class="fa-solid fa-cart-shopping fa-2x"></i>
       <span class="text-xs">Winkelwagen</span>
     </button>
-  </div>
+  </div> -->
 </header>
 
 <main class="pb-20">

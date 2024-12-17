@@ -1,17 +1,42 @@
 <script>
-  import "../../app.css";
-  import { goto } from '$app/navigation';
-  export const title = "Profile";
+  import { goto } from "$app/navigation";
 </script>
 
-<i class="fa-regular fa-user fa-xl" style="margin-left: 48%;"></i>
+<section class="flex flex-col items-center bg-gray-100 min-h-screen pt-8">
+  <!-- Profiel pictogram -->
+  <div
+    class="bg-gray-300 rounded-full w-20 h-20 flex items-center justify-center"
+  >
+    <i class="fa-regular fa-user fa-xl text-gray-600"></i>
+  </div>
+  <!--Dummy name-->
+  <h2 class="mt-4 text-xl font-semibold text-gray-800">Dirk</h2>
 
-<!--
-<h2 style="text-align: center"><button>Wijzig profiel</button></h2>
-<h2><button>Wijzig bestelgegevens</button></h2>
--->
-<h2 style="color: white; margin-left: 45%; padding: 10px, 1px"><button style="padding: 2px 10px 2px 10px" class="bg-green-500 hover:bg-green-600 rounded-lg" type="button" on:click={() => goto('/co2')}>CO2 Bespaart</button></h2>
-<!--
-<h2><button>Oude bestellingen</button></h2>
-<h2><button>Bedrijfs overzicht</button></h2>
--->
+  <div class="w-full mt-6 space-y-4 px-6">
+    <!-- <button
+      class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
+      type="button"
+    >
+      Wijzig profiel
+    </button>
+    <button
+      class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
+      type="button"
+    >
+      Wijzig bestelgegevens
+    </button> -->
+    <button
+      class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
+      type="button"
+      on:click={() => goto("/oudeBestellingen")}
+    >
+      Oude bestellingen
+    </button>
+    <!-- <button
+      class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
+      type="button"
+    >
+      BedrijfsOverzicht
+    </button> -->
+  </div>
+</section>

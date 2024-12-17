@@ -5,14 +5,14 @@
 </script>
 
 <header
-  class="bg-green-600 text-white flex items-center justify-between h-full px-6 py-3 w-full"
+  class="bg-green-600 text-white flex items-center justify-between max-h-full px-6 py-2 w-full"
 >
   <div class="flex items-center gap-2">
     <button
       class="bg-transparent border-none p-0 m-0 flex flex-col items-center justify-center"
       on:click={() => goto("/")}
     >
-      <img src="/Logo_LGHub.png" alt="Logo" class="h-20 object-contain" />
+      <img src="/Logo_LGHub.png" alt="Logo" class="h-16 object-contain h-" />
     </button>
     <div>
       <h1 class="text-lg font-bold">LGHub</h1>

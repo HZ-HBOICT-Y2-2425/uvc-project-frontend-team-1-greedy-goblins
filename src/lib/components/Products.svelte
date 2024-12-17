@@ -85,9 +85,15 @@
             <div
               class="bg-white border border-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
             >
-              <h3 class="font-bold text-lg mb-2 text-gray-700">
-                {product.Name}
+              <h3
+                class="font-bold text-lg mb-2 text-gray-700 flex justify-between items-center"
+              >
+                <span>{product.Name}</span>
+                <span class="text-lg text-gray-700">
+                  € {(product.Price || 0).toFixed(2)}</span
+                >
               </h3>
+
               <div class="flex justify-between items-center mt-4">
                 <!-- Remove Button (Left) -->
                 <button
@@ -109,7 +115,6 @@
                 >
                   <i class="fa-solid fa-plus"></i>
                 </button>
-
               </div>
             </div>
           {/each}

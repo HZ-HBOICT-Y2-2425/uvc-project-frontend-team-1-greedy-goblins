@@ -8,14 +8,7 @@
   class="bg-green-600 text-white flex items-center justify-between h-32 px-6 py-3 w-full"
 >
   <div class="flex flex-col items-center gap-2 flex-shrink-0">
-    <button
-      on:click={() => goto("/profile")}
-      aria-label="Gebruiker"
-      class="text-white flex flex-col items-center"
-    >
-      <i class="fa-solid fa-user fa-2x"></i>
-      <span class="text-xs">Profiel</span>
-    </button>
+
   </div>
 
   <div
@@ -50,6 +43,14 @@
 <footer
   class="fixed bottom-0 left-0 right-0 bg-green-600 text-white flex justify-around items-center py-3"
 >
+    <button
+      on:click={() => goto("/profile")}
+      aria-label="Gebruiker"
+      class="text-white flex flex-col items-center"
+    >
+      <i class="fa-solid fa-user fa-2x"></i>
+      <span class="text-xs">Profiel</span>
+    </button>
   <!-- <button
     on:click={() => goto("/vrienden")}
     class="flex flex-col items-center"

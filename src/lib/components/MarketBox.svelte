@@ -9,7 +9,7 @@
   {#each filteredLocations as marketInfo}
     <button
       on:click={() => window.location.href=`/location/${marketInfo.marketID}`}
-      class="relative bg-green-500 text-white rounded-lg shadow-lg overflow-hidden hover:bg-green-600"
+      class="relative text-white rounded-lg shadow-lg overflow-hidden"
       aria-label={marketInfo.marketName}
     >
       <!-- Afbeelding volledig zichtbaar -->
@@ -20,10 +20,10 @@
       />
 
       <!-- Overlay-balk onderaan -->
-      <div class="absolute bottom-0 w-full bg-green-500 bg-opacity-90 text-white text-center py-2">
-        <h2 class="text-md sm:text-base md:text-base lg:text-base font-bold px-2">{marketInfo.marketName}</h2>
+      <div class="absolute bottom-0 w-full bg-green-800 bg-opacity-90 text-white text-center py-2">
+        <h2 class="text-base font-bold px-2">{marketInfo.marketName}</h2>
         <hr/>
-        <h3 class="text-sm sm:text-base md:text-base lg:text-base font-semibold px-2">{marketInfo.marketAdress}</h3>
+        <h3 class="text-base font-semibold px-2">{marketInfo.marketAdress}</h3>
       </div>
     </button>
   {/each}

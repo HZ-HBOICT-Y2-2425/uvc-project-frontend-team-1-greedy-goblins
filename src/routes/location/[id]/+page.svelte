@@ -59,5 +59,5 @@
     <Products {locationData} />
   </section>
 {:else}
-  <p>Loading...</p>
+  <p>Aan het laden...</p>
 {/if}

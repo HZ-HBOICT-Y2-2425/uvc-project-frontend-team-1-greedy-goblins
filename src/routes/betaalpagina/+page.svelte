@@ -1,33 +1,33 @@
 <script>
-import {goto} from "$app/navigation";
-import { page } from "$app/stores";
+  import {goto} from "$app/navigation";
+  import { page } from "$app/stores";
 
-let errorMessage = ""
+  let errorMessage = ""
 
-function denyPayment() {
+  function denyPayment() {
     if (document.getElementById("bank nummer").value === "" || document.getElementById("bank wachtwoord").value === "") {
-        errorMessage = "één of meerdere van de velden zijn niet ingevuld";
+      errorMessage = "één of meerdere van de velden zijn niet ingevuld";
     } else {
-        goto("/")
+      goto("/")
     }
-}
+  }
 
-/**
+  /**
  * @type {{ marketName: any; marketAdress: any; marketDesc: any; categories: any[]; }}
  */
-let locationData;
-/**
+  let locationData;
+  /**
  * @type {string | any[]}
  */
-let products = [];
+  let products = [];
 
-$: {
+  $: {
     const { state } = $page;
     // @ts-ignore
     locationData = state?.locationData;
     // @ts-ignore
     products = state?.products ? Object.values(state.products) : [];
-}
+  }
 </script>
 
 <main class="p-4 space-y-8">
@@ -54,8 +54,7 @@ $: {
       <h2 class="text-xl font-semibold mb-4">Producten in Winkelwagen</h2>
       <ul class="space-y-4">
         {#each products as product, index}
-          <li
-            class="bg-white p-4 rounded shadow flex flex-col sm:flex-row sm:items-center justify-between"
+          <li class="bg-white p-4 rounded shadow flex flex-col sm:flex-row sm:items-center justify-between"
           >
             <p class="text-sm font-medium">
               <strong>Naam:</strong>
@@ -83,8 +82,8 @@ $: {
     </form>
     <p class="text-red-600">{errorMessage}</p>
     <button
-            class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded mt-2"
-            on:click={() => denyPayment()}>Betaal
+      class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded mt-2"
+      on:click={() => denyPayment()}>Betaal
     </button>
   </div>
 

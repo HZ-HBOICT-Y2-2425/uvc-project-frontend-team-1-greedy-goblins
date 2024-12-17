@@ -159,9 +159,4 @@
       width: 180px;
     }
   }
-
-  .collected {
-    color: red;
-    margin-left: 5px;
-  }
 </style>

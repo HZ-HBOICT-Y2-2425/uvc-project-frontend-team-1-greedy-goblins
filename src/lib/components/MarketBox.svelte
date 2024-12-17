@@ -5,19 +5,27 @@
    export let filteredLocations = []; // Ontvangt de data als prop
 </script>
 
-<main class="grid grid-cols-3 sm:grid-cols-5 gap-4 px-4 py-4 mb-24">
+<main class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4 py-4 mb-24">
   {#each filteredLocations as marketInfo}
     <button
       on:click={() => window.location.href=`/location/${marketInfo.marketID}`}
-      class="bg-green-500 text-white rounded-lg shadow-lg p-10 flex flex-col justify-center items-center hover:bg-green-600"
+      class="relative bg-green-500 text-white rounded-lg shadow-lg overflow-hidden hover:bg-green-600"
       aria-label={marketInfo.marketName}
     >
+      <!-- Afbeelding volledig zichtbaar -->
       <img
         src="{marketInfo.marketImage}"
         alt={marketInfo.marketName}
-        class="mb-4 object-cover"
+        class="object-cover w-full h-full min-h-32 max-h-96"
       />
-      <h2 class="text-lg font-bold">{marketInfo.marketName}</h2>
+
+      <!-- Overlay-balk onderaan -->
+      <div class="absolute bottom-0 w-full bg-green-500 bg-opacity-90 text-white text-center py-2">
+        <h2 class="text-md sm:text-base md:text-base lg:text-base font-bold px-2">{marketInfo.marketName}</h2>
+        <hr/>
+        <h3 class="text-sm sm:text-base md:text-base lg:text-base font-semibold px-2">{marketInfo.marketAdress}</h3>
+      </div>
     </button>
   {/each}
 </main>
+

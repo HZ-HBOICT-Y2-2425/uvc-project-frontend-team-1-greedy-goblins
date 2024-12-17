@@ -16,7 +16,7 @@
       <img
         src="{marketInfo.marketImage}"
         alt={marketInfo.marketName}
-        class="object-cover w-full h-full min-h-32 max-h-96"
+        class="object-cover w-full h-full min-h-32 max-h-40"
       />
 
       <!-- Overlay-balk onderaan -->

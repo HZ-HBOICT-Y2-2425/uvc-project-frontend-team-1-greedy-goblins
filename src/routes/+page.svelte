@@ -2,6 +2,7 @@
   import "../app.css";
   import { onMount } from "svelte";
   import MarketBox from "../lib/components/MarketBox.svelte";
+  import GoldenBar from "$lib/components/GoldenBar.svelte";
 
   /**
    * @type {any[]}
@@ -95,7 +96,7 @@
     </div>
   {/if}
 </div>
-
+<GoldenBar>Locaties bij jou in de buurt</GoldenBar>
 <main>
   <MarketBox {filteredLocations} />
 </main>

@@ -22,6 +22,12 @@
     {locationData.marketAdress}
   </div>
 
+  <div
+  class=" flex flex-col justify-center items-center"
+>
+  <img src="{locationData.marketImage}" alt="{locationData.marketName}" class="mb-6 object-cover h-1/4 w-1/4" />
+</div>
+
   <main class="grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 py-4 my-2">
     <div
       class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-green-600"

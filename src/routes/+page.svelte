@@ -10,17 +10,69 @@
   let searchQuery = "";
   let showSearch = true;
   let showFilter = false;
+  let userLocation = { lat: null, lng: null }; // Huidige locatie van gebruiker
   /**
    * @type {any[]}
    */
   let selectedCategories = [];
 
   onMount(async () => {
-    const response = await fetch(
-      "http://localhost:3010/microserviceMarket/MarketInfo"
-    );
+    // Fetch de marketInfo data
+    const response = await fetch("http://localhost:3010/microserviceMarket/MarketInfo");
     marketInfo = await response.json();
+
+    // Huidige locatie ophalen
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        userLocation = {
+          // @ts-ignore
+          lat: position.coords.latitude,
+          // @ts-ignore
+          lng: position.coords.longitude,
+        };
+
+        console.log("Huidige locatie:", userLocation);
+
+        // Bereken de afstand naar elke market
+        marketInfo.forEach((info) => {
+          if (userLocation.lat && userLocation.lng) {
+            const distance = calculateDistance(
+              userLocation.lat,
+              userLocation.lng,
+              info.marketLatitude,
+              info.marketLongitude
+            ).toFixed(2);
+
+            console.log(`Afstand naar ${info.marketName}: ${distance} km`);
+          }
+        });
+      });
+    } else {
+      console.error("Locatiebepaling is niet beschikbaar in deze browser.");
+    }
   });
+
+  /**
+   * @param {number} lat1
+   * @param {number} lon1
+   * @param {number} lat2
+   * @param {number} lon2
+   */
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    const toRad = (/** @type {number} */ x) => (x * Math.PI) / 180;
+    const R = 6371; // Straal van de aarde in kilometers
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Afstand in kilometers
+  }
+
 
   $: uniqueCategories = [
     ...new Set(marketInfo.flatMap((info) => info.categories)),

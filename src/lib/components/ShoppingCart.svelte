@@ -7,9 +7,14 @@
   } from "../stores/cartStore";
   let isOpen = false;
 
-  let totalPrice = 0;
+  // Totale prijs berekenen
   $: totalPrice = Object.values($cart).reduce(
-    (acc, item) => acc + (item.Price || 0) * item.amountProduct,
+    (acc, store) =>
+      acc +
+      Object.values(store.items).reduce(
+        (storeAcc, item) => storeAcc + (item.Price || 0) * item.amountProduct,
+        0
+      ),
     0
   );
 </script>
@@ -28,7 +33,6 @@
   <div
     class="fixed bottom-20 right-6 w-72 max-h-[50vh] bg-white border border-gray-200 shadow-lg rounded-lg p-4 overflow-y-auto z-20"
   >
-    <!-- Winkelmand header -->
     <div class="flex items-center justify-between mb-4">
       <h2 class="text-lg font-bold text-gray-700">Jouw Winkelmand</h2>
       <button
@@ -40,41 +44,45 @@
       </button>
     </div>
 
-    <!-- Winkelmand items -->
     {#if Object.keys($cart).length > 0}
-      <ul>
-        {#each Object.entries($cart) as [name, item]}
-          <li class="flex items-center justify-between border-b py-2">
-            <span class="text-gray-700">{name} ({item.amountProduct})</span>
-            <div class="flex items-center gap-4">
-              <span class="text-gray-600">
-                € {(item.Price || 0).toFixed(2)}
-              </span>
-              <button
-                class="text-red-500 hover:text-red-600"
-                on:click={() => removeFromCart({ Name: name })}
-                aria-label="Verwijder item"
-              >
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </li>
-        {/each}
-      </ul>
+      {#each Object.entries($cart) as [storeName, storeData]}
+        <div class="mb-4 border-b pb-2">
+          <h3 class="text-green-600 font-bold">{storeName}</h3>
+          <p class="text-sm text-gray-500">{storeData.location.address}</p>
+
+          <!-- Producten per winkel -->
+          <ul>
+            {#each Object.entries(storeData.items) as [name, item]}
+              <li class="flex justify-between items-center py-2">
+                <span>{name} ({item.amountProduct})</span>
+                <span>€ {(item.Price || 0).toFixed(2)}</span>
+                <button
+                  class="text-red-500 hover:text-red-600"
+                  on:click={() => removeFromCart({ Name: name }, storeName)}
+                  aria-label="Verwijder {name} uit winkelmand"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </li>
+            {/each}
+          </ul>
+        </div>
+      {/each}
 
       <!-- Totaalprijs -->
-      <div class="mt-4 text-right font-bold text-gray-700">
+      <div class="font-bold text-right mt-2">
         Totale prijs: €{totalPrice.toFixed(2)}
       </div>
     {:else}
       <p class="text-gray-500 text-center">Je winkelmand is leeg.</p>
     {/if}
 
-    <!-- Checkout knop -->
+    <!-- Winkelmand resetten -->
     <button
-      class="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-500 transition duration-300"
+      class="mt-4 w-full bg-red-600 text-white py-2 rounded hover:bg-red-500"
+      on:click={resetCart}
     >
-      Ga naar betalen
+      Leeg winkelmand
     </button>
   </div>
 {/if}

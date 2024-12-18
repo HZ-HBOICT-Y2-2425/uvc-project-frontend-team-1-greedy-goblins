@@ -5,18 +5,18 @@ import { get } from "svelte/store";
  * @typedef {Object} CartItem
  * @property {string} Name
  * @property {number} amountProduct
+ * @property {number} [Price]
  */
 
 /**
- * @typedef {Record<string, CartItem>} CartStore
+ * @typedef {{ location: any, items: Record<string, CartItem> }} CartStoreByMarket
+ * @typedef {Record<string, CartStoreByMarket>} CartStore
  */
 
 // Key voor Local Storage
 const LOCAL_STORAGE_KEY = "cartStore";
 
-/**
- * Functie om data uit Local Storage te laden, als het beschikbaar is.
- */
+// Functie om data uit Local Storage te laden
 function loadCartFromLocalStorage() {
   if (typeof localStorage !== "undefined") {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -25,8 +25,8 @@ function loadCartFromLocalStorage() {
   return {};
 }
 
+// Functie om data op te slaan in Local Storage
 /**
- * Functie om data op te slaan in Local Storage, als het beschikbaar is.
  * @param {CartStore} cartData
  */
 function saveCartToLocalStorage(cartData) {
@@ -35,47 +35,73 @@ function saveCartToLocalStorage(cartData) {
   }
 }
 
-// Initializeer de cart store met data uit Local Storage, indien beschikbaar
+// Initializeer de cart store
 export const cart = writable(/** @type {CartStore} */ (loadCartFromLocalStorage()));
 
-// Abonneer op wijzigingen in de cart-store en sla ze op in Local Storage
-cart.subscribe((items) => {
-  saveCartToLocalStorage(items);
-});
+// Abonneer en sla wijzigingen op in Local Storage
+cart.subscribe((items) => saveCartToLocalStorage(items));
 
 /**
  * Adds a product to the cart.
- * @param {{ Name: string; quantity?: number; }} product
+ * @param {{ Name: string; Price?: number }} product
+ * @param {{ marketName: string; marketAdress: string; marketLatitude: number; marketLongitude: number }} LocationData
  */
-export function addToCart(product) {
-  cart.update((items) => {
-    /** @type {CartStore} */
-    const newItems = { ...items };
-    if (newItems[product.Name]) {
-      newItems[product.Name].amountProduct += 1;
-    } else {
-      newItems[product.Name] = { ...product, amountProduct: 1 };
+export function addToCart(product, LocationData) {
+  cart.update((store) => {
+    const { marketName, marketAdress, marketLatitude, marketLongitude } = LocationData;
+
+    const newStore = { ...store };
+
+    if (!newStore[marketName]) {
+      newStore[marketName] = {
+        location: {
+          address: marketAdress,
+          latitude: marketLatitude,
+          longitude: marketLongitude,
+        },
+        items: {},
+      };
     }
-    return newItems;
+
+    if (newStore[marketName].items[product.Name]) {
+      newStore[marketName].items[product.Name].amountProduct += 1;
+    } else {
+      newStore[marketName].items[product.Name] = { ...product, amountProduct: 1 };
+    }
+
+    return newStore;
   });
 }
 
 /**
  * Removes a product from the cart.
- * @param {{ Name: string; quantity?: number; }} product
+ * @param {{ Name: string }} product
+ * @param {string} marketName
  */
-export function removeFromCart(product) {
-  cart.update((items) => {
-    /** @type {CartStore} */
-    const newItems = { ...items };
-    if (newItems[product.Name]) {
-      newItems[product.Name].amountProduct -= 1;
-      if (newItems[product.Name].amountProduct === 0) {
-        delete newItems[product.Name];
+export function removeFromCart(product, marketName) {
+  cart.update((store) => {
+    const newStore = { ...store };
+    if (newStore[marketName]?.items[product.Name]) {
+      newStore[marketName].items[product.Name].amountProduct -= 1;
+
+      if (newStore[marketName].items[product.Name].amountProduct === 0) {
+        delete newStore[marketName].items[product.Name];
+      }
+
+      if (Object.keys(newStore[marketName].items).length === 0) {
+        delete newStore[marketName];
       }
     }
-    return newItems;
+    return newStore;
   });
+}
+
+/**
+ * Reset the cart.
+ */
+export function resetCart() {
+  cart.set({});
+  localStorage.removeItem(LOCAL_STORAGE_KEY);
 }
 
 /**
@@ -83,14 +109,4 @@ export function removeFromCart(product) {
  */
 export function getItemsFromCart() {
   return get(cart);
-}
-
-/**
- * Reset the cart and clear local storage.
- */
-export function resetCart() {
-  cart.set({});
-  if (typeof localStorage !== "undefined") {
-    localStorage.removeItem(LOCAL_STORAGE_KEY);
-  }
 }

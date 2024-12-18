@@ -111,7 +111,7 @@
                 <button
                   class="bg-green-500 text-white p-3 rounded-full shadow hover:bg-green-600 transition text-lg"
                   aria-label="Add product"
-                  on:click={() => addToCart(product)}
+                  on:click={() => addToCart(product, locationData)}
                 >
                   <i class="fa-solid fa-plus"></i>
                 </button>

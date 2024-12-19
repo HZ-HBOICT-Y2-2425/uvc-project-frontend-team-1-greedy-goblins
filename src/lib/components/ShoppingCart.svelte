@@ -5,6 +5,8 @@
     removeFromCart,
     resetCart,
   } from "../stores/cartStore";
+  import { placeOrder } from "../../routes/location/placeOrder.js";
+  import { goto } from "$app/navigation";
   let isOpen = false;
 
   // Totale prijs berekenen
@@ -78,6 +80,12 @@
     {/if}
 
     <!-- Winkelmand resetten -->
+    <button
+      class="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-500"
+      on:click={() => goto("/betaalpagina")}
+    >
+      Bestellen
+    </button>
     <button
       class="mt-4 w-full bg-red-600 text-white py-2 rounded hover:bg-red-500"
       on:click={resetCart}

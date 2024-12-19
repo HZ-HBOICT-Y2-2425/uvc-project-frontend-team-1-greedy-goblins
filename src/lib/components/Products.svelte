@@ -95,19 +95,23 @@
               </h3>
 
               <div class="flex justify-between items-center mt-4">
-                <!-- Remove Button (Left) -->
+                <!-- Remove Button -->
                 <button
                   class="bg-red-500 text-white p-3 rounded-full shadow hover:bg-red-600 transition text-lg"
                   aria-label="Remove product"
-                  on:click={() => removeFromCart(product)}
+                  on:click={() =>
+                    removeFromCart(product, locationData.marketName)}
                 >
                   <i class="fa-solid fa-minus"></i>
                 </button>
+
                 <!-- Quantity Display -->
                 <span class="text-gray-700 font-semibold text-lg">
-                  {$cart[product.Name]?.amountProduct || 0}
+                  {$cart[locationData.marketName]?.items[product.Name]
+                    ?.amountProduct || 0}
                 </span>
-                <!-- Add Button (Right) -->
+
+                <!-- Add Button -->
                 <button
                   class="bg-green-500 text-white p-3 rounded-full shadow hover:bg-green-600 transition text-lg"
                   aria-label="Add product"

@@ -5,7 +5,7 @@
     removeFromCart,
     resetCart,
   } from "../stores/cartStore";
-  import { placeOrder } from "../../routes/location/placeOrder.js";
+  import { placeOrder } from "../../routes/betaalpagina/placeOrder.js";
   import { goto } from "$app/navigation";
   let isOpen = false;
 

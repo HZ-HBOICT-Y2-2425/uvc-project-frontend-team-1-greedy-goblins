@@ -1,6 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import { cart, removeFromCart, addToCart } from "$lib/stores/cartStore";
+  import { placeOrder } from "./placeOrder";
 
   let errorMessage = "";
 
@@ -14,7 +15,7 @@
     0
   );
 
-  function denyPayment() {
+  function PaymentChecker() {
     if (
       // @ts-ignore
       document.getElementById("bank nummer").value === "" ||
@@ -23,17 +24,14 @@
     ) {
       errorMessage = "één of meerdere van de velden zijn niet ingevuld";
     } else {
-      goto("/");
+      placeOrder($cart);
+      goto("/?success=true");
     }
   }
 </script>
 
 <main class="p-4 space-y-8">
   <h1 class="text-center text-6xl">Betaal</h1>
-  <h2 class="text-center text-red-600 text-4xl">
-    Dit is niet een echte betalingspagina, geef niet je echte betalingsgegevens
-    op!!!
-  </h2>
 
   <div class="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
     <!-- Winkelmand -->
@@ -150,7 +148,9 @@
 
       <button
         class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-3 px-8 rounded w-full text-center"
-        on:click={() => denyPayment()}
+        on:click={() => {
+          PaymentChecker();
+        }}
       >
         Betaal
       </button>

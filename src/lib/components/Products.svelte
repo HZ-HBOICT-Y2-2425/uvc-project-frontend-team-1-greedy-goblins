@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { placeOrder } from "../../routes/location/placeOrder.js";
+  import { placeOrder } from "../../routes/betaalpagina/placeOrder.js";
   import {
     cart,
     addToCart,

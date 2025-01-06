@@ -30,18 +30,15 @@
 
 <main class="p-4 space-y-8">
   <h1 class="text-center text-6xl">Betaal</h1>
-
   <h2 class="text-center text-red-600 text-4xl">
     Dit is niet een echte betalingspagina, geef niet je echte betalingsgegevens
     op!!!
   </h2>
 
-  <div
-    class="flex flex-col lg:flex-row lg:justify-around space-y-6 lg:space-y-0 lg:space-x-8"
-  >
-    {#if Object.keys($cart).length > 0}
-      <!-- Winkelmand -->
-      <div class="space-y-6 w-full lg:w-2/3">
+  <div class="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
+    <!-- Winkelmand -->
+    <div class="space-y-6">
+      {#if Object.keys($cart).length > 0}
         {#each Object.entries($cart) as [storeName, storeData]}
           <!-- Winkel- en productenblok -->
           <div
@@ -56,14 +53,12 @@
                 {storeData.location.address}
               </p>
             </div>
-
             <!-- Productenlijst -->
             <ul class="space-y-4">
               {#each Object.entries(storeData.items) as [name, item]}
                 <li
                   class="flex justify-between items-center bg-white p-4 rounded-md shadow-sm border border-gray-200"
                 >
-                  <!-- Productinformatie -->
                   <div>
                     <span class="block text-lg font-medium text-gray-800"
                       >{name}</span
@@ -72,8 +67,6 @@
                       >Prijs: € {(item.Price || 0).toFixed(2)}</span
                     >
                   </div>
-
-                  <!-- Plus en min knoppen -->
                   <div class="flex items-center space-x-2">
                     <!-- Verwijder een item -->
                     <button
@@ -83,13 +76,9 @@
                     >
                       <i class="fa-solid fa-minus"></i>
                     </button>
-
-                    <!-- Producthoeveelheid -->
                     <span class="font-semibold text-gray-800"
                       >{item.amountProduct}</span
                     >
-
-                    <!-- Voeg een item toe -->
                     <button
                       class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-green-600 transition"
                       on:click={() =>
@@ -112,39 +101,43 @@
             </ul>
           </div>
         {/each}
-      </div>
-    {/if}
+      {/if}
+    </div>
 
     <!-- Betaalblok -->
     <div
-      class="flex flex-col justify-center items-center bg-gray-100 border border-gray-200 p-4 lg:p-6 rounded-lg shadow-lg w-full lg:w-1/3"
+      class="bg-gray-100 border border-gray-200 p-4 lg:p-6 rounded-lg shadow-lg sticky top-8 h-fit self-start flex flex-col items-center space-y-4"
     >
-      <form class="space-y-4 w-full max-w-sm">
-        <div>
-          {#if totalPrice > 0}
-            <p class="text-center text-2xl text-gray-800">
-              Totaalprijs: €{totalPrice.toFixed(2)}
-            </p>
-          {/if}
-        </div>
-        <div>
-          <label class="block text-gray-700 font-semibold" for="bank nummer"
-            >Betaalrekening</label
+      <form class="space-y-6 w-full flex flex-col items-center">
+        {#if totalPrice > 0}
+          <p class="text-center text-2xl text-gray-800">
+            Totaalprijs: €{totalPrice.toFixed(2)}
+          </p>
+        {/if}
+
+        <!-- Betaalrekening -->
+        <div class="w-full">
+          <label
+            class="block text-gray-700 font-semibold mb-2"
+            for="bank nummer">Betaalrekening</label
           >
           <input
-            class="border-2 border-gray-300 w-full p-2 rounded-md"
+            class="border-2 border-gray-300 w-full p-3 rounded-md"
             type="text"
             id="bank nummer"
             name="bank nummer"
             placeholder="Voer je rekeningnummer in"
           />
         </div>
-        <div>
-          <label class="block text-gray-700 font-semibold" for="bank wachtwoord"
-            >Wachtwoord</label
+
+        <!-- Wachtwoord -->
+        <div class="w-full">
+          <label
+            class="block text-gray-700 font-semibold mb-2"
+            for="bank wachtwoord">Wachtwoord</label
           >
           <input
-            class="border-2 border-gray-300 w-full p-2 rounded-md"
+            class="border-2 border-gray-300 w-full p-3 rounded-md"
             type="password"
             id="bank wachtwoord"
             name="wachtwoord"
@@ -152,13 +145,16 @@
           />
         </div>
       </form>
-      <p class="text-red-600">{errorMessage}</p>
+
+      <p class="text-red-600 text-center">{errorMessage}</p>
+
       <button
-        class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded mt-4"
+        class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-3 px-8 rounded w-full text-center"
         on:click={() => denyPayment()}
       >
         Betaal
       </button>
+
       <h3 class="text-xs text-center mt-4 text-gray-600">
         Wij van LGhub zijn niet verantwoordelijk voor jouw gegevens.
       </h3>

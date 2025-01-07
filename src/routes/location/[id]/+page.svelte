@@ -49,9 +49,7 @@
     </div>
   </div>
 
-  <!-- Flex container to control layout of the two divs -->
   <main class="flex flex-col lg:flex-row lg:justify-center gap-4 px-4 py-4">
-    <!-- First div -->
     <div
       class="bg-cyan-500 text-black rounded-lg shadow-lg p-6 flex flex-col justify-center items-center"
     >
@@ -59,7 +57,6 @@
       <p>{locationData.marketDesc}</p>
     </div>
 
-    <!-- Second div -->
     <div
       class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center"
     >

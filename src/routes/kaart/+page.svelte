@@ -13,6 +13,7 @@
       await loadGoogleMapsScript();
       const locations = await fetchLocations();
       initMap(locations);
+      addUserLocation();
     } catch (error) {
       console.error("Error fetching or initializing map data:", error);
     }
@@ -50,6 +51,41 @@
     }
     return await response.json();
   }
+
+  function addUserLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+
+        // @ts-ignore
+        const userMarker = new window.google.maps.Marker({
+          position: userLocation,
+          map: map,
+          title: "Uw huidige locatie",
+          icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+        });
+
+        map.setCenter(userLocation);
+        map.setZoom(14); // Zoom iets verder in
+      },
+      (error) => {
+        console.error("Error getting user location:", error);
+      },
+      {
+        enableHighAccuracy: true, // Nauwkeurigheid verhogen
+        timeout: 5000,            // Maximaal 5 seconden wachten
+        maximumAge: 0,            // Geen oude locatie gebruiken
+      }
+    );
+  } else {
+    alert("Geolocation wordt niet ondersteund door uw browser.");
+  }
+}
+
 
   // Initialiseer de kaart methode
   /**

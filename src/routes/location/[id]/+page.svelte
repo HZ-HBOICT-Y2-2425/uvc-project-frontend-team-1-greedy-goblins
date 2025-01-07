@@ -34,7 +34,7 @@
     <img
       src={locationData.marketImage}
       alt={locationData.marketName}
-      class=" md:h-1/4 md:w-1/4"
+      class="md:h-1/4 md:w-1/4"
     />
     <div
       class="absolute bottom-0 w-full bg-green-800 bg-opacity-90 text-white text-center py-2"
@@ -46,23 +46,22 @@
       <h2 class="text-base font-semibold px-2">
         {locationData.marketAdress}
       </h2>
-      <hr />
-      <h3 class="text-base font-semibold px-2">
-        <p>21 Km verderop</p>
-      </h3>
     </div>
   </div>
 
-  <main class="grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 py-4">
+  <!-- Flex container to control layout of the two divs -->
+  <main class="flex flex-col lg:flex-row lg:justify-center gap-4 px-4 py-4">
+    <!-- First div -->
     <div
-      class="bg-cyan-500 text-black rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-cyan-600"
+      class="bg-cyan-500 text-black rounded-lg shadow-lg p-6 flex flex-col justify-center items-center"
     >
       <p class="font-bold">Omschrijving:</p>
       <p>{locationData.marketDesc}</p>
     </div>
 
+    <!-- Second div -->
     <div
-      class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-green-600"
+      class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center"
     >
       <p class="font-bold">Categoriën:</p>
       <p>{locationData.categories}</p>

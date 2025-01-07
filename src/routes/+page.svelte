@@ -2,7 +2,28 @@
   import "../app.css";
   import { onMount } from "svelte";
   import MarketBox from "../lib/components/MarketBox.svelte";
+  import GoldenBar from "$lib/components/GoldenBar.svelte";
+  import { page } from "$app/stores"; // Import page store in SvelteKit
 
+  // Success state
+  let success = false;
+
+  // Subscribe to $page for reactive URL updates
+  $: {
+    const url = $page.url;
+    if (url?.searchParams?.get("success") === "true") {
+      showSuccessMessage();
+    }
+  }
+
+  function showSuccessMessage() {
+    success = true;
+    setTimeout(() => {
+      success = false;
+    }, 5000);
+  }
+
+  // Market Data
   /**
    * @type {any[]}
    */
@@ -16,10 +37,22 @@
    */
   let selectedCategories = [];
 
+  // Fetch market information on mount
   onMount(async () => {
     // Fetch de marketInfo data
-    const response = await fetch("http://localhost:3010/microserviceMarket/MarketInfo");
-    marketInfo = await response.json();
+    try {
+      const response = await fetch(
+        "http://localhost:3010/microserviceMarket/MarketInfo"
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch market info.");
+      }
+      marketInfo = await response.json();
+    } catch (error) {
+      // @ts-ignore
+      console.error(error.message);
+    }
+  });
 
     // Huidige locatie ophalen
     if (navigator.geolocation) {
@@ -50,7 +83,6 @@
     } else {
       console.error("Locatiebepaling is niet beschikbaar in deze browser.");
     }
-  });
 
   /**
    * @param {number} lat1
@@ -73,11 +105,11 @@
     return R * c; // Afstand in kilometers
   }
 
-
   $: uniqueCategories = [
     ...new Set(marketInfo.flatMap((info) => info.categories)),
   ];
 
+  // Filtered locations based on search and selected categories
   $: filteredLocations = marketInfo.filter(
     (info) =>
       info.marketName.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -87,8 +119,9 @@
           ))
   );
 
+  // Toggle category for filters
   /**
-   * @param {any} category
+   * @param {string} category
    */
   function toggleCategory(category) {
     if (selectedCategories.includes(category)) {
@@ -107,12 +140,15 @@
 <div class="space-y-3 p-4 bg-gray-50 rounded-lg shadow-sm">
   <div class="flex items-center space-x-2">
     {#if showSearch}
-      <input
-        type="text"
-        placeholder="Zoek..."
-        class="flex-1 p-2 rounded-lg border border-green-500 bg-green-50 text-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
-        bind:value={searchQuery}
-      />
+      <div class="relative flex-1">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500"></i>
+        <input 
+          type="text"
+          placeholder="Zoek..."
+          class="w-full pl-10 p-2 rounded-lg border border-green-500 bg-green-50 text-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
+          bind:value={searchQuery}
+        />
+      </div>
     {/if}
 
     <button
@@ -147,6 +183,23 @@
   {/if}
 </div>
 
+<GoldenBar>Locaties bij jou in de buurt</GoldenBar>
 <main>
+  {#if success}
+    <div
+      class="bg-green-200 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center justify-center text-center mx-auto max-w-lg"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        class="text-green-600 w-5 h-5 sm:w-5 sm:h-5 mr-3"
+      >
+        <path
+          fill="currentColor"
+          d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z"
+        ></path>
+      </svg>
+      <span class="text-green-800">Je bestelling is geplaatst!!!</span>
+    </div>
+  {/if}
   <MarketBox {filteredLocations} />
 </main>

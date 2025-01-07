@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { placeOrder } from "../../routes/location/placeOrder.js";
+  import { placeOrder } from "../../routes/betaalpagina/placeOrder.js";
   import {
     cart,
     addToCart,
@@ -83,31 +83,40 @@
           {#each products as product}
             <div class="bg-white border border-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
             >
-              <h3 class="font-bold text-lg mb-2 text-gray-700">
-                {product.Name}
+              <h3
+                class="font-bold text-lg mb-2 text-gray-700 flex justify-between items-center"
+              >
+                <span>{product.Name}</span>
+                <span class="text-lg text-gray-700">
+                  € {(product.Price || 0).toFixed(2)}</span
+                >
               </h3>
+
               <div class="flex justify-between items-center mt-4">
-                <!-- Remove Button (Left) -->
+                <!-- Remove Button -->
                 <button
                   class="bg-red-500 text-white p-3 rounded-full shadow hover:bg-red-600 transition text-lg"
                   aria-label="Remove product"
-                  on:click={() => removeFromCart(product)}
+                  on:click={() =>
+                    removeFromCart(product, locationData.marketName)}
                 >
                   <i class="fa-solid fa-minus"></i>
                 </button>
+
                 <!-- Quantity Display -->
                 <span class="text-gray-700 font-semibold text-lg">
-                  {$cart[product.Name]?.amountProduct || 0}
+                  {$cart[locationData.marketName]?.items[product.Name]
+                    ?.amountProduct || 0}
                 </span>
-                <!-- Add Button (Right) -->
+
+                <!-- Add Button -->
                 <button
                   class="bg-green-500 text-white p-3 rounded-full shadow hover:bg-green-600 transition text-lg"
                   aria-label="Add product"
-                  on:click={() => addToCart(product)}
+                  on:click={() => addToCart(product, locationData)}
                 >
                   <i class="fa-solid fa-plus"></i>
                 </button>
-
               </div>
             </div>
           {/each}
@@ -115,7 +124,7 @@
       </div>
     {/each}
 
-    <!-- Place Order Button -->
+    <!-- Plaats Bestelling Button -->
     <button
       class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all hover:shadow-lg"
       on:click={() => {
@@ -124,9 +133,9 @@
         resetCart();
       }}
     >
-      Place Order
+      Plaats Bestelling
     </button>
   </div>
 {:else}
-  <p class="text-center text-gray-600 text-lg">Loading products...</p>
+  <p class="text-center text-gray-600 text-lg">Producten aan het laden...</p>
 {/if}

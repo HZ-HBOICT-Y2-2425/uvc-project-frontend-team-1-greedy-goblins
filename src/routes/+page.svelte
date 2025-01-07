@@ -60,10 +60,10 @@
   $: filteredLocations = marketInfo.filter(
     (info) =>
       info.marketName.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      (selectedCategories.length === 0 ||
-        selectedCategories.every((category) =>
-          info.categories.includes(category)
-        ))
+        (selectedCategories.length === 0 ||
+          selectedCategories.every((category) =>
+            info.categories.includes(category)
+          ))
   );
 
   // Toggle category for filters
@@ -110,8 +110,7 @@
       <h3 class="text-sm font-bold text-green-700 mb-2">Filter by Category</h3>
       <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
         {#each uniqueCategories as category}
-          <label
-            class="flex items-center space-x-2 bg-green-100 text-green-700 p-2 rounded-lg"
+          <label class="flex items-center space-x-2 bg-green-100 text-green-700 p-2 rounded-lg"
           >
             <input
               type="checkbox"

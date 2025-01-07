@@ -5,8 +5,7 @@
   import ShoppingCart from "$lib/components/ShoppingCart.svelte";
 </script>
 
-<header
-  class="bg-green-600 text-white flex items-center justify-between h-32 px-6 py-3 w-full"
+<header class="bg-green-600 text-white flex items-center justify-between h-32 px-6 py-3 w-full"
 >
   <div class="flex flex-col items-center gap-2 flex-shrink-0">
     <button
@@ -19,8 +18,7 @@
     </button>
   </div>
 
-  <div
-    class="absolute left-1/2 transform -translate-x-1/2 flex flex-col items-center"
+  <div class="absolute left-1/2 transform -translate-x-1/2 flex flex-col items-center"
   >
     <button
       class="bg-transparent border-none p-0 m-0 flex flex-col items-center justify-center"
@@ -49,8 +47,7 @@
 </main>
 <ShoppingCart />
 
-<footer
-  class="fixed bottom-0 left-0 right-0 bg-green-600 text-white flex justify-around items-center py-3"
+<footer class="fixed bottom-0 left-0 right-0 bg-green-600 text-white flex justify-around items-center py-3"
 >
   <!-- <button
     on:click={() => goto("/vrienden")}

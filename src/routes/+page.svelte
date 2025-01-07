@@ -31,7 +31,7 @@
   let searchQuery = "";
   let showSearch = true;
   let showFilter = false;
-  let userLocation = { lat: null, lng: null }; // Huidige locatie van gebruiker
+  let userLocation = { lat: null, lng: null };
   /**
    * @type {any[]}
    */
@@ -64,23 +64,22 @@
           lng: position.coords.longitude,
         };
 
-        console.log("Huidige locatie:", userLocation);
-
         // Bereken de afstand naar elke market
-        marketInfo.forEach((info) => {
-          if (userLocation.lat && userLocation.lng) {
-            const distance = calculateDistance(
-              userLocation.lat,
-              userLocation.lng,
-              info.marketLatitude,
-              info.marketLongitude
-            ).toFixed(2);
+        marketInfo = marketInfo.map((info) => {
+        if (userLocation.lat && userLocation.lng) {
+         const distance = calculateDistance(
+         userLocation.lat,
+         userLocation.lng,
+         info.marketLatitude,
+         info.marketLongitude
+         ).toFixed(2);
+           return { ...info, distance };
+         }
+         return info;
+         });
 
-            console.log(`Afstand naar ${info.marketName}: ${distance} km`);
-          }
-        });
       });
-    } else {
+       } else {
       console.error("Locatiebepaling is niet beschikbaar in deze browser.");
     }
 
@@ -92,7 +91,7 @@
    */
   function calculateDistance(lat1, lon1, lat2, lon2) {
     const toRad = (/** @type {number} */ x) => (x * Math.PI) / 180;
-    const R = 6371; // Straal van de aarde in kilometers
+    const R = 6371;
     const dLat = toRad(lat2 - lat1);
     const dLon = toRad(lon2 - lon1);
     const a =
@@ -102,7 +101,7 @@
         Math.sin(dLon / 2) *
         Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c; // Afstand in kilometers
+    return R * c;
   }
 
   $: uniqueCategories = [

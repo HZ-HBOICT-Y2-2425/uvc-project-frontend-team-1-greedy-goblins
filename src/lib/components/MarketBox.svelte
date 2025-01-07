@@ -24,6 +24,9 @@
         <h2 class="text-base font-bold px-2">{marketInfo.marketName}</h2>
         <hr/>
         <h3 class="text-base font-semibold px-2">{marketInfo.marketAdress}</h3>
+        {#if marketInfo.distance}
+          <p class="text-sm font-light mt-1">Afstand: {marketInfo.distance} km</p>
+        {/if}
       </div>
     </button>
   {/each}

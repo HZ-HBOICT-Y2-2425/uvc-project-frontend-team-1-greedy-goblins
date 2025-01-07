@@ -100,14 +100,7 @@
   }
 </script>
 
-<button
-  class="w-full py-2 text-white rounded disabled:cursor-not-allowed disabled:bg-gray-300 bg-red-600 hover:bg-red-500"
-  on:click={() => goto("oudeBestellingen")}
->
-  Oude Bestellingen
-</button>
-
-<div class="flex flex-col items-center p-4 space-y-4">
+<div class="flex flex-col items-center">
   <div class="w-full h-96">
     <canvas id="co2Graph" class="w-full h-full"></canvas>
   </div>

@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import Products from "$lib/components/Products.svelte";
+  import GoldenBar from "$lib/components/GoldenBar.svelte";
 
   /**
    * @type * {any}
@@ -65,13 +66,11 @@
     </div>
   </main>
 
-  <div class="bg-yellow-500 text-center py-2 font-bold text-lg">
-    Producten bij deze vestiging
-  </div>
+  <GoldenBar>Producten bij deze locatie</GoldenBar>
 
   <section>
     <Products {locationData} />
   </section>
 {:else}
-  <p>Loading...</p>
+  <p>Aan het laden...</p>
 {/if}

@@ -2,6 +2,7 @@
   import "../app.css";
   import { onMount } from "svelte";
   import MarketBox from "../lib/components/MarketBox.svelte";
+  import GoldenBar from "$lib/components/GoldenBar.svelte";
 
   /**
    * @type {any[]}
@@ -55,12 +56,15 @@
 <div class="space-y-3 p-4 bg-gray-50 rounded-lg shadow-sm">
   <div class="flex items-center space-x-2">
     {#if showSearch}
-      <input
-        type="text"
-        placeholder="Zoek..."
-        class="flex-1 p-2 rounded-lg border border-green-500 bg-green-50 text-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
-        bind:value={searchQuery}
-      />
+      <div class="relative flex-1">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500"></i>
+        <input 
+          type="text"
+          placeholder="Zoek..."
+          class="w-full pl-10 p-2 rounded-lg border border-green-500 bg-green-50 text-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
+          bind:value={searchQuery}
+        />
+      </div>
     {/if}
 
     <button
@@ -96,6 +100,7 @@
   {/if}
 </div>
 
+<GoldenBar>Locaties bij jou in de buurt</GoldenBar>
 <main>
   <MarketBox {filteredLocations} />
 </main>

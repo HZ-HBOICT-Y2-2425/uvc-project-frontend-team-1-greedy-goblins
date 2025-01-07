@@ -81,8 +81,9 @@
 
     <!-- Winkelmand resetten -->
     <button
-      class="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-500"
+      class="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
       on:click={() => goto("/betaalpagina")}
+      disabled={Object.keys($cart).length === 0}
     >
       Bestellen
     </button>

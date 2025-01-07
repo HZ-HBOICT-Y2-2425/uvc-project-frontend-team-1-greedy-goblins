@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { placeOrder } from "../../routes/location/placeOrder.js";
+  import { placeOrder } from "../../routes/betaalpagina/placeOrder.js";
   import {
     cart,
     addToCart,
@@ -74,42 +74,49 @@
     <!-- Category Section -->
     {#each Object.entries(productsByCategory) as [categoryName, products]}
       <div class="border-b pb-4 mb-8">
-        <h2
-          class="text-2xl font-bold text-green-700 mb-6 border-b-2 border-green-500 pb-2 text-center"
+        <h2 class="text-2xl font-bold text-green-700 mb-6 border-b-2 border-green-500 pb-2 text-center"
         >
           {categoryName}
         </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <!-- Product Card -->
           {#each products as product}
-            <div
-              class="bg-white border border-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+            <div class="bg-white border border-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
             >
-              <h3 class="font-bold text-lg mb-2 text-gray-700">
-                {product.Name}
+              <h3
+                class="font-bold text-lg mb-2 text-gray-700 flex justify-between items-center"
+              >
+                <span>{product.Name}</span>
+                <span class="text-lg text-gray-700">
+                  € {(product.Price || 0).toFixed(2)}</span
+                >
               </h3>
+
               <div class="flex justify-between items-center mt-4">
-                <!-- Remove Button (Left) -->
+                <!-- Remove Button -->
                 <button
                   class="bg-red-500 text-white p-3 rounded-full shadow hover:bg-red-600 transition text-lg"
                   aria-label="Remove product"
-                  on:click={() => removeFromCart(product)}
+                  on:click={() =>
+                    removeFromCart(product, locationData.marketName)}
                 >
                   <i class="fa-solid fa-minus"></i>
                 </button>
+
                 <!-- Quantity Display -->
                 <span class="text-gray-700 font-semibold text-lg">
-                  {$cart[product.Name]?.amountProduct || 0}
+                  {$cart[locationData.marketName]?.items[product.Name]
+                    ?.amountProduct || 0}
                 </span>
-                <!-- Add Button (Right) -->
+
+                <!-- Add Button -->
                 <button
                   class="bg-green-500 text-white p-3 rounded-full shadow hover:bg-green-600 transition text-lg"
                   aria-label="Add product"
-                  on:click={() => addToCart(product)}
+                  on:click={() => addToCart(product, locationData)}
                 >
                   <i class="fa-solid fa-plus"></i>
                 </button>
-
               </div>
             </div>
           {/each}

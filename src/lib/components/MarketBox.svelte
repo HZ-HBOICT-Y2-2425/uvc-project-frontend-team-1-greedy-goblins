@@ -2,7 +2,7 @@
   /**
    * @type {any[]}
    */
-   export let filteredLocations = []; // Ontvangt de data als prop
+  export let filteredLocations = []; // Ontvangt de data als prop
 </script>
 
 <main class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4 py-4 mb-24">

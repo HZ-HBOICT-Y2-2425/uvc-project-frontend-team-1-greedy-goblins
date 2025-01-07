@@ -4,8 +4,7 @@
 
 <section class="flex flex-col items-center bg-gray-100 min-h-screen pt-8">
   <!-- Profiel pictogram -->
-  <div
-    class="bg-gray-300 rounded-full w-20 h-20 flex items-center justify-center"
+  <div class="bg-gray-300 rounded-full w-20 h-20 flex items-center justify-center"
   >
     <i class="fa-regular fa-user fa-xl text-gray-600"></i>
   </div>

@@ -2,6 +2,7 @@
   import "../app.css";
   import "@fortawesome/fontawesome-free/css/all.min.css";
   import { goto } from "$app/navigation";
+  import ShoppingCart from "$lib/components/ShoppingCart.svelte";
 </script>
 
 <header class="bg-green-600 text-white flex items-center justify-between h-32 px-6 py-3 w-full"
@@ -44,6 +45,7 @@
 <main class="pb-20">
   <slot />
 </main>
+<ShoppingCart />
 
 <footer class="fixed bottom-0 left-0 right-0 bg-green-600 text-white flex justify-around items-center py-3"
 >

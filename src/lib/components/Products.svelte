@@ -124,7 +124,7 @@
       </div>
     {/each}
 
-    <!-- Place Order Button -->
+    <!-- Plaats Bestelling Button -->
     <button
       class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all hover:shadow-lg"
       on:click={() => {
@@ -133,9 +133,9 @@
         resetCart();
       }}
     >
-      Place Order
+      Plaats Bestelling
     </button>
   </div>
 {:else}
-  <p class="text-center text-gray-600 text-lg">Loading products...</p>
+  <p class="text-center text-gray-600 text-lg">Producten aan het laden...</p>
 {/if}

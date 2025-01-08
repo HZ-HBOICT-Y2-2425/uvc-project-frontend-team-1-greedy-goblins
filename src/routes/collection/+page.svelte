@@ -207,9 +207,9 @@
       {/if}
     {/each}
   </div>
-  {#if collectie.kwartet}
+  <!-- {#if collectie.kwartet}
     <p style="text-align: center"><button  on:click={() => kwartet(collectie.collectieID)} style="background-color: yellow; padding: 2px 10px 2px 10px" class="rounded-lg">kwartet</button></p>
-  {/if}
+  {/if} -->
 {/each}
 {/if}
 

@@ -3,10 +3,15 @@
   import { onMount } from "svelte";
   import MarketBox from "../lib/components/MarketBox.svelte";
   import GoldenBar from "$lib/components/GoldenBar.svelte";
-  import { page } from "$app/stores"; // Import page store in SvelteKit
+  import { page } from "$app/stores";
+  import { userLocation } from "$lib/calculators/userLocation.js";
+  import { calculateORSRoute } from "$lib/calculators/distanceCalculator.js";
+  import { marketDistances } from "$lib/stores/marketDistances";
 
   // Success state
   let success = false;
+  let userLatitude = 0;
+  let userLongitude = 0;
 
   // Subscribe to $page for reactive URL updates
   $: {
@@ -47,10 +52,56 @@
       }
       marketInfo = await response.json();
     } catch (error) {
-      // @ts-ignore
-      console.error(error.message);
+      console.error("Failed to fetch market info:", error);
     }
   });
+
+  // Track location change and recalculate distances
+  userLocation().then(async (coords) => {
+    userLatitude = coords.latitude;
+    userLongitude = coords.longitude;
+
+    // Function to recalculate distances for all markets
+    const recalculateDistances = async () => {
+      const distances = $marketDistances;
+
+      for (const market of marketInfo) {
+        // If no distance is stored or an old distance exists, recalculate
+        if (!distances[market.marketID] || distances[market.marketID] === 0) {
+          try {
+            const routeInfo = await calculateORSRoute(
+              userLatitude,
+              userLongitude,
+              market.marketLatitude,
+              market.marketLongitude
+            );
+
+            // Store the new distance in the store
+            distances[market.marketID] = routeInfo.distanceKm;
+          } catch (error) {
+            console.error(
+              `Error calculating distance for ${market.marketName}:`,
+              error
+            );
+          }
+        }
+      }
+
+      // Update the marketDistances store with the new distances
+      marketDistances.set(distances);
+    };
+
+    // Recalculate distances whenever the user location changes
+    recalculateDistances();
+  });
+
+  // Re-sort and filter the market data based on updated distances
+  $: sortedMarketInfo = marketInfo
+    .map((market) => ({
+      ...market,
+      distance: $marketDistances[market.marketID] || Infinity, // Use stored or default to Infinity
+    }))
+    .sort((a, b) => a.distance - b.distance); // Sort markets by proximity to the user
 
   // Get unique categories from market data
   $: uniqueCategories = [
@@ -58,18 +109,18 @@
   ];
 
   // Filtered locations based on search and selected categories
-  $: filteredLocations = marketInfo.filter(
+  $: filteredLocations = sortedMarketInfo.filter(
     (info) =>
       info.marketName.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        (selectedCategories.length === 0 ||
-          selectedCategories.every((category) =>
-            info.categories.includes(category)
-          ))
+      (selectedCategories.length === 0 ||
+        selectedCategories.every((category) =>
+          info.categories.includes(category)
+        ))
   );
 
   // Toggle category for filters
   /**
-   * @param {string} category
+   * @param {any} category
    */
   function toggleCategory(category) {
     if (selectedCategories.includes(category)) {
@@ -89,8 +140,10 @@
   <div class="flex items-center space-x-2">
     {#if showSearch}
       <div class="relative flex-1">
-        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500"></i>
-        <input 
+        <i
+          class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500"
+        ></i>
+        <input
           type="text"
           placeholder="Zoek..."
           class="w-full pl-10 p-2 rounded-lg border border-green-500 bg-green-50 text-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
@@ -114,7 +167,8 @@
       <h3 class="text-sm font-bold text-green-700 mb-2">Filter by Category</h3>
       <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
         {#each uniqueCategories as category}
-          <label class="flex items-center space-x-2 bg-green-100 text-green-700 p-2 rounded-lg"
+          <label
+            class="flex items-center space-x-2 bg-green-100 text-green-700 p-2 rounded-lg"
           >
             <input
               type="checkbox"

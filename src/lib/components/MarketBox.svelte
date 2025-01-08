@@ -33,7 +33,7 @@
       >
         <h2 class="text-base font-bold px-2">{marketInfo.marketName}</h2>
         <hr />
-        <h3 class="text-base font-semibold px-2">{marketInfo.marketAdress}</h3>
+        <h3 class="text-base font-semibold px-2">{marketInfo.marketCity}</h3>
 
         {#if distances[marketInfo.marketID] !== undefined}
           <p class="text-sm font-light px-2">

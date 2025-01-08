@@ -1,17 +1,17 @@
 <script>
-  import { userLocation } from "./userLocation.js";
-  import { calculateCo2Emissions } from "./co2Calculator.js";
-  import { productEmissionCalculator } from "./productEmissionCalculator.js";
-  import { calculateORSRoute } from "./distanceCalculator.js";
+  import { userLocation } from "../../lib/calculators/userLocation.js";
+  import { calculateCo2Emissions } from "../../lib/calculators/co2Calculator.js";
+  import { productEmissionCalculator } from "../../lib/calculators/productEmissionCalculator.js";
+  import { calculateORSRoute } from "$lib/calculators/distanceCalculator.js";
   import { orderStore, resetOrderStore } from "$lib/stores/orderDataStore.js";
-  import { goto } from "$app/navigation";
+  import { marketDistances } from "$lib/stores/marketDistances";
   import { graphDataStore } from "$lib/stores/graphDataStore.js";
   import EmissionGraph from "$lib/components/EmissionGraph.svelte";
 
   let userLatitude = 0;
+  let userLongitude = 0;
   let currentPage = 1;
   const itemsPerPage = 5;
-  let userLongitude = 0;
   let distance = 0;
   let productFactor = 0;
   let userEmission = 0;
@@ -41,14 +41,29 @@
       let graphData = [];
 
       for (const order of $orderStore.orderStore) {
-        const routeInfo = await calculateORSRoute(
-          userLatitude,
-          userLongitude,
-          order.storeLatitude,
-          order.storeLongitude
-        );
+        // Check if the distance is already stored in `marketDistances`
+        const preCalculatedDistance = $marketDistances[order.storeID];
+        if (preCalculatedDistance !== undefined) {
+          // Use the pre-calculated distance from marketDistances store
+          distance = preCalculatedDistance;
+        } else {
+          // If no pre-calculated distance exists, calculate it and update the store
+          const routeInfo = await calculateORSRoute(
+            userLatitude,
+            userLongitude,
+            order.storeLatitude,
+            order.storeLongitude
+          );
+          distance = routeInfo.distanceKm;
 
-        distance = routeInfo.distanceKm;
+          // Store the calculated distance in the marketDistances store
+          marketDistances.update((distances) => {
+            distances[order.storeID] = distance;
+            return distances;
+          });
+        }
+
+        // Emissions calculation using the reused/pre-calculated distance
         productFactor = productEmissionCalculator(order.productsOrdered);
         storeEmission = productFactor * 165 * 0.2;
         userEmission =
@@ -76,8 +91,6 @@
       }
 
       graphDataStore.set(graphData);
-
-      dataLoading = false;
     })
     .catch((error) => {
       console.error(
@@ -85,6 +98,8 @@
         error.message
       );
     });
+
+  dataLoading = false;
 </script>
 
 <main class="bg-gray-100 p-6 space-y-6">

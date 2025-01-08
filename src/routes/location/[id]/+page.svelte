@@ -22,7 +22,7 @@
   {#if locationData}
     <title>LGHub-{locationData.marketName}</title>
   {:else}
-    <title>Loading...</title>
+    <title>Aan het laden...</title>
   {/if}
   <meta name="description" content="LGHub MarketOverview" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />

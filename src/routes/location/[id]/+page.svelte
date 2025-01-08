@@ -62,7 +62,14 @@
       class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center"
     >
       <p class="font-bold">Categoriën:</p>
-      <p>{locationData.categories}</p>
+      <div>
+        {#each locationData.categories as category, index}
+          <span class="mx-1 text-center">
+            {category}{#if index < locationData.categories.length - 1},
+            {/if}
+          </span>
+        {/each}
+      </div>
     </div>
   </main>
 

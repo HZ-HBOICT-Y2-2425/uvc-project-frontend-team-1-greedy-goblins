@@ -188,9 +188,15 @@
 <h1 class="titel">Mijn collectie</h1>
 {#if collectieInfo}
 
+<p style="text-align: center"><button style="padding: 2px 10px 2px 10px; color: white" class="bg-green-500 hover:bg-green-600 rounded-lg" on:click={() =>packOpening(3)}>Pack Openen</button></p>
+<p>{packOpeningKaart1}</p>
+<p>{packOpeningKaart2}</p>
+<p>{packOpeningKaart3}</p>
+
 
 
 {#each collectieInfo as collectie}
+<hr/>
   <h2 class="collectie">{collectie.Name}</h2>
   <div class="qwartet">
     {#each collectie.kaarten as kaart}
@@ -206,11 +212,6 @@
   {/if}
 {/each}
 {/if}
-
-<p style="text-align: center"><button style="padding: 2px 10px 2px 10px; color: white" class="bg-green-500 hover:bg-green-600 rounded-lg" on:click={() =>packOpening(3)}>Pack Openen</button></p>
-<p>{packOpeningKaart1}</p>
-<p>{packOpeningKaart2}</p>
-<p>{packOpeningKaart3}</p>
 
 <style>
   .titel {

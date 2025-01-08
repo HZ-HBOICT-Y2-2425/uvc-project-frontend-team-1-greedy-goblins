@@ -72,7 +72,7 @@
 
         const data = await response.json();
         console.log('Response:', data);
-        alert(`Status toggled: ${data.message}`);
+        alert(`je hebt de ${collectieInfo[groep].kaarten[number].Name} kaart gekrekgen!`);
       } catch (error) {
         console.error('Error:', error);
         alert(`Error: ${error.message}`);

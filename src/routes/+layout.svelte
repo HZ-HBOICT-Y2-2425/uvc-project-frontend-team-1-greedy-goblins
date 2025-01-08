@@ -55,9 +55,8 @@
   </button>
   <button
     on:click={() => goto("/collection")}
-    class="flex flex-col items-center cursor-not-allowed"
+    class="flex flex-col items-center"
     aria-label="Ga naar Collectie"
-    disabled
   >
     <i class="fa-solid fa-id-card-clip fa-2x"></i>
     <span class="text-xs">Collectie</span>

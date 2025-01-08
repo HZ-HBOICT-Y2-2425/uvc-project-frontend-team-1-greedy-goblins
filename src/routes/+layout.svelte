@@ -63,14 +63,14 @@
     <i class="fa-solid fa-location-dot fa-2x"></i>
     <span class="text-xs">Kaart</span>
   </button>
-  <!-- <button
+  <button
     on:click={() => goto("/collection")}
     class="flex flex-col items-center"
     aria-label="Ga naar Collectie"
   >
     <i class="fa-solid fa-id-card-clip fa-2x"></i>
     <span class="text-xs">Collectie</span>
-  </button> -->
+  </button>
 
   <button
     on:click={() => window.scrollTo({ top: 0, behavior: "smooth" })}

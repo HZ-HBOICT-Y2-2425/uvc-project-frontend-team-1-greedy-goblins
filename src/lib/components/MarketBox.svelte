@@ -23,7 +23,7 @@
       <div class="absolute bottom-0 w-full bg-green-800 bg-opacity-90 text-white text-center py-2">
         <h2 class="text-base font-bold px-2">{marketInfo.marketName}</h2>
         <hr/>
-        <h3 class="text-base font-semibold px-2">{marketInfo.marketAdress}</h3>
+        <h3 class="text-base font-semibold px-2">{marketInfo.marketCity}</h3>
       </div>
     </button>
   {/each}

@@ -8,7 +8,7 @@
 
   onMount(async () => {
     const response = await fetch(
-            "http://localhost:3010/microserviceCard/collecties"
+      "http://localhost:3010/microserviceCard/collecties"
     );
     collectieInfo = await response.json();
   });
@@ -137,7 +137,7 @@
     krijgKaart(collectieNummers[0], randomKaart1);
     krijgKaart(collectieNummers[1], randomKaart2);
     krijgKaart(collectieNummers[2], randomKaart3);
-    //asyncCall()
+  //asyncCall()
 
     /**
      *  for (let i = 0; i < collectieNummers.length; i++) {
@@ -188,29 +188,29 @@
 <h1 class="titel">Mijn collectie</h1>
 {#if collectieInfo}
 
-<p style="text-align: center"><button style="padding: 2px 10px 2px 10px; color: white" class="bg-green-500 hover:bg-green-600 rounded-lg" on:click={() =>packOpening(3)}>Pack Openen</button></p>
-<p>{packOpeningKaart1}</p>
-<p>{packOpeningKaart2}</p>
-<p>{packOpeningKaart3}</p>
+  <p style="text-align: center"><button style="padding: 2px 10px 2px 10px; color: white" class="bg-green-500 hover:bg-green-600 rounded-lg" on:click={() =>packOpening(3)}>Pack Openen</button></p>
+  <p>{packOpeningKaart1}</p>
+  <p>{packOpeningKaart2}</p>
+  <p>{packOpeningKaart3}</p>
 
 
 
-{#each collectieInfo as collectie}
-<hr/>
-  <h2 class="collectie">{collectie.Name}</h2>
-  <div class="qwartet">
-    {#each collectie.kaarten as kaart}
-      {#if kaart.collected}
-        <img class="kaart" alt="{kaart.name}" src="{kaart.img}">
-      {:else }
-        <img class="kaart" alt="nog niet gekregen" src="{collectie.UncollectedKaart}">
-      {/if}
-    {/each}
-  </div>
-  <!-- {#if collectie.kwartet}
+  {#each collectieInfo as collectie}
+    <hr/>
+    <h2 class="collectie">{collectie.Name}</h2>
+    <div class="qwartet">
+      {#each collectie.kaarten as kaart}
+        {#if kaart.collected}
+          <img class="kaart" alt="{kaart.name}" src="{kaart.img}">
+        {:else }
+          <img class="kaart" alt="nog niet gekregen" src="{collectie.UncollectedKaart}">
+        {/if}
+      {/each}
+    </div>
+    <!-- {#if collectie.kwartet}
     <p style="text-align: center"><button  on:click={() => kwartet(collectie.collectieID)} style="background-color: yellow; padding: 2px 10px 2px 10px" class="rounded-lg">kwartet</button></p>
   {/if} -->
-{/each}
+  {/each}
 {/if}
 
 <style>

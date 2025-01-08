@@ -75,17 +75,14 @@
   <div class="p-4 space-y-6">
     {#each Object.entries(productsByCategory) as [categoryName, products]}
       <div class="border-b pb-4 mb-8">
-        <h2
-          class="text-2xl font-bold text-green-700 mb-6 border-b-2 border-green-500 pb-2 text-center"
+        <h2 class="text-2xl font-bold text-green-700 mb-6 border-b-2 border-green-500 pb-2 text-center"
         >
           {categoryName}
         </h2>
-        <div
-          class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6"
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6"
         >
           {#each products as product}
-            <div
-              class="bg-white border border-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col items-center"
+            <div class="bg-white border border-gray-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col items-center"
             >
               <img
                 src={product.Image}

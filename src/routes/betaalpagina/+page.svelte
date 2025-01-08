@@ -8,10 +8,10 @@
   $: totalPrice = Object.values($cart).reduce(
     (acc, store) =>
       acc +
-      Object.values(store.items).reduce(
-        (storeAcc, item) => storeAcc + (item.Price || 0) * item.amountProduct,
-        0
-      ),
+        Object.values(store.items).reduce(
+          (storeAcc, item) => storeAcc + (item.Price || 0) * item.amountProduct,
+          0
+        ),
     0
   );
 
@@ -39,8 +39,7 @@
       {#if Object.keys($cart).length > 0}
         {#each Object.entries($cart) as [storeName, storeData]}
           <!-- Winkel- en productenblok -->
-          <div
-            class="bg-gray-100 border border-gray-200 p-6 rounded-lg shadow-lg"
+          <div class="bg-gray-100 border border-gray-200 p-6 rounded-lg shadow-lg"
           >
             <!-- Marktinformatie -->
             <div class="border-b pb-4 mb-4">
@@ -54,15 +53,14 @@
             <!-- Productenlijst -->
             <ul class="space-y-4">
               {#each Object.entries(storeData.items) as [name, item]}
-                <li
-                  class="flex justify-between items-center bg-white p-4 rounded-md shadow-sm border border-gray-200"
+                <li class="flex justify-between items-center bg-white p-4 rounded-md shadow-sm border border-gray-200"
                 >
                   <div>
                     <span class="block text-lg font-medium text-gray-800"
-                      >{name}</span
+                    >{name}</span
                     >
                     <span class="text-sm text-gray-500"
-                      >Prijs: € {(item.Price || 0).toFixed(2)}</span
+                    >Prijs: € {(item.Price || 0).toFixed(2)}</span
                     >
                   </div>
                   <div class="flex items-center space-x-2">
@@ -75,7 +73,7 @@
                       <i class="fa-solid fa-minus"></i>
                     </button>
                     <span class="font-semibold text-gray-800"
-                      >{item.amountProduct}</span
+                    >{item.amountProduct}</span
                     >
                     <button
                       class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-green-600 transition"
@@ -103,8 +101,7 @@
     </div>
 
     <!-- Betaalblok -->
-    <div
-      class="bg-gray-100 border border-gray-200 p-4 lg:p-6 rounded-lg shadow-lg sticky top-8 h-fit self-start flex flex-col items-center space-y-4"
+    <div class="bg-gray-100 border border-gray-200 p-4 lg:p-6 rounded-lg shadow-lg sticky top-8 h-fit self-start flex flex-col items-center space-y-4"
     >
       <form class="space-y-6 w-full flex flex-col items-center">
         {#if totalPrice > 0}

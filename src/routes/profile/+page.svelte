@@ -12,20 +12,20 @@
 
   <div class="w-full mt-6 space-y-4 px-6">
     <button
-    class="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
-    type="button"
-    on:click={() => goto("/oudeBestellingen")}
-  >
-    Oude bestellingen
-  </button>
-   <button
+      class="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
+      type="button"
+      on:click={() => goto("/oudeBestellingen")}
+    >
+      Oude bestellingen
+    </button>
+    <button
       class="w-full mt-4 bg-gray-200 text-gray-800 font-medium cursor-not-allowed py-2 rounded"
       type="button"
       
     >
       Wijzig profiel
     </button>
-       <button
+    <button
       class="w-full mt-4 bg-gray-200 text-gray-800 font-medium cursor-not-allowed py-2 rounded"
       type="button"
       

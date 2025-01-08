@@ -5,7 +5,7 @@
 
   let collecties = [{name: "groente", qwartet: false, uncollected: "/kaarten/uncollected/Groente_uncollected.png"}, {name: "zuivel", qwartet:  false, uncollected: "/kaarten/uncollected/Zuivel_uncollected.png"}, {name: "fruit", qwartet: false, uncollected: "/kaarten/uncollected/Fruit_uncollected.png"}, {name: "vlees", qwartet: false, uncollected: "/kaarten/uncollected/Vlees_uncollected.png"}, {name: "vis", qwartet: false, uncollected: "/kaarten/uncollected/Vis_uncollected.png"}];
   let kaarten = [
-    [{name: "wortels", collected: false, kaart: "/kaarten/groente/Groente_wortel.png"}, {name: "aardappel", collected: false}, {name: "radijs", collected: false}, {name: "rode biet", collected: false}],
+    [{name: "wortels", collected: false, kaart: "/kaarten/groente/Groente_wortels.png"}, {name: "aardappels", collected: false}, {name: "radijs", collected: false}, {name: "rode biet", collected: false}],
     [{name: "verse melk", collected: false}, {name: "kaas", collected: false}, {name: "yogurt", collected: false}, {name: "boter", collected: false}],
     [{name: "aardbijen", collected: false}, {name: "appels", collected: false}, {name: "peren", collected: false}, {name: "perzikken", collected: false}],
     [{name: "kip", collected: false}, {name: "koe", collected: false}, {name: "varken", collected: false}, {name: "schaap", collected: false}],

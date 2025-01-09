@@ -7,13 +7,14 @@
   import { userLocation } from "$lib/calculators/userLocation.js";
   import { calculateORSRoute } from "$lib/calculators/distanceCalculator.js";
   import { marketDistances } from "$lib/stores/marketDistances";
+  import {
+    userLocationStore,
+    updateUserLocation,
+    hasLocationChanged,
+  } from "$lib/stores/userLocationStore.js"; // User location store
 
-  // Success state
   let success = false;
-  let userLatitude = 0;
-  let userLongitude = 0;
 
-  // Subscribe to $page for reactive URL updates
   $: {
     const url = $page.url;
     if (url?.searchParams?.get("success") === "true") {
@@ -28,8 +29,8 @@
     }, 5000);
   }
 
-  // Market Data
   /**
+   * Market Data
    * @type {any[]}
    */
   let marketInfo = [];
@@ -41,7 +42,7 @@
    */
   let selectedCategories = [];
 
-  // Fetch market information on mount
+  // On component mount
   onMount(async () => {
     try {
       const response = await fetch(
@@ -51,71 +52,80 @@
         throw new Error("Failed to fetch market info.");
       }
       marketInfo = await response.json();
+
+      const coords = await userLocation();
+
+      const locationChanged = hasLocationChanged(
+        coords.latitude,
+        coords.longitude
+      );
+
+      updateUserLocation(coords.latitude, coords.longitude);
+
+      await recalculateDistances(
+        coords.latitude,
+        coords.longitude,
+        locationChanged
+      );
     } catch (error) {
-      console.error("Failed to fetch market info:", error);
+      console.error("Initialization error:", error);
     }
   });
 
-  // Track location change and recalculate distances
-  userLocation().then(async (coords) => {
-    userLatitude = coords.latitude;
-    userLongitude = coords.longitude;
+  const recalculateDistances = async (
+    /** @type {number} */ latitude,
+    /** @type {number} */ longitude,
+    /** @type {boolean} */ locationChanged
+  ) => {
+    const distances = $marketDistances;
 
-    // Function to recalculate distances for all markets
-    const recalculateDistances = async () => {
-      const distances = $marketDistances;
-
-      for (const market of marketInfo) {
-        // If no distance is stored or an old distance exists, recalculate
-        if (!distances[market.marketID] || distances[market.marketID] === 0) {
-          try {
-            const routeInfo = await calculateORSRoute(
-              userLatitude,
-              userLongitude,
-              market.marketLatitude,
-              market.marketLongitude
-            );
-
-            // Store the new distance in the store
-            distances[market.marketID] = routeInfo.distanceKm;
-          } catch (error) {
-            console.error(
-              `Error calculating distance for ${market.marketName}:`,
-              error
-            );
-          }
-        }
+    for (const market of marketInfo) {
+      if (
+        !locationChanged &&
+        distances[market.marketID] &&
+        distances[market.marketID] !== 0
+      ) {
+        continue;
       }
 
-      // Update the marketDistances store with the new distances
-      marketDistances.set(distances);
-    };
+      try {
+        const routeInfo = await calculateORSRoute(
+          latitude,
+          longitude,
+          market.marketLatitude,
+          market.marketLongitude
+        );
 
-    // Recalculate distances whenever the user location changes
-    recalculateDistances();
-  });
+        distances[market.marketID] = routeInfo.distanceKm;
+      } catch (error) {
+        console.error(
+          `Error calculating distance for ${market.marketName}:`,
+          error
+        );
+      }
+    }
 
-  // Re-sort and filter the market data based on updated distances
+    marketDistances.set(distances);
+  };
+
   $: sortedMarketInfo = marketInfo
     .map((market) => ({
       ...market,
-      distance: $marketDistances[market.marketID] || Infinity, // Use stored or default to Infinity
+      distance: $marketDistances[market.marketID] || Infinity,
     }))
-    .sort((a, b) => a.distance - b.distance); // Sort markets by proximity to the user
+    .sort((a, b) => a.distance - b.distance);
 
-  // Get unique categories from market data
   $: uniqueCategories = [
     ...new Set(marketInfo.flatMap((info) => info.categories)),
   ];
 
-  // Filtered locations based on search and selected categories
   $: filteredLocations = sortedMarketInfo.filter(
     (info) =>
       info.marketName.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        (selectedCategories.length === 0 ||
-          selectedCategories.every((category) =>
-            info.categories.includes(category)
-          ))
+      (selectedCategories.length === 0 ||
+        selectedCategories.every((category) =>
+          info.categories.includes(category)
+        ))
   );
 
   // Toggle category for filters
@@ -140,7 +150,8 @@
   <div class="flex items-center space-x-2">
     {#if showSearch}
       <div class="relative flex-1">
-        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500"
+        <i
+          class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500"
         ></i>
         <input
           type="text"
@@ -166,7 +177,8 @@
       <h3 class="text-sm font-bold text-green-700 mb-2">Filter by Category</h3>
       <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
         {#each uniqueCategories as category}
-          <label class="flex items-center space-x-2 bg-green-100 text-green-700 p-2 rounded-lg"
+          <label
+            class="flex items-center space-x-2 bg-green-100 text-green-700 p-2 rounded-lg"
           >
             <input
               type="checkbox"
@@ -186,7 +198,8 @@
 <GoldenBar>Locaties bij jou in de buurt</GoldenBar>
 <main>
   {#if success}
-    <div class="bg-green-200 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center justify-center text-center mx-auto max-w-lg"
+    <div
+      class="bg-green-200 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center justify-center text-center mx-auto max-w-lg"
     >
       <svg
         viewBox="0 0 24 24"

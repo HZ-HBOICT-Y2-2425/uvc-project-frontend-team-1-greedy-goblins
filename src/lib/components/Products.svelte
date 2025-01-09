@@ -29,7 +29,7 @@
   // Haal de categorieën op bij onMount
   onMount(async () => {
     const response = await fetch(
-      `http://localhost:3010/microserviceMarket/categorys`
+      `http://localhost:3010/microserviceMarket/categories`
     );
     allCategories = await response.json();
     updateProducts();

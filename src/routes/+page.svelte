@@ -45,7 +45,7 @@
   onMount(async () => {
     try {
       const response = await fetch(
-        "http://localhost:3010/microserviceMarket/MarketInfo"
+        "http://localhost:3010/microserviceMarket/market-info"
       );
       if (!response.ok) {
         throw new Error("Failed to fetch market info.");

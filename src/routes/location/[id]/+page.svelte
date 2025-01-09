@@ -12,7 +12,7 @@
 
   onMount(async () => {
     const response = await fetch(
-      `http://localhost:3010/microserviceMarket/MarketInfo/${id}`
+      `http://localhost:3010/microserviceMarket/market-info/${id}`
     );
     locationData = await response.json();
   });

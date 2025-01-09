@@ -13,10 +13,10 @@
   $: totalPrice = Object.values($cart).reduce(
     (acc, store) =>
       acc +
-      Object.values(store.items).reduce(
-        (storeAcc, item) => storeAcc + (item.Price || 0) * item.amountProduct,
-        0
-      ),
+        Object.values(store.items).reduce(
+          (storeAcc, item) => storeAcc + (item.Price || 0) * item.amountProduct,
+          0
+        ),
     0
   );
 </script>
@@ -32,8 +32,7 @@
 
 <!-- Winkelmandje paneel -->
 {#if isOpen}
-  <div
-    class="fixed bottom-20 right-6 w-72 max-h-[50vh] bg-white border border-gray-200 shadow-lg rounded-lg p-4 overflow-y-auto z-20"
+  <div class="fixed bottom-20 right-6 w-72 max-h-[50vh] bg-white border border-gray-200 shadow-lg rounded-lg p-4 overflow-y-auto z-20"
   >
     <div class="flex items-center justify-between mb-4">
       <h2 class="text-lg font-bold text-gray-700">Jouw Winkelmand</h2>

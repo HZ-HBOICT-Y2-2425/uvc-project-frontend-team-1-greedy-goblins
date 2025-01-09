@@ -29,16 +29,14 @@
 </svelte:head>
 
 {#if locationData}
-  <div
-    class="relative flex flex-col justify-center items-center border-green-500"
+  <div class="relative flex flex-col justify-center items-center border-green-500"
   >
     <img
       src={locationData.marketImage}
       alt={locationData.marketName}
       class="md:h-1/4 md:w-1/4"
     />
-    <div
-      class="absolute bottom-0 w-full bg-green-800 bg-opacity-90 text-white text-center py-2"
+    <div class="absolute bottom-0 w-full bg-green-800 bg-opacity-90 text-white text-center py-2"
     >
       <h1 class="text-base font-bold px-2">
         {locationData.marketName}
@@ -51,15 +49,13 @@
   </div>
 
   <main class="flex flex-col lg:flex-row lg:justify-center gap-4 px-4 py-4">
-    <div
-      class="bg-cyan-500 text-black rounded-lg shadow-lg p-6 flex flex-col justify-center items-center"
+    <div class="bg-cyan-500 text-black rounded-lg shadow-lg p-6 flex flex-col justify-center items-center"
     >
       <p class="font-bold">Omschrijving:</p>
       <p>{locationData.marketDesc}</p>
     </div>
 
-    <div
-      class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center"
+    <div class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center"
     >
       <p class="font-bold">Categoriën:</p>
       <div>

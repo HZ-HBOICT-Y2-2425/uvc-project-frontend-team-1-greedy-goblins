@@ -5,8 +5,7 @@
   import ShoppingCart from "$lib/components/ShoppingCart.svelte";
 </script>
 
-<header
-  class="bg-green-600 text-white flex items-center justify-between max-h-full px-6 py-2 w-full"
+<header class="bg-green-600 text-white flex items-center justify-between max-h-full px-6 py-2 w-full"
 >
   <div class="flex items-center gap-2">
     <button

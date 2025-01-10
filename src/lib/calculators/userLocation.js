@@ -1,6 +1,6 @@
 export const userLocation = () => {
   const options = {
-    maximumAge: 10000,
+    maximumAge: 120000,
     enableHighAccuracy: false,
     timeout: 15000,
   };

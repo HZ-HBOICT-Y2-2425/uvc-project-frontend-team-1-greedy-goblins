@@ -1,16 +1,17 @@
 <script>
-  import { userLocation } from "./userLocation.js";
-  import { calculateCo2Emissions } from "./co2Calculator.js";
-  import { productEmissionCalculator } from "./productEmissionCalculator.js";
-  import { calculateORSRoute } from "./distanceCalculator.js";
+  import { userLocation } from "../../lib/calculators/userLocation.js";
+  import { calculateCo2Emissions } from "../../lib/calculators/co2Calculator.js";
+  import { productEmissionCalculator } from "../../lib/calculators/productEmissionCalculator.js";
+  import { calculateORSRoute } from "$lib/calculators/distanceCalculator.js";
   import { orderStore, resetOrderStore } from "$lib/stores/orderDataStore.js";
-  import { goto } from "$app/navigation";
+  import { marketDistances } from "$lib/stores/marketDistances";
   import { graphDataStore } from "$lib/stores/graphDataStore.js";
+  import EmissionGraph from "$lib/components/EmissionGraph.svelte";
 
   let userLatitude = 0;
+  let userLongitude = 0;
   let currentPage = 1;
   const itemsPerPage = 5;
-  let userLongitude = 0;
   let distance = 0;
   let productFactor = 0;
   let userEmission = 0;
@@ -40,14 +41,29 @@
       let graphData = [];
 
       for (const order of $orderStore.orderStore) {
-        const routeInfo = await calculateORSRoute(
-          userLatitude,
-          userLongitude,
-          order.storeLatitude,
-          order.storeLongitude
-        );
+        // Check if the distance is already stored in `marketDistances`
+        const preCalculatedDistance = $marketDistances[order.storeID];
+        if (preCalculatedDistance !== undefined) {
+          // Use the pre-calculated distance from marketDistances store
+          distance = preCalculatedDistance;
+        } else {
+          // If no pre-calculated distance exists, calculate it and update the store
+          const routeInfo = await calculateORSRoute(
+            userLatitude,
+            userLongitude,
+            order.storeLatitude,
+            order.storeLongitude
+          );
+          distance = routeInfo.distanceKm;
 
-        distance = routeInfo.distanceKm;
+          // Store the calculated distance in the marketDistances store
+          marketDistances.update((distances) => {
+            distances[order.storeID] = distance;
+            return distances;
+          });
+        }
+
+        // Emissions calculation using the reused/pre-calculated distance
         productFactor = productEmissionCalculator(order.productsOrdered);
         storeEmission = productFactor * 165 * 0.2;
         userEmission =
@@ -75,8 +91,6 @@
       }
 
       graphDataStore.set(graphData);
-
-      dataLoading = false;
     })
     .catch((error) => {
       console.error(
@@ -84,59 +98,62 @@
         error.message
       );
     });
+
+  dataLoading = false;
 </script>
 
-<button
-  class="w-full py-2 text-white rounded disabled:cursor-not-allowed disabled:bg-gray-300 bg-red-600 hover:bg-red-500"
-  on:click={() => goto("co2Graph")}
-  disabled={dataLoading}
->
-  CO2 Grafiek
-</button>
+<main class="bg-gray-100 p-6 space-y-6">
+  <section class="space-y-6">
+    <EmissionGraph />
+  </section>
 
-<section class="space-y-6">
-  {#each paginatedOrders as order}
-    <div class="bg-white rounded-lg shadow-lg p-6 space-y-4">
-      <p class="text-xl font-semibold text-gray-800">
-        {order.nameStore} - {order.storeAddress}
-      </p>
-      <p class="text-gray-600">
-        {order.productsOrdered.length} producten - Total Emission:
-        <span class="font-bold text-red-500">
-          {#if dataLoading}
-            loading....
-          {:else}
-            {order.totalEmissionSaved} kg
-          {/if}
-        </span>
-      </p>
-      <ul class="space-y-2">
-        {#each order.productsOrdered as product}
-          <li class="flex justify-between text-gray-700">
-            <span>{product.amountProduct}x {product.nameProduct}</span>
-          </li>
-        {/each}
-      </ul>
+  <section class="space-y-6 mt-12">
+    {#each paginatedOrders as order}
+      <div class="bg-white rounded-lg shadow-lg p-6 space-y-4">
+        <p class="text-xl font-semibold text-gray-800">
+          {order.nameStore} - {order.storeAddress}
+        </p>
+        <p class="text-gray-600">
+          {order.productsOrdered.length} product(en) - Bespaarde
+          <abbr title="Ten opzichte van de gebruikelijke uitstoot"
+          >CO2 uitstoot</abbr
+          >:
+          <span class="font-bold text-green-500">
+            {#if dataLoading}
+              Aan het laden....
+            {:else}
+              {order.totalEmissionSaved} kg
+            {/if}
+          </span>
+        </p>
+        <ul class="space-y-2">
+          {#each order.productsOrdered as product}
+            <li class="flex justify-between text-gray-700">
+              <span>{product.amountProduct}x {product.nameProduct}</span>
+            </li>
+          {/each}
+        </ul>
+      </div>
+    {/each}
+
+    <div class="flex justify-between items-center">
+      <button
+        class="px-4 py-2 bg-gray-200 text-gray-600 rounded disabled:opacity-50"
+        on:click={previousPage}
+        disabled={currentPage === 1}
+      >
+        Vorige
+      </button>
+      <span class="text-gray-600 mb-40">
+        Pagina {currentPage} van {totalPages}
+      </span>
+      <button
+        class="px-4 py-2 bg-gray-200 text-gray-600 rounded disabled:opacity-50"
+        on:click={nextPage}
+        disabled={currentPage === totalPages}
+      >
+        Volgende
+      </button>
     </div>
-  {/each}
-
-  <div class="flex justify-between items-center">
-    <button
-      class="px-4 py-2 bg-gray-200 text-gray-600 rounded disabled:opacity-50"
-      on:click={previousPage}
-      disabled={currentPage === 1}
-    >
-      Vorige
-    </button>
-    <span class="text-gray-600 mb-40">
-      Pagina {currentPage} van {totalPages}
-    </span>
-    <button
-      class="px-4 py-2 bg-gray-200 text-gray-600 rounded disabled:opacity-50"
-      on:click={nextPage}
-      disabled={currentPage === totalPages}
-    >
-      Volgende
-    </button>
-  </div>
-</section>
+  </section>
+</main>

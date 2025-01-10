@@ -39,7 +39,7 @@ export async function calculateORSRoute(lat1, lon1, lat2, lon2, profile = "drivi
     const travelTimeSeconds = data.routes[0].summary.duration;
   
     return {
-      distanceKm: Math.floor(distanceMeters / 1000) ,
+      distanceKm: parseFloat((distanceMeters / 1000).toFixed(2)),
       travelTimeMinutes: Math.ceil(travelTimeSeconds / 60),
     };
   }

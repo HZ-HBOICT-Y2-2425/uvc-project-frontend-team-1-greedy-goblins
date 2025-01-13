@@ -2,7 +2,6 @@
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import Products from "$lib/components/Products.svelte";
-  import GoldenBar from "$lib/components/GoldenBar.svelte";
 
   /**
    * @type * {any}
@@ -12,68 +11,47 @@
 
   onMount(async () => {
     const response = await fetch(
-      `http://localhost:3010/microserviceMarket/market-info/${id}`
+      `http://localhost:3010/microserviceMarket/MarketInfo/${id}`
     );
     locationData = await response.json();
   });
 </script>
 
-<svelte:head>
-  {#if locationData}
-    <title>LGHub-{locationData.marketName}</title>
-  {:else}
-    <title>Aan het laden...</title>
-  {/if}
-  <meta name="description" content="LGHub MarketOverview" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</svelte:head>
-
 {#if locationData}
-  <div class="relative flex flex-col justify-center items-center border-green-500"
-  >
-    <img
-      src={locationData.marketImage}
-      alt={locationData.marketName}
-      class="md:h-1/4 md:w-1/4"
-    />
-    <div class="absolute bottom-0 w-full bg-green-800 bg-opacity-90 text-white text-center py-2"
-    >
-      <h1 class="text-base font-bold px-2">
-        {locationData.marketName}
-      </h1>
-      <hr />
-      <h2 class="text-base font-semibold px-2">
-        {locationData.marketAdress}
-      </h2>
-    </div>
+  <div class="bg-yellow-500 text-center py-2 font-bold text-lg">
+    {locationData.marketAdress}
   </div>
 
-  <main class="flex flex-col lg:flex-row lg:justify-center gap-4 px-4 py-4">
-    <div class="bg-cyan-500 text-black rounded-lg shadow-lg p-6 flex flex-col justify-center items-center"
+  <main class="grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 py-4 my-2">
+    <div
+      class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-green-600"
+    >
+      <p class="font-bold">Naam:</p>
+      <p>{locationData.marketName}</p>
+    </div>
+
+    <div
+      class="bg-cyan-500 text-black rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-cyan-600"
     >
       <p class="font-bold">Omschrijving:</p>
       <p>{locationData.marketDesc}</p>
     </div>
 
-    <div class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center"
+    <div
+      class="bg-green-500 text-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center hover:bg-green-600"
     >
       <p class="font-bold">Categoriën:</p>
-      <div>
-        {#each locationData.categories as category, index}
-          <span class="mx-1 text-center">
-            {category}{#if index < locationData.categories.length - 1},
-            {/if}
-          </span>
-        {/each}
-      </div>
+      <p>{locationData.categories}</p>
     </div>
   </main>
 
-  <GoldenBar>Producten bij deze locatie</GoldenBar>
+  <div class="bg-yellow-500 text-center py-2 font-bold text-lg">
+    Producten bij deze vestiging
+  </div>
 
   <section>
     <Products {locationData} />
   </section>
 {:else}
-  <p>Aan het laden...</p>
+  <p>Loading...</p>
 {/if}

@@ -3,41 +3,40 @@
 </script>
 
 <section class="flex flex-col items-center bg-gray-100 min-h-screen pt-8">
-  <div class="bg-gray-300 rounded-full w-20 h-20 flex items-center justify-center">
+  <!-- Profiel pictogram -->
+  <div
+    class="bg-gray-300 rounded-full w-20 h-20 flex items-center justify-center"
+  >
     <i class="fa-regular fa-user fa-xl text-gray-600"></i>
   </div>
-
   <!--Dummy name-->
-  <h2 class="mt-4 text-xl font-semibold text-gray-800">Hallo Dirk</h2>
+  <h2 class="mt-4 text-xl font-semibold text-gray-800">Dirk</h2>
 
   <div class="w-full mt-6 space-y-4 px-6">
-    <button
-      class="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
+    <!-- <button
+      class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
       type="button"
-      on:click={() => goto("/oudeBestellingen")}
-    >
-      Oude bestellingen
-    </button>
-    <button
-      class="w-full mt-4 bg-gray-200 text-gray-800 font-medium cursor-not-allowed py-2 rounded"
-      type="button"
-      
     >
       Wijzig profiel
     </button>
-    <button
-      class="w-full mt-4 bg-gray-200 text-gray-800 font-medium cursor-not-allowed py-2 rounded"
-      type="button"
-      
-    >
-      Vriendenlijst
-    </button>
-    <!--
     <button
       class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
       type="button"
     >
       Wijzig bestelgegevens
+    </button> -->
+    <button
+      class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
+      type="button"
+      on:click={() => goto("/oudeBestellingen")}
+    >
+      Oude bestellingen
+    </button>
+    <!-- <button
+      class="w-full py-3 bg-red-200 hover:bg-red-300 text-gray-800 font-medium"
+      type="button"
+    >
+      BedrijfsOverzicht
     </button> -->
   </div>
 </section>

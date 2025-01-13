@@ -1,7 +1,6 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import eslintPluginSvelte from 'eslint-plugin-svelte';
-
 export default [
   // add more generic rule sets here, such as:
   // js.configs.recommended,
@@ -34,8 +33,5 @@ export default [
         }
       ]
     }
-  },
-  {
-    ignores: ["src/lib/components/MarketBox.svelte"]
   }
 ];

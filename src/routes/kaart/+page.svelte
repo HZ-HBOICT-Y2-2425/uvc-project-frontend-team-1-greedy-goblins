@@ -44,7 +44,7 @@
 
   // fetch locations (evt anders doen)
   async function fetchLocations() {
-    const response = await fetch("http://localhost:3010/microserviceMarket/market-info");
+    const response = await fetch("http://localhost:3010/microserviceMarket/MarketInfo");
     if (!response.ok) {
       throw new Error("Failed to fetch locations");
     }

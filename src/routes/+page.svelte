@@ -8,7 +8,6 @@
   import { calculateORSRoute } from "$lib/calculators/distanceCalculator.js";
   import { marketDistances } from "$lib/stores/marketDistances";
   import {
-    userLocationStore,
     updateUserLocation,
     hasLocationChanged,
   } from "$lib/stores/userLocationStore.js"; // User location store
@@ -68,7 +67,7 @@
         locationChanged
       );
     } catch (error) {
-      console.error("Initialization error:", error);
+      alert(`Initialization error: ${error}`);
     }
   });
 
@@ -98,10 +97,7 @@
 
         distances[market.marketID] = routeInfo.distanceKm;
       } catch (error) {
-        console.error(
-          `Error calculating distance for ${market.marketName}:`,
-          error
-        );
+        alert(`Error calculating distance for ${market.marketName}: ${error}`);
       }
     }
 
@@ -122,10 +118,10 @@
   $: filteredLocations = sortedMarketInfo.filter(
     (info) =>
       info.marketName.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      (selectedCategories.length === 0 ||
-        selectedCategories.every((category) =>
-          info.categories.includes(category)
-        ))
+        (selectedCategories.length === 0 ||
+          selectedCategories.every((category) =>
+            info.categories.includes(category)
+          ))
   );
 
   // Toggle category for filters
@@ -150,8 +146,7 @@
   <div class="flex items-center space-x-2">
     {#if showSearch}
       <div class="relative flex-1">
-        <i
-          class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500"
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500"
         ></i>
         <input
           type="text"
@@ -177,8 +172,7 @@
       <h3 class="text-sm font-bold text-green-700 mb-2">Filter by Category</h3>
       <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
         {#each uniqueCategories as category}
-          <label
-            class="flex items-center space-x-2 bg-green-100 text-green-700 p-2 rounded-lg"
+          <label class="flex items-center space-x-2 bg-green-100 text-green-700 p-2 rounded-lg"
           >
             <input
               type="checkbox"
@@ -198,8 +192,7 @@
 <GoldenBar>Locaties bij jou in de buurt</GoldenBar>
 <main>
   {#if success}
-    <div
-      class="bg-green-200 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center justify-center text-center mx-auto max-w-lg"
+    <div class="bg-green-200 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center justify-center text-center mx-auto max-w-lg"
     >
       <svg
         viewBox="0 0 24 24"

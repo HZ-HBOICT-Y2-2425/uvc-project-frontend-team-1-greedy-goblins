@@ -3,7 +3,7 @@
   import { calculateCo2Emissions } from "../../lib/calculators/co2Calculator.js";
   import { productEmissionCalculator } from "../../lib/calculators/productEmissionCalculator.js";
   import { calculateORSRoute } from "$lib/calculators/distanceCalculator.js";
-  import { orderStore, resetOrderStore } from "$lib/stores/orderDataStore.js";
+  import { orderStore } from "$lib/stores/orderDataStore.js";
   import { marketDistances } from "$lib/stores/marketDistances";
   import { graphDataStore } from "$lib/stores/graphDataStore.js";
   import EmissionGraph from "$lib/components/EmissionGraph.svelte";
@@ -91,12 +91,6 @@
       }
 
       graphDataStore.set(graphData);
-    })
-    .catch((error) => {
-      console.error(
-        "Fout bij het berekenen van de Co2 verspilling",
-        error.message
-      );
     });
 
   dataLoading = false;

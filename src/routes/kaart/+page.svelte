@@ -14,7 +14,7 @@
       const locations = await fetchLocations();
       initMap(locations);
     } catch (error) {
-      console.error("Error fetching or initializing map data:", error);
+      alert(`Error fetching or initializing map data: ${error}`);
     }
   });
 

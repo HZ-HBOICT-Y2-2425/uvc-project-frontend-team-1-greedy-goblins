@@ -89,6 +89,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+coverage/
 
 # TypeScript v1 declaration files
 typings/
@@ -193,3 +194,4 @@ build/
 # drawio temp files
 *.drawio.bkp
 *.drawio.dtmp
+

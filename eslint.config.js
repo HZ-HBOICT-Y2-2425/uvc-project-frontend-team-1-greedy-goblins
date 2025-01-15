@@ -12,7 +12,7 @@ export default [
       visual: visualComplexity
     },
     rules: {
-      "visual/complexity": ["error", { max: 8 }],
+      "visual/complexity": ["error", { max: 6 }],
       complexity: 0, // <- disable core complexity rule
     }
   },

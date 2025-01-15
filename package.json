@@ -9,7 +9,23 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
 		"lint": "eslint src --fix",
-		"test": "jest"
+		"test": "jest --coverage"
+	},
+	"jest": {
+		"collectCoverageFrom": [
+			"./test/*"
+		],
+		"coveragePathIgnorePatterns": [
+			"/node_modules/"
+		],
+		"coverageThreshold": {
+			"global": {
+				"statements": 100,
+				"branches": 100,
+				"functions": 100,
+				"lines": 100
+			}
+		}
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.15.0",

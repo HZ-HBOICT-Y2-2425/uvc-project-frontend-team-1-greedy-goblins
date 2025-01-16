@@ -5,7 +5,7 @@
   import GoldenBar from "$lib/components/GoldenBar.svelte";
   import { page } from "$app/stores";
   import { userLocation } from "$lib/calculators/userLocation.js";
-  import { calculateORSRoute } from "$lib/calculators/distanceCalculator.js";
+  import { calculateORSRoute } from "$lib/calculators/distanceCalculator.mjs";
   import { marketDistances } from "$lib/stores/marketDistances";
   import {
     userLocationStore,

@@ -5,7 +5,7 @@ export const productEmissionStore = writable({
     {
       productID: 1,
       name: "Goudse Kaas",
-      productEmission: 5.3, // Add the emission value based on your existing logic
+      productEmission: 5.3,
     },
     {
       productID: 2,

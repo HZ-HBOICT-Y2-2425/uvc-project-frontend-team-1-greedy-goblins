@@ -1,8 +1,8 @@
 <script>
   import { userLocation } from "../../lib/calculators/userLocation.js";
-  import { calculateCo2Emissions } from "../../lib/calculators/co2Calculator.js";
-  import { productEmissionCalculator } from "../../lib/calculators/productEmissionCalculator.js";
-  import { calculateORSRoute } from "$lib/calculators/distanceCalculator.js";
+  import { calculateCo2Emissions } from "../../lib/calculators/co2Calculator.mjs";
+  import { productEmissionCalculator } from "../../lib/calculators/productEmissionCalculator.mjs";
+  import { calculateORSRoute } from "$lib/calculators/distanceCalculator.mjs";
   import { orderStore, resetOrderStore } from "$lib/stores/orderDataStore.js";
   import { marketDistances } from "$lib/stores/marketDistances";
   import { graphDataStore } from "$lib/stores/graphDataStore.js";
@@ -116,7 +116,7 @@
         <p class="text-gray-600">
           {order.productsOrdered.length} product(en) - Bespaarde
           <abbr title="Ten opzichte van de gebruikelijke uitstoot"
-          >CO2 uitstoot</abbr
+            >CO2 uitstoot</abbr
           >:
           <span class="font-bold text-green-500">
             {#if dataLoading}

@@ -60,10 +60,12 @@
         });
 
         // Check for non-JSON responses (like HTML error pages)
-        const contentType = response.headers.get('Content-Type');
-        if (!contentType || !contentType.includes('application/json')) {
-          throw new Error('Received non-JSON response from server');
-        }
+        /**
+         * const contentType = response.headers.get('Content-Type');
+         *         if (!contentType || !contentType.includes('application/json')) {
+         *           throw new Error('Received non-JSON response from server');
+         *         }
+         */
 
         if (!response.ok) {
           const errorData = await response.json();

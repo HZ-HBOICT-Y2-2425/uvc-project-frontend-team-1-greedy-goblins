@@ -25,31 +25,33 @@
   let packOpeningKaart2 = "";
   let packOpeningKaart3 = "";
 
-  async function krijgKwartet(groep) {
-    const url = `http://localhost:3010/microserviceCard/collectie?id=${groep + 1}`;
-    try {
-      const response = await fetch(url, {
-        method: 'PUT'
-      });
-
-      const contentType = response.headers.get('Content-Type');
-      if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('Received non Json response from server')
-      }
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Somehting went wrong");
-      }
-
-      const data = await response.json();
-      console.log('Response:', data);
-      alert(`Status toggled: ${data.message}`);
-    } catch (error) {
-      console.error('Error:', error);
-      alert(`Error: ${error.message}`);
-    }
-  }
+  /**
+   *  async function krijgKwartet(groep) {
+   *     const url = `http://localhost:3010/microserviceCard/collectie?id=${groep + 1}`;
+   *     try {
+   *       const response = await fetch(url, {
+   *         method: 'PUT'
+   *       });
+   *
+   *       const contentType = response.headers.get('Content-Type');
+   *       if (!contentType || !contentType.includes('application/json')) {
+   *         throw new Error('Received non Json response from server')
+   *       }
+   *
+   *       if (!response.ok) {
+   *         const errorData = await response.json();
+   *         throw new Error(errorData.error || "Somehting went wrong");
+   *       }
+   *
+   *       const data = await response.json();
+   *       console.log('Response:', data);
+   *       alert(`Status toggled: ${data.message}`);
+   *     } catch (error) {
+   *       console.error('Error:', error);
+   *       alert(`Error: ${error.message}`);
+   *     }
+   *   }
+   */
 
   async function krijgKaart(groep, number) {
     const url = `http://localhost:3010/microserviceCard/kaart?collectieID=${groep + 1}&kaartID=${(number + 1) + (4 * groep)}`
@@ -71,34 +73,30 @@
           const errorData = await response.json();
           throw new Error(errorData.error || 'Something went wrong');
         }
-
-        const data = await response.json();
-        console.log('Response:', data);
         alert(`je hebt de ${collectieInfo[groep].kaarten[number].Name} kaart gekrekgen!`);
       } catch (error) {
-        console.error('Error:', error);
         alert(`Error: ${error.message}`);
       }
     }
-    console.log(collectieInfo[groep].kaarten[number].collected)
     collectieInfo[groep].kaarten[number].collected = true;
-    console.log(collectieInfo[groep].kaarten[number].collected)
   }
 
-  function kwartet(groep) {
-    let kwartet = true;
-    for (let i = 0; i < kaarten[groep].length; i++) {
-      if (kaarten[groep][i].collected === false) {
-        kwartet = false
-      }
-    }
-    if (kwartet === true) {
-      for (let i = 0; i < kaarten[groep].length; i++) {
-        kaarten[groep][i].collected = false;
-      }
-    }
-    collecties[groep].qwartet = false;
-  }
+  /**
+   *   function kwartet(groep) {
+   *     let kwartet = true;
+   *     for (let i = 0; i < kaarten[groep].length; i++) {
+   *       if (kaarten[groep][i].collected === false) {
+   *         kwartet = false
+   *       }
+   *     }
+   *     if (kwartet === true) {
+   *       for (let i = 0; i < kaarten[groep].length; i++) {
+   *         kaarten[groep][i].collected = false;
+   *       }
+   *     }
+   *     collecties[groep].qwartet = false;
+   *   }
+   */
 
   function randomNumberGenerator(max) {
     return Math.floor(Math.random() * max);
@@ -120,14 +118,6 @@
       }
       collectieNummers[i] = randomCollectie;
     }
-    /**
-     * let randomKaarten = []
-     *     for (let i = 0; i < collectieNummers.length; i++) {
-     *       let randomKaart = randomNumberGenerator(kaarten[collectieNummers[i]].length)
-     *       randomKaarten[i] = randomKaart;
-     *       krijgKaart(collectieNummers[i], randomKaarten[i]);
-     *     }
-     */
     let randomKaart1 = randomNumberGenerator(kaarten[collectieNummers[0]].length);
     let randomKaart2 = randomNumberGenerator(kaarten[collectieNummers[1]].length);
     let randomKaart3 = randomNumberGenerator(kaarten[collectieNummers[2]].length);
@@ -139,52 +129,17 @@
     krijgKaart(collectieNummers[0], randomKaart1);
     krijgKaart(collectieNummers[1], randomKaart2);
     krijgKaart(collectieNummers[2], randomKaart3);
-  //asyncCall()
-
-    /**
-     *  for (let i = 0; i < collectieNummers.length; i++) {
-     *       //if (collectieInfo[i].kwartet === false) {
-     *         let qwartet = true;
-     *         for (let j = 0; j < collectieInfo[collectieNummers[i]].kaarten.length; j++) {
-     *           let kaarten = []
-     *           console.log(collectieInfo[collectieNummers[i]].kaarten)
-     *           kaarten[j] = getCards((i + 1), ((j + 1) + (i * 4)))
-     *           if (kaarten[j].collected === false) {
-     *             console.log(collectieInfo[collectieNummers[i]].kaarten[j].Name)
-     *             qwartet = false;
-     *             console.log("no kwartet")
-     *           }
-     *           console.log("kaarten" + kaarten[0].collected)
-     *         }
-     *         if (qwartet) {
-     *           krijgKwartet(i);
-     *         }
-     *       }
-     *     //}
-     *  */
   }
 
-  async function getCards(groep, kaart) {
-    const url = `http://localhost:3010/microserviceCard/kaart?collectieID=${groep}&kaartID=${kaart}`;
-    const response = await fetch(url, {
-      method: 'PUT',
-    });
-    return response
-  }
-
-  function resolveAfter2Seconds() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve('resolved');
-      }, 2000);
-    })
-  }
-
-  async function asyncCall() {
-    console.log("waiting");
-    const result = await resolveAfter2Seconds();
-    console.log(result)
-  }
+/**
+   * async function getCards(groep, kaart) {
+   *     const url = `http://localhost:3010/microserviceCard/kaart?collectieID=${groep}&kaartID=${kaart}`;
+   *     const response = await fetch(url, {
+   *       method: 'PUT',
+   *     });
+   *     return response
+   *   }
+   */
 </script>
 
 <h1 class="titel">Mijn collectie</h1>

@@ -2,15 +2,11 @@
   // @ts-nocheck
 
   import { onMount } from "svelte";
-  import { placeOrder } from "../../routes/betaalpagina/placeOrder.js";
   import {
     cart,
     addToCart,
     removeFromCart,
-    getItemsFromCart,
-    resetCart,
   } from "../stores/cartStore";
-  import { goto } from "$app/navigation";
 
   /**
    * @type {{ categories: any[] }}
@@ -55,18 +51,22 @@
   /**
    * @param {{ categories: any[]; }} locationData
    */
-  function callOrder(locationData) {
-    const products = getItemsFromCart();
-    placeOrder(locationData, products);
-  }
+  /**
+   * function callOrder(locationData) {
+   *     const products = getItemsFromCart();
+   *     placeOrder(locationData, products);
+   *   }
+   */
 
   /**
    * @param {{ categories: any[]; }} locationData
    */
-  function gotoPayment(locationData) {
-    const products = getItemsFromCart();
-    goto("/betaalpagina", { state: { locationData, products } });
-  }
+  /**
+   * function gotoPayment(locationData) {
+   *     const products = getItemsFromCart();
+   *     goto("/betaalpagina", { state: { locationData, products } });
+   *   }
+   */
 
   $: updateProducts();
 </script>

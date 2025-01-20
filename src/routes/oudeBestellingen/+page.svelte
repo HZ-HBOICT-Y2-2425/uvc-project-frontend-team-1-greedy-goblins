@@ -1,8 +1,8 @@
 <script>
   import { userLocation } from "../../lib/calculators/userLocation.js";
-  import { calculateCo2Emissions } from "../../lib/calculators/co2Calculator.js";
-  import { productEmissionCalculator } from "../../lib/calculators/productEmissionCalculator.js";
-  import { calculateORSRoute } from "$lib/calculators/distanceCalculator.js";
+  import { calculateCo2Emissions } from "../../lib/calculators/co2Calculator.mjs";
+  import { productEmissionCalculator } from "../../lib/calculators/productEmissionCalculator.mjs";
+  import { calculateORSRoute } from "$lib/calculators/distanceCalculator.mjs";
   import { orderStore, resetOrderStore } from "$lib/stores/orderDataStore.js";
   import { marketDistances } from "$lib/stores/marketDistances";
   import { graphDataStore } from "$lib/stores/graphDataStore.js";

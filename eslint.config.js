@@ -1,11 +1,21 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import eslintPluginSvelte from 'eslint-plugin-svelte';
+import visualComplexity from "eslint-plugin-visual-complexity";
 
 export default [
   // add more generic rule sets here, such as:
   // js.configs.recommended,
   ...eslintPluginSvelte.configs['flat/recommended'],
+  {
+    plugins: {
+      visual: visualComplexity
+    },
+    rules: {
+      "visual/complexity": ["error", { max: 6 }],
+      complexity: 0, // <- disable core complexity rule
+    }
+  },
   {
     rules: {
       // override/add rules settings here, such as:

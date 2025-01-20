@@ -42,7 +42,7 @@ jobs:
       - name: Run Tests
         run: |
           echo "Running tests..."
-          npm run test
+          node --experimental-vm-modules node_modules/jest/bin/jest.js
           echo "All tests passed!"
 
       # Lint-stap

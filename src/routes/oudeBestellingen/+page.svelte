@@ -116,7 +116,7 @@
         <p class="text-gray-600">
           {order.productsOrdered.length} product(en) - Bespaarde
           <abbr title="Ten opzichte van de gebruikelijke uitstoot"
-            >CO2 uitstoot</abbr
+          >CO2 uitstoot</abbr
           >:
           <span class="font-bold text-green-500">
             {#if dataLoading}

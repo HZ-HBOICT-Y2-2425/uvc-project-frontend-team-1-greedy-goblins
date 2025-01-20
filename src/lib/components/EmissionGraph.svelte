@@ -1,5 +1,4 @@
 <script>
-  import { goto } from "$app/navigation";
   import { graphDataStore } from "$lib/stores/graphDataStore.js";
   import { onMount } from "svelte";
   import Chart from "chart.js/auto";

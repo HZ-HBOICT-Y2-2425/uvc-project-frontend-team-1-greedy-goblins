@@ -8,7 +8,6 @@
   import { calculateORSRoute } from "$lib/calculators/distanceCalculator.mjs";
   import { marketDistances } from "$lib/stores/marketDistances";
   import {
-    userLocationStore,
     updateUserLocation,
     hasLocationChanged,
   } from "$lib/stores/userLocationStore.js"; // User location store
@@ -68,7 +67,7 @@
         locationChanged
       );
     } catch (error) {
-      console.error("Initialization error:", error);
+      alert("Initialization error: " + error);
     }
   });
 
@@ -98,10 +97,7 @@
 
         distances[market.marketID] = routeInfo.distanceKm;
       } catch (error) {
-        console.error(
-          `Error calculating distance for ${market.marketName}:`,
-          error
-        );
+        alert(`Error calculating distance for ${market.marketName}: ` + error);
       }
     }
 
